@@ -1,0 +1,11 @@
+{
+  "name": "mixin_network-nodejs-bot2",
+  "version": "1.0.0",
+  "description": "The second nodejs bot for mixin network.",
+  "main": "app.js",
+  "author": "JimmyZhang",
+  "license": "MIT",
+  "dependencies": {
+    "mixin-node-client": "^0.6.0"
+  }
+}
