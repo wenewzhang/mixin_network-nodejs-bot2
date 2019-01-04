@@ -33,7 +33,7 @@ write down three required infomations: user id, session id, private key, mixin-n
 | private key | RSA private key for token signature  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
 
 
-![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot/blob/master/mixin_network-keys.png)
+![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
 Open the terminal and go to the workspace, make nodejs-bot directory
 ```bash
 mkdir nodejs-bot
@@ -136,4 +136,4 @@ node app.js
 install [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send command!
 enjoy!
 
-![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot/blob/master/mixin_messenger-bot.jpeg)
+![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-bot.jpeg)
