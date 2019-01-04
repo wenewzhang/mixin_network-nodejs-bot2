@@ -6,12 +6,12 @@ This article will show you howto create a nodejs-bot which let your bot receive 
 
 ### First of all, install npm node on your OS
 mac OS
-```
+```bash
 brew install node yarn
 ```
 
 Ubuntu
-```
+```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 apt update
@@ -32,13 +32,13 @@ write down three required infomations: user id, session id, private key, mixin-n
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot/blob/master/mixin_network-keys.png)
 Open the terminal and go to the workspace, make nodejs-bot directory
-```
+```bash
 mkdir nodejs-bot
 cd nodejs-bot/
 yarn init
 ```
 run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
-```
+```json
 {
   "name": "nodejs-bot",
   "version": "1.0.0",
@@ -47,17 +47,15 @@ run **yarn init** command then according the prompt to create the project, the f
 }
 ```
 this example dependents on mixin-node-client
-```
-const {
-  SocketClient, isMessageType
-} = require('mixin-node-client');
+```javascript
+const { SocketClient, isMessageType } = require('mixin-node-client');
 ```
 execute **yarn add mixin-node-client** to add the packages
-```
+```bash
 yarn add mixin-node-client
 ```
 now, the package.json add two packages,if you clone this repository, just excute **npm install** to download all dependency packages.
-```
+```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
 }
@@ -66,7 +64,7 @@ now, the package.json add two packages,if you clone this repository, just excute
 ### The next, source code brief explanation
 Initial the connection and sign the token.
 > app.js
-```
+```javascript
 const {
   SocketClient, isMessageType
 } = require('mixin-node-client');
@@ -74,7 +72,7 @@ const config = require('./config');
 const client = new SocketClient(config);
 ```
 issue a listener to the incoming message
-```
+```javascript
 client.on(
   'message',
   client.getMessageHandler(message => {
@@ -84,7 +82,7 @@ client.on(
 );
 ```
 process the question **pay**
-```
+```javascript
 if (isMessageType(message, 'text')) {
   const text = message.data.data.toLowerCase();
   if (text === 'pay') {
@@ -101,7 +99,7 @@ if (isMessageType(message, 'text')) {
 ```
 open config.js, replace your clientId with user id, sessionId with session id, aesKey with session token,  and the private key with your's.
 > config.js
-```
+```javascript
 module.exports = {
   clientId: 'xxx42518-85c7-4903-bb19-f311813d1f51',
   clientSecret: 'xxxa86a80be17601f404ad643e5c85ed4f7f5f9f7a159723021790bf9f78fe15',
@@ -127,7 +125,7 @@ zcEd2Ye+otVEB312xtXT1VZgKie3GDFee53Yf2jZBYY=
 
 ```
 ### Finally, you can run **node app.js** to take the bot online.
-```
+```bash
 node app.js
 ```
 

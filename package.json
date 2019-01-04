@@ -5,6 +5,9 @@
   "main": "app.js",
   "author": "JimmyZhang",
   "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "mixin-node-client": "^0.6.0"
   }
