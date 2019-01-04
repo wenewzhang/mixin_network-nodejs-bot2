@@ -83,18 +83,19 @@ client.on(
 ```
 process the question **pay**
 ```javascript
-if (isMessageType(message, 'text')) {
-  const text = message.data.data.toLowerCase();
-  if (text === 'pay') {
-    return client.sendButton({
-        label: 'Open Node.js Client SDK',
-        color: '#FF0000',
-        action: 'https://github.com/wangshijun/mixin-node-client',
-      },
-      message
-    );
-  }
-  ...
+if (text === 'pay') {
+  let payLink = "https://mixin.one/pay?recipient=" +
+    config.clientId + "&asset=" +
+    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d" +
+    "&amount=0.01" + '&trace=' + client.getUUID() +
+    "&memo=";
+  return client.sendButton({
+      label: 'pay 0.01 EOS',
+      color: '#FF0000',
+      action: payLink,
+    },
+    message
+  );
 }
 ```
 open config.js, replace your clientId with user id, sessionId with session id, aesKey with session token,  and the private key with your's.
