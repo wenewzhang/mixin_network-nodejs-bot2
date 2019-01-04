@@ -27,6 +27,9 @@ write down three required infomations: user id, session id, private key, mixin-n
 | --- | -------------------------------------------- |  -------------------------------------------------
 | user id | unique bot identity, uuid,for token signature | 21042518-85c7-4903-bb19-f311813d1f51          |
 | session id | session identity, uuid,for token signature | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
+| client secret  |                                        | 78ef86a80be17601f404ad643e5c85ed4f7f5f9f7a1597 |
+| PIN   |                 PIN code                       | 123456 |
+| PIN token |       verify/update PIN                        |                                              |
 | private key | RSA private key for token signature  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
 
 
