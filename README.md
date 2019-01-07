@@ -27,13 +27,40 @@ write down three required infomations: user id, session id, private key, mixin-n
 | --- | -------------------------------------------- |  -------------------------------------------------
 | user id | unique bot identity, uuid,for token signature | 21042518-85c7-4903-bb19-f311813d1f51          |
 | session id | session identity, uuid,for token signature | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
-| client secret  |                                        | 78ef86a80be17601f404ad643e5c85ed4f7f5f9f7a1597 |
-| PIN   |                 PIN code                       | 123456 |
-| PIN token |       verify/update PIN                        |                                              |
 | private key | RSA private key for token signature  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
+create config.js, replace your clientId with user id, sessionId with session id, aesKey with session token  and the private key with your's.
+other options we should talk later.
+> config.js
+```javascript
+// NOTE: please update this config file with your own
+module.exports = {
+  clientId: '21042518-85c7-4903-bb19-f311813d1f51',
+  clientSecret: 'will-generate-later',
+  assetPin: 'will-generate-later',
+  sessionId: '6ca194a4-727f-4e5f-a348-3c62987536ba',
+  aesKey: 'will-generate-later',
+  privateKey: `-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQC1P7QK7rK8lyX7X5t4A/reu7Q94xJkAllf1NPsW7zUdVgs/BCV
+f4RA6YK2prTpHHqXSCAzToEmou8R0xBMdnT/IQqijt0NzMpvrphiQrKrXEHrKrLm
+at6eZHYvLoGEPYjVq6RrgLkt2Mjld+RfHWd4zHXeqSCVfHAH67+gcPHYCwIDAQAB
+AoGADGotoeYRthtATcSRuJnFMEZ5JRgNpW4HwymnznPGLmNPQ92MIUFXxL555prq
+n2EFAKG/GuSQsh3M9FKZtjMS9l0aXpXy4T4ieBptkhahKbGVMLbQBru8wo/Pow3r
+r+DuNJs64ELvBYyydS7r1Fm/mtrd38Aq+4+04Z3UDW50AUkCQQDuhy8FoA3TKdZM
+mIEiPFb2dW8ohe8MsGM370S8HFPk7kdCaarJbiJCx1E+KjUxbkAeEFcLqKgaALTu
+IVCikIHNAkEAwoZvPaY0yFB1+V8HuToIR4X7AqWMy6WTBZ9U4wp34aNO21DLcrqf
+P40FHrHvqbWNK5bS8nSxLiv0kYL6+ezJNwJAO/GxOYKttsGu33T8DvSHDk0Y8GAo
+YVH6vVXeOkAMPV48fk47439QEOQyYKMO1ytT5bpJhd6O0GoZDjdFInWaiQJAAq4l
+hDzxBz2MkpYLnjK9gHbJIZ00Vm3+m5o5ajNvuW0tnfn8A6WsogyIYIblHXqB6nLW
+jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
++bAwyiZ37Cc7r/nxKhVH+FwMCVoeNUMcRIYYMRjwmg==
+-----END RSA PRIVATE KEY-----`,
+};
+
+```
+
 Open the terminal and go to the workspace, make nodejs-bot directory
 ```bash
 mkdir nodejs-bot
@@ -68,9 +95,7 @@ now, the package.json add two packages,if you clone this repository, just excute
 Initial the connection and sign the token.
 > app.js
 ```javascript
-const {
-  SocketClient, isMessageType
-} = require('mixin-node-client');
+const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
@@ -86,48 +111,31 @@ client.on(
 ```
 process the question **pay**
 ```javascript
-if (text === 'pay') {
-  let payLink = "https://mixin.one/pay?recipient=" +
-    config.clientId + "&asset=" +
-    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d" +
-    "&amount=0.01" + '&trace=' + client.getUUID() +
-    "&memo=";
-  return client.sendButton({
-      label: 'pay 0.01 EOS',
-      color: '#FF0000',
-      action: payLink,
-    },
-    message
-  );
-}
-```
-open config.js, replace your clientId with user id, sessionId with session id, aesKey with session token,  and the private key with your's.
-> config.js
-```javascript
-module.exports = {
-  clientId: 'xxx42518-85c7-4903-bb19-f311813d1f51',
-  clientSecret: 'xxxa86a80be17601f404ad643e5c85ed4f7f5f9f7a159723021790bf9f78fe15',
-  aesKey: 'xxxOTb2+zjhi9fJ2H1UdULEKx8EMJgbFV2jNjCwcup8HqQorjm6eWeVLvtig5nY2F7FxCTYstzVEXL8w8kFf3xvAbGUJKIxnuVkOfkkjqIE0CGa18oEf1mJYywMdJW04xeG6XPEF/o45aWSW0B69FtnzFfzYj+4egQneUR789NY=',
-  assetPin: '805385',
-  sessionId: '17195948-bcce-4eb3-bbd7-0ebc5db9a3ba',
-  privateKey: `-----BEGIN RSA PRIVATE KEY-----
-MIxxxxIBAAKBgQCvPlRan2k7qWuC+8FZ6bkz68JXxaucj+sDJ3hoZKW0B0JauIlg
-BGkS8RChRmGdVXOaQHym3U+JU+AFPKiCYKl2wnFhWH1q2ckqatLEjzgSAm5rMWaR
-Eg/pKS/lGmbwY1rKAa8lxeNCvLhPaj+ChC4IdlirtupFeq8rw50CCJA/EwIDAQAB
-AoGAR0hRQ7OIOK6HfvYtBgfeP9JscQuE7OBVtii9/6jBBmPVh9V8e8QPgZbxLsjU
-OA1kQqBsk+t9yNyHSVoNKUtsYqeAShPA50F4B46zXbR5+4qcXsiaWFt58ylJQlHS
-ikgFH4ScNrcYi6zDoc4/Eb+F6CDZzbovElss+bhKCktVTGECQQDlrQ41rWa/Mjrs
-CozqG6fCruOz1EXSIQ2RT/avsDrIusuziSVjCaQph2lhiMsBnmw5Vc7u5LTluFb1
-7FRbJaCrAkEAw1QqEpfT/Rh9sPWKSnrQRFHxuufFjoqOgbnUdXYAqBgiAyGl7m3O
-sXd53ZtFa1MiGTsI/oV5IPIZEcw72RhrOQJBAI5akLAcZc6jp3mdoHGJ6pT0KRXQ
-v+XZrrseQNvr8sNvY8pHevDDjQhgcaSOUKUUOCfhU30mLCkl9GBAtpg33jkCQFhB
-szDrgVGeu0w15eJ5U5lLHVpCVzVsza839BOO2gUZwmR/06XD39y4C0xiWB+CVKnp
-zsqSLIUCXul3yqLxMaECQDJV29UtQCQh1wmpSLE3EfKsTIGuawlg0A8sv/Egmq5h
-zcEd2Ye+otVEB312xtXT1VZgKie3GDFee53Yf2jZBYY=
------END RSA PRIVATE KEY-----`,
-};
+if (ValidActions.indexOf(message.action) > -1) {
+  if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
 
+  if (isMessageType(message, 'text')) {
+    const text = message.data.data.toLowerCase();
+    if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
+      //todo: tell the server you got this message
+      return client.sendText(text, message);
+    }
+  }
+  return Promise.resolve(message);
+} else console.log("unknow action")
 ```
+send the READ message to the server let it know this message has already read,otherise ,when the bot restart, it should receive message again!
+```javascript
+
+    if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
+    //  READ message start
+        var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
+        var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
+        client.sendRaw(RspMsg);
+    // READ message end
+      return client.sendText(text, message);
+```
+
 ### Finally, you can run **node app.js** to take the bot online.
 ```bash
 node app.js
@@ -136,4 +144,4 @@ node app.js
 install [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send command!
 enjoy!
 
-![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-bot.jpeg)
+![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)

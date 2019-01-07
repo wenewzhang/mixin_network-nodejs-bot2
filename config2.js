@@ -1,10 +1,10 @@
 // NOTE: please update this config file with your own
 module.exports = {
   clientId: '21042518-85c7-4903-bb19-f311813d1f51',
-  clientSecret: 'will-generate-later',
-  assetPin: 'will-generate-later',
+  clientSecret: '9873769d7b4198da2ee397af3ecaa87a5054a03d0114cedf28797567defa6fd8',
+  assetPin: '303289',
   sessionId: '6ca194a4-727f-4e5f-a348-3c62987536ba',
-  aesKey: 'will-generate-later',
+  aesKey: 'GlJxnvlfhz7nxIk1eNkEdngf+jDW8XGHxJiaQTuD9v8=',
   privateKey: `-----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgQC1P7QK7rK8lyX7X5t4A/reu7Q94xJkAllf1NPsW7zUdVgs/BCV
 f4RA6YK2prTpHHqXSCAzToEmou8R0xBMdnT/IQqijt0NzMpvrphiQrKrXEHrKrLm

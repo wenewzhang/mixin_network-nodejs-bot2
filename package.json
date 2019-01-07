@@ -9,6 +9,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "mixin-cli": "^0.2.0",
     "mixin-node-client": "^0.6.0"
   }
 }
