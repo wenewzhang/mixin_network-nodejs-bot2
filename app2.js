@@ -2,6 +2,7 @@ const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
 const config = require('./config2');
 const client = new SocketClient(config);
+
 const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
 
 const receiverID = "0b4f49dc-8fb4-4539-9a89-fb3afc613747";
@@ -56,7 +57,7 @@ client.on(
           var jsData = JSON.parse(Buffer.from(message.data.data, 'base64').toString('utf-8'));
           console.log(jsData);
 
-//let the server know that i have readed this message
+//let the server know that i have read this message
           var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
           var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
           client.sendRaw(RspMsg);

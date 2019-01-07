@@ -22,7 +22,7 @@ as you see,"Press <enter> to launch your preferred editor.",for example, on my c
 paste all the infomations into vim, save and quit!
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
-now,the config_mixin_1546851899846.js file created!
+now, the config_mixin_1546851899846.js file created!
 ```bash
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Received
@@ -42,7 +42,8 @@ wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin
 
 - **aesKey**  generate aesKey by mixin-cli tool
 - **client secret** don't forget generate client secret
-completely config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
+
+a completely config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
 ## Source code brief explanation
 > app2.js define acceptable actions
@@ -69,13 +70,13 @@ if (text === 'pay') {
 ```
 you can pay 0.01 EOS to bot through pay command,
 ![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/pay-link.png)
-otherwise, you can transfer any tokens to boy through message panel, the bot receive the tokens and then send back immediately.
+otherwise, you can transfer any tokens to bot through message panel, the bot receive the tokens and then send back immediately.
 ![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
 
 ```javascript
 if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
     var jsData = JSON.parse(Buffer.from(message.data.data, 'base64').toString('utf-8'));
-//let the server know that i have readed this message
+//let the server know that i have read this message
     var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
     var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
     client.sendRaw(RspMsg);
@@ -85,4 +86,5 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
     } else console.log("refund success!");
 }
 ```
-if jsData.amount is negative, that's mean send the token back success!
+if the jsData.amount is negative, that's mean send the token back to user success!
+a completely app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
