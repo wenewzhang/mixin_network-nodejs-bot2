@@ -1,7 +1,6 @@
 # Step by step: How to use nodejs to create a bot in Mixin Messenger
 In this charpter, you can create a bot in Mixin Messenger to receive user message after you following the guide. In next chapter, your bot can receive token from user and pay token to user .
 
-Before you write any code, you need to download [Mixin messenger app](https://mixin.one/messenger) and register an account.
 
 [Mixin Network](https://mixin.one) is a free and lightning fast peer-to-peer transactional network for digital assets. 
 
@@ -24,7 +23,8 @@ apt install node yarn
 
 
 ### Create you first bot 
-Open [Mixin Network dashboard](https://developers.mixin.one/dashboard), login, use the camera button to scan the QRcode by Mixin messenger app. Create your application by click the button. If you get a "Invaild Data" message, just finish all the required options.
+Before you write any code, you need to create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
+
 write down three required infomations: user id, session id, private key, mixin-node sign the token with them.
 
 | Key | Description                                  |   example                                         |
