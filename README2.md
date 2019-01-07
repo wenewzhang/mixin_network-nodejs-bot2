@@ -1,10 +1,10 @@
 # Chapter 2: Receive and send token
 In this chapter, the bot can receive token from user and then pay it back immediately, you must know the miss options in the config.js file,
 here show you how to generate a client secret, PIN, aesKey etc.
->if you have read the python, javescript or php code, you should find this config.js doesn't have PIN token, yes, nodejs use PIN token generate aesKey,
+>if you have read the python, javescript or php code, you will find the aes key in this config.js is not PIN token, yes, code of nodejs use clear aesKey intead of encrypted pin_token.
 >i show you how to do it
 ## First, generate a completely config.js
-copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
+Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
 ![copy config info from dashboard](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/copy-to-clipboard.png)
 
 ```bash
@@ -18,11 +18,11 @@ install mixin-cli and then execute **mixin dapp:config**
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Press <enter> to launch your preferred editor.
 ```
-as you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim,
+As you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim,
 paste all the infomations into vim, save and quit!
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
-now, the config_mixin_1546851899846.js file created!
+Now, the config_mixin_1546851899846.js file created!
 ```bash
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Received
@@ -43,7 +43,7 @@ wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin
 - **aesKey**  generate aesKey by mixin-cli tool
 - **client secret** don't forget generate client secret
 
-a completely config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
+A completely config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
 ## Source code brief explanation
 > app2.js define acceptable actions
@@ -68,7 +68,7 @@ if (text === 'pay') {
   );
 }
 ```
-you can pay 0.01 EOS to bot through pay command,
+You can pay 0.01 EOS to bot through pay command,
 ![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/pay-link.png)
 otherwise, you can transfer any tokens to bot through message panel, the bot receive the tokens and then send back immediately.
 ![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
@@ -86,5 +86,7 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
     } else console.log("refund success!");
 }
 ```
-if the jsData.amount is negative, that's mean send the token back to user success!
-a completely app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
+If the jsData.amount is negative, that's mean bot send the token to user success!
+If the jsData.amount is positive, user send token to bot.
+
+A completely app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
