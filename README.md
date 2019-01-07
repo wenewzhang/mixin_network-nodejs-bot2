@@ -124,7 +124,7 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-send the READ message to the server let it know this message has already read,otherise ,when the bot restart, it should receive message again!
+send the READ message to the server let it knows this message has already been readed. If not, when the bot restart, it could receive the message again!
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
