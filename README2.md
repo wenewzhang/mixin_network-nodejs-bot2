@@ -38,18 +38,39 @@ wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin
 ✔︎ Config file written to /Users/wenewzhang/Documents/sl/mixin_network-nodejs-bot/config_mixin_1546851899846.js
 ✔︎ Press ctrl+v and then enter to view file content
 ```
-| Key | Description                                  |   example                                         |
-| --- | -------------------------------------------- |  -------------------------------------------------
-| client secret  | generate from mixin.one's dashboard   | 78ef86a80be17601f404ad643e5c85ed4f7f5f9f7a1597 |
-| PIN   |                 PIN code                       | 123456 |
-| PIN token |       verify/update PIN                        |     don't  need here                         |
-| aesKey | generate by PIN token                        |  GlJxnvlfhz7nxIk1eNkEdngf+jDW8XGHxJiaQTuD9v8=     |
 
 
-- **aesKey**  generate aesKey by mixin-cli tool
-- **client secret** don't forget generate client secret
+The content of generanted config.js is
+```
+// Generated with awesome https://github.com/wangshijun/mixin-cli
+module.exports = {
+  clientId: '<PUT YOUR DAPP CLIENT_ID HERE>',
+  clientSecret: '<PUT YOUR DAPP CLIENT_SECRET HERE>',
+  assetPin: '762835',
+  sessionId: '4ec58515-814f-421c-844d-8717696cf460',
+  aesKey: 'jqZvcLnlqt73TsSWHLezKNjdIdWBZ/rqTQLJlT1BlRQ=',
+  privateKey: `-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCJDrQG95rRXkGfli1KKNPCdYAbpE795p+A3q7PtgTYwUNal9uP
+UqeanDTmeMV5vSQu5f8n9M+60aytYcR1JetIQBMVGL4lVaAuAf1TkPT6GrbOvhdw
+pykk6Tdx454Ju7jwv+txuHKlrw+mrKG/pxCVQ6bAcwDkbae5mo8yeBRiQQIDAQAB
+AoGAALNZijuTyAQyU62B18IzqufM2tdRLA0UvaTlwdwNVEpQnNLv5WCnyKuJva/a
+Wo/z8mVsk3i14x+VQWGhjnO+KyNyS7H8S2HPp/FjTCEpPMgSFfQmHToNgNp0gTpu
+cHG5aUvUJYYVvUR3uGTlsZs006M1fNcc/7rAtBP8cwwYYn0CQQDVaZKju0VtRNuC
+85zVwfxRngGSxWNJLznTYEdrMlwkLLfkUakU5dA63s0Nh32vFb79GcYJ3BbQTH8u
+oXFfEmwnAkEApGhyMcV1myVA4vY2w1Mhd25e8rgqR0HSqdFLYPwz9mqVI9v/e5yc
+vxb5Pr+zJLxLKvHP6/D1iq9qzVcvfMj3VwJAFopiDJ0ZBiOBs+EbLZChn9U6gVAL
+3oz4ZJUEthPJm6CFg74ER8rGJZGmwskOw1FerMjuG9h9KF8MB9bRbKM7fQJBAKBM
+ggMLLubtRL3GKJD7jebfw03OyNIfWKJgwak3XgbF1tJW31wL0Dz0zmIjES0hNf0S
+NpMqpo3pCS5a8p8tZxMCQH744X2N3z3On2t0v559eXdJALuxIQKv1KbwQSv44T5Y
+REp2XzEpK6y/MfFSiCpc77fLlZ6lsOfufqwxwRn0Cvg=
+-----END RSA PRIVATE KEY-----`,
+};
+```
+You just need to fill missing content. The missin
+- **clientId** You can find the uuid format number in dashboard.
+- **client secret** You can click the generate client secret link in dash board to generate one
 
-A completely config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
+A full config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
 ## Source code brief explanation
 > app2.js define acceptable actions
@@ -95,4 +116,4 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
 If the jsData.amount is negative, that's mean bot send the token to user success!
 If the jsData.amount is positive, user send token to bot.
 
-A completely app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
+A full app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
