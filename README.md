@@ -1,5 +1,5 @@
-# Howto create nodejs bot for Mixin Network step by step
-Mixin Network is a cryptocurrency payment which confirm the transactions instantly,  users can deposit, withdraw and pay bitcoin or altcoins through [Mixin Messenger](https://mixin.one/),
+# Step by step: How to use nodejs to create a bot in Mixin Messenger
+Mixin Network is a cryptocurrency payment which confirm the transactions instantly,  users can deposit, withdraw and pay bitcoin or altcoins through [Mixin Messenger](https://mixin.one/messenger),
 the developers could earn money from the user's exchanges. It's a excellent ecosystem.
 
 This article will show you howto create a nodejs-bot which let your bot receive message from any user.
@@ -20,7 +20,7 @@ apt install node yarn
 ```
 
 
-### Then, create you first bot through [Mixin.One](https://developers.mixin.one/dashboard),if you get a "Invaild Data" message,Just finish all the required options.
+### Then, create you first bot through [Mixin Network dashboard](https://developers.mixin.one/dashboard),if you get a "Invaild Data" message,Just finish all the required options.
 write down three required infomations: user id, session id, private key, mixin-node sign the token with them.
 
 | Key | Description                                  |   example                                         |
@@ -109,7 +109,7 @@ client.on(
   })
 );
 ```
-process the question **pay**
+receive message from user and answer the question **pay**
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
   if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
