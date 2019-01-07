@@ -151,4 +151,4 @@ enjoy!
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
 
-##[Chapter 2: Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+## [Chapter 2: Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
