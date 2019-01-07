@@ -1,3 +1,5 @@
+In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), we create our first app. 
+
 # Chapter 2: Receive and send token
 In this chapter, the bot can receive token from user and then pay it back immediately.
 
