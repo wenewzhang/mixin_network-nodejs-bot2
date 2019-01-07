@@ -6,7 +6,7 @@ Before pay token, developer need to prepare correct parameter in the config.js f
 
 ### Generate config.js
 >if you have read the python, javescript or php code, you will find the aes key in this config.js is not PIN token, yes, code of nodejs use clear aesKey intead of encrypted pin_token.
->i show you how to do it
+
 
 In developer dash board, copy those parameters. Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
 ![copy config info from dashboard](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/copy-to-clipboard.png)
