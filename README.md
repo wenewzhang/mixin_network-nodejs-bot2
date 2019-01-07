@@ -61,7 +61,7 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 
 ```
 
-Open the terminal and go to the workspace, make nodejs-bot directory
+open the terminal and go to the workspace, make nodejs-bot directory
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
@@ -92,14 +92,14 @@ now, the package.json add two packages,if you clone this repository, just excute
 ```
 
 ### The next, source code brief explanation
-Initial the connection and sign the token.
+initial the connection and sign the token.
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-issue a listener to the incoming message
+issue a listener to process the incoming messages
 ```javascript
 client.on(
   'message',
