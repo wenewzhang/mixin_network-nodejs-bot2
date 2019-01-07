@@ -1,18 +1,28 @@
 # Chapter 2: Receive and send token
-In this chapter, the bot can receive token from user and then pay it back immediately, you must know the miss options in the config.js file,
-here show you how to generate a client secret, PIN, aesKey etc.
+In this chapter, the bot can receive token from user and then pay it back immediately.
+
+Before pay token, developer need to prepare correct parameter in the config.js file.
+
+
+### Generate config.js
 >if you have read the python, javescript or php code, you will find the aes key in this config.js is not PIN token, yes, code of nodejs use clear aesKey intead of encrypted pin_token.
 >i show you how to do it
-## First, generate a completely config.js
-Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
+
+In developer dash board, copy those parameters. Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
 ![copy config info from dashboard](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/copy-to-clipboard.png)
 
+#### install command line tool and use it to generte config.js
+install mixin-cli
 ```bash
 cd mixin_net-nodejs-bot2
 yarn add mixin-cli
 ./node_modules/mixin-cli/bin/mixin dapp:config
 ```
-install mixin-cli and then execute **mixin dapp:config**
+
+And then execute
+```
+./mixin dapp:config**
+```
 
 ```bash
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
@@ -22,7 +32,8 @@ As you see,"Press <enter> to launch your preferred editor.",for example, on my c
 paste all the infomations into vim, save and quit!
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
-Now, the config_mixin_1546851899846.js file created!
+One config file will be generated in the working folder. The config file on my laptop is config_mixin_1546851899846.js
+
 ```bash
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Received
