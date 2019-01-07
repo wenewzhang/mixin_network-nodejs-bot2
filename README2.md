@@ -16,14 +16,9 @@ install mixin-cli
 ```bash
 cd mixin_net-nodejs-bot2
 yarn add mixin-cli
-./node_modules/mixin-cli/bin/mixin dapp:config
 ```
 
 And then execute
-```
-./mixin dapp:config**
-```
-
 ```bash
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Press <enter> to launch your preferred editor.
