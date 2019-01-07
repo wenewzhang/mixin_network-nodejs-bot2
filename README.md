@@ -1,9 +1,9 @@
 # Step by step: How to use nodejs to create a bot in Mixin Messenger
-You can create a bot in Mixin Messenger to receive user message after you following the guide. Your bot can receive token from user and pay token to user in next chapter.
+In this charpter, you can create a bot in Mixin Messenger to receive user message after you following the guide. In next chapter, your bot can receive token from user and pay token to user .
 
 Before you write any code, you need to download [Mixin messenger app](https://mixin.one/messenger) and register an account.
 
-Mixin Network is a free and lightning fast peer-to-peer transactional network for digital assets. 
+[Mixin Network](https://mixin.one) is a free and lightning fast peer-to-peer transactional network for digital assets. 
 
 These articles will show you how to write a bot in nodejs. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
 
