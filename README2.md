@@ -66,19 +66,19 @@ REp2XzEpK6y/MfFSiCpc77fLlZ6lsOfufqwxwRn0Cvg=
 -----END RSA PRIVATE KEY-----`,
 };
 ```
-You just need to fill missing content. The missin
+You just need to fill missing content. The missing content include:
 - **clientId** You can find the uuid format number in dashboard.
 - **client secret** You can click the generate client secret link in dash board to generate one
 
 A full config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
-## Source code brief explanation
+## Source code explanation
 > app2.js define acceptable actions
 ```javascript
 const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
 ```
 
-create a payment link to user when user ask 'pay'
+create a payment link to user when user send 'pay' to bot
 ```javascript
 if (text === 'pay') {
   let payLink = "https://mixin.one/pay?recipient=" +
@@ -95,9 +95,9 @@ if (text === 'pay') {
   );
 }
 ```
-You can pay 0.01 EOS to bot through pay command,
+User can pay 0.01 EOS to bot by click the button,
 ![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/pay-link.png)
-otherwise, you can transfer any tokens to bot through message panel, the bot receive the tokens and then send back immediately.
+Developer can send token to their bots in message panel. The bot receive the tokens and then send back immediately.
 ![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
 
 ```javascript
@@ -113,7 +113,7 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
     } else console.log("refund success!");
 }
 ```
-If the jsData.amount is negative, that's mean bot send the token to user success!
-If the jsData.amount is positive, user send token to bot.
+When bot send token to user successfully, the jsData.amount is negative.
+When user send token to user, the jsData.amount is positive.
 
 A full app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
