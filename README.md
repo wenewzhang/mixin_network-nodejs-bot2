@@ -25,13 +25,9 @@ apt install node yarn
 ### Create you first bot
 Before you write any code, you need to create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
-write down three required infomation: user id, session id, private key, mixin-node sign the token with them.
+Remember to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
+write down required infomation: user id, session id, private key. These three parameter is required in config.js file soon.
 
-| Key | Description                                  |   example                                         |
-| --- | -------------------------------------------- |  -------------------------------------------------
-| user id | unique bot identity, uuid,for token signature | 21042518-85c7-4903-bb19-f311813d1f51          |
-| session id | session identity, uuid,for token signature | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
-| private key | RSA private key for token signature  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
