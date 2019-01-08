@@ -91,15 +91,17 @@ now, the package.json add two packages,if you clone this repository, just excute
 }
 ```
 
-### The next, source code brief explanation
-initial the connection and sign the token.
+### Source code brief explanation
+App need to create a connection and sign a token for later communication.
+[Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L1)
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-issue a listener to process the incoming messages
+Then issue a listener to receive and analyze the incoming messages
+[Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L12)
 ```javascript
 client.on(
   'message',
