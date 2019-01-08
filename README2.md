@@ -3,24 +3,20 @@ In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/m
 # Chapter 2: Receive and send token
 After you follow the step introduced in this chapter, your bot can receive token from user and then pay it back immediately.
 
-Before pay token, developer need to prepare correct parameter in the config.js file.
+Before pay token, developer need to fill missing parameter in the config.js file.
 
+The config.js file has been created in [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md#generate-parameter-for-your-app). Now we will introduce a tool to generate aes key parameter in config.js
 
-### Generate config.js
->if you have read the python, javescript or php code, you will see there is no option of PIN token, but aes key instead.
-
-
-In developer dash board, under your bot,click  "Click to generate a new session",copy those parameters. Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
-![copy config info from dashboard](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/copy-to-clipboard.png)
+Hope you still have the content generated in dashboard.
 
 #### install command line tool(mixin-cli) and use it to generte config.js
-install mixin-cli
+Install tool
 ```bash
 cd mixin_net-nodejs-bot2
 yarn add mixin-cli
 ```
 
-And then execute
+Execute it by argument dapp:config
 ```bash
 wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Press <enter> to launch your preferred editor.
@@ -72,7 +68,7 @@ You just need to fill missing content. The missing content include:
 - **clientId** You can find the uuid format number in dashboard.
 - **client secret** You can click the generate client secret link in dash board to generate one
 
-A full config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
+A full config.js is [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
 ## Source code explanation
 > app2.js
