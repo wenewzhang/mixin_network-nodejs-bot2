@@ -25,18 +25,14 @@ apt install node yarn
 ### Create you first bot
 Before you write any code, you need to create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
-write down three required infomation: user id, session id, private key, mixin-node sign the token with them.
+Remember to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
+and write down required infomation: user id, session id, private key because they are required in config.js file soon.
 
-| Key | Description                                  |   example                                         |
-| --- | -------------------------------------------- |  -------------------------------------------------
-| user id | unique bot identity, uuid,for token signature | 21042518-85c7-4903-bb19-f311813d1f51          |
-| session id | session identity, uuid,for token signature | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
-| private key | RSA private key for token signature  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
-create config.js, replace your clientId with user id, sessionId with session id， and the private key with your's.
-other options we should talk later.
+Create config.js, fill the user id, sessionId, and the private key you got from dashboard.
+We will introduce other parameter later.
 > config.js
 ```javascript
 // NOTE: please update this config file with your own
@@ -95,15 +91,17 @@ now, the package.json add two packages,if you clone this repository, just excute
 }
 ```
 
-### The next, source code brief explanation
-initial the connection and sign the token.
+### Source code brief explanation
+App need to create a connection and sign a token for later communication.
+[Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L1)
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-issue a listener to process the incoming messages
+Then issue a listener to receive and analyze the incoming messages
+[Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L12)
 ```javascript
 client.on(
   'message',
