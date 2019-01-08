@@ -32,7 +32,7 @@ write down required infomation: user id, session id, private key. These three pa
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
 create config.js, replace your clientId with user id, sessionId with session id， and the private key with your's.
-other options we should talk later.
+We should introduce other parameter later.
 > config.js
 ```javascript
 // NOTE: please update this config file with your own
