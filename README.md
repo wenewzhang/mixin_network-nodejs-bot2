@@ -61,13 +61,13 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 
 ```
 
-open the terminal and go to the workspace, make nodejs-bot directory
+Open the terminal and go to the workspace, make nodejs-bot directory
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
 yarn init
 ```
-run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
+Run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
 ```json
 {
   "name": "nodejs-bot",
@@ -76,15 +76,15 @@ run **yarn init** command then according the prompt to create the project, the f
   "license": "MIT"
 }
 ```
-this example dependents on mixin-node-client
+This example dependents on mixin-node-client
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 ```
-execute **yarn add mixin-node-client** to add the packages
+Execute **yarn add mixin-node-client** to add the packages
 ```bash
 yarn add mixin-node-client
 ```
-now, the package.json add two packages,if you clone this repository, just excute **yarn** to download all dependency packages.
+Now the package.json contails two packages,if you clone this repository, just excute **yarn** to download all dependency packages.
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
@@ -133,7 +133,7 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-send the READ message to the server let it knows this message has already been read. If not, when the bot restart, it could receive the message again!
+Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again!
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
@@ -150,7 +150,7 @@ send the READ message to the server let it knows this message has already been r
 node app.js
 ```
 
-install [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send command!
+Install [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send command!
 enjoy!
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
