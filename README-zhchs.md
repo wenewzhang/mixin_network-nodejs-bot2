@@ -1,12 +1,11 @@
-# Step by step: How to use nodejs to create a bot in Mixin Messenger
-In this chapter, you can create a bot in Mixin Messenger to receive user message after you following the guide. In [next chapter](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/README2.md), your bot can receive token from user and pay token to user .
+# 第一课 一步一步教你用nodejs创建一个Mixin Network机器人
+在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息。在[第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+你将学到如何给机器人转帐 或者 让机器人给你转账
 
+[Mixin Network](https://mixin.one) 是一个免费的 极速的端对端加密数字货币交易系统.
+通过这一系列教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息,转币给机器人同时机器人会闪电转回给你。
 
-[Mixin Network](https://mixin.one) is a free and lightning fast peer-to-peer transactional network for digital assets.
-
-These articles will show you how to write a bot in nodejs. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
-
-### Install npm node on your OS
+### 在你的电脑上安装node npm
 mac OS
 ```bash
 brew install node yarn
@@ -22,21 +21,20 @@ apt install node yarn
 ```
 
 
-### Create you first bot
-Before you write any code, you need to create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
+### 创建你的第一个机器人
+在写代码之前，我们先看一下面的图文教程，创建一个机器人APP [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
-write down three required infomation: user id, session id, private key, mixin-node sign the token with them.
+记下下面三项，这是机器人发送接收消息所必须的: user id, session id, private key, Mixin Network使用这三项进行数字签名。
 
-| Key | Description                                  |   example                                         |
+| 关键字 | 描述                                  |   例子                                         |
 | --- | -------------------------------------------- |  -------------------------------------------------
-| user id | unique bot identity, uuid,for token signature | 21042518-85c7-4903-bb19-f311813d1f51          |
-| session id | session identity, uuid,for token signature | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
-| private key | RSA private key for token signature  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
+| user id | 机器人的唯一标识, uuid | 21042518-85c7-4903-bb19-f311813d1f51          |
+| session id | 会话标识, uuid | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
+| private key | RSA 私钥  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
-create config.js, replace your clientId with user id, sessionId with session id， and the private key with your's.
-other options we should talk later.
+创建一个config.js文件, 替换clientID为你的机器人的id, sessionId 为你的机器人的session id, privateKey为你的私钥,aesKey,clientSecret, assetPin 我们后面才需要，这里可先不修改，但请保留这个数据不要删除！
 > config.js
 ```javascript
 // NOTE: please update this config file with your own
@@ -64,14 +62,15 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 };
 
 ```
+### 下面我们来创建项目与代码
 
-open the terminal and go to the workspace, make nodejs-bot directory
+打开终端，切换到你的工作目录，创建一个 nodejs-bot 的目录
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
 yarn init
 ```
-run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
+运行 **yarn init** 指令，按提示完成项目的创建， 完成后会生成package.json文件，代码例子如下：
 ```json
 {
   "name": "nodejs-bot",
@@ -80,30 +79,32 @@ run **yarn init** command then according the prompt to create the project, the f
   "license": "MIT"
 }
 ```
-this example dependents on mixin-node-client
+本教程需要安装依赖包 mixin-node-client,
+> app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 ```
-execute **yarn add mixin-node-client** to add the packages
+执行 **yarn add mixin-node-client** 添加包
 ```bash
 yarn add mixin-node-client
 ```
-now, the package.json add two packages,if you clone this repository, just excute **yarn** to download all dependency packages.
+安装成功后, package.json 会自动添加上面的代码，如果你克隆了本代码，只需要在项目目录执行 **yarn** 来下载安装包.
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
 }
 ```
 
-### The next, source code brief explanation
-initial the connection and sign the token.
+### 下面对代码进行一个简单的解释
+初始化连接， SocketClient会连接到服务器并利用签名信息进行登陆认证。
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-issue a listener to process the incoming messages
+开启一个侦听，在这对收到的消息进行处理
+
 ```javascript
 client.on(
   'message',
@@ -113,7 +114,7 @@ client.on(
   })
 );
 ```
-receive message from user and answer the question **pay**
+接收消息, 进行**pay**相关的逻辑处理
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
   if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
@@ -123,7 +124,7 @@ if (ValidActions.indexOf(message.action) > -1) {
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
       //todo: tell the server you got this message
       if (text === 'pay') {
-      // todo: pay
+        //todo: pay
       }
       return client.sendText(text, message);
     }
@@ -131,7 +132,7 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-send the READ message to the server let it knows this message has already been read. If not, when the bot restart, it could receive the message again!
+对于每一条接收到的消息，将消息号（message_id)做为参数，回应服务器，action为ACKNOWLEDGE_MESSAGE_RECEIPT! 如果不回应，机器人下次登入，会重新获得消息。
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
@@ -143,15 +144,14 @@ send the READ message to the server let it knows this message has already been r
       return client.sendText(text, message);
 ```
 
-### Finally, you can run **node app.js** to take the bot online.
+### 最后, 执行 **node app.js** 将机器人上线！
 ```bash
 node app.js
 ```
 
-install [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send command!
-enjoy!
+在手机上安装 [Mixin Messenger](https://mixin.one/),将你的机器人加为好友,(比如，这个机器人的ID是 7000101639) 然后就可以给它发消息了！
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
 
-## [Chapter 2: Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+## 第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)

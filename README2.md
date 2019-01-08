@@ -1,4 +1,4 @@
-In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), we create our first app. 
+In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), we create our first app.
 
 # Chapter 2: Receive and send token
 After you follow the step introduced in this chapter, your bot can receive token from user and then pay it back immediately.
@@ -75,8 +75,9 @@ You just need to fill missing content. The missing content include:
 A full config.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
 ## Source code explanation
-> app2.js define acceptable actions
+> app2.js
 ```javascript
+//define acceptable actions
 const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
 ```
 
