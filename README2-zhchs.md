@@ -2,7 +2,6 @@
 
 # 第二课: 机器人接收与处理加密货币
 按本篇教程后学习后完成后，你的机器人将会接受用户发送过来的加密货币，然后立即转回用户。
-After you follow the step introduced in this chapter, your bot can receive token from user and then pay it back immediately.
 
 在开始之前， 开发者需要准备一些config.js的必备参数。
 
@@ -28,8 +27,6 @@ wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin
 ```
 如你所见，按"回车"将打开默认的编辑器，比如在我的电脑上，是打开vim,
 粘贴剪切版里的数据，然后保存并退出。
-As you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim,
-paste all the infomations into vim, save and quit!
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
 回车三次，就产生了一个临时文件，比如config_mixin_1546851899846.js
@@ -79,11 +76,11 @@ REp2XzEpK6y/MfFSiCpc77fLlZ6lsOfufqwxwRn0Cvg=
 ## 源代码解释
 > app2.js
 ```javascript
-//定义可接受的消息名称
+//定义可用的消息名称
 const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
 ```
 
-创建一个支付链接，影响用户的**pay**指令
+创建一个支付链接，响应用户的**pay**指令
 ```javascript
 if (text === 'pay') {
   let payLink = "https://mixin.one/pay?recipient=" +
