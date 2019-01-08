@@ -10,10 +10,10 @@ Before pay token, developer need to prepare correct parameter in the config.js f
 >if you have read the python, javescript or php code, you will see there is no option of PIN token, but aes key instead.
 
 
-In developer dash board, copy those parameters. Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
+In developer dash board, under your bot,click  "Click to generate a new session",copy those parameters. Copy the PIN,session id,private key etc. from [Mixin.one Dashboard](https://developers.mixin.one/dashboard)
 ![copy config info from dashboard](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/copy-to-clipboard.png)
 
-#### install command line tool and use it to generte config.js
+#### install command line tool(mixin-cli) and use it to generte config.js
 install mixin-cli
 ```bash
 cd mixin_net-nodejs-bot2
@@ -26,7 +26,7 @@ wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin
 ? What is the DAPP session info Press <enter> to launch your preferred editor.
 ```
 As you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim,
-paste all the infomations into vim, save and quit!
+paste all the infomation into vim, save and quit!
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
 One config file will be generated in the working folder. The config file on my laptop is config_mixin_1546851899846.js
@@ -42,7 +42,7 @@ wenewzha:mixin_network-nodejs-bot wenewzhang$ ./node_modules/mixin-cli/bin/mixin
 ```
 
 
-The content of generanted config.js is
+The content of generated config.js is
 ```
 // Generated with awesome https://github.com/wangshijun/mixin-cli
 module.exports = {
@@ -117,6 +117,6 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
 }
 ```
 When bot send token to user successfully, the jsData.amount is negative.
-When user send token to user, the jsData.amount is positive.
+When user send token to bot, the jsData.amount is positive.
 
 A full app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
