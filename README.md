@@ -22,9 +22,10 @@ apt install node yarn
 ```
 
 
-### Create you first bot
+### Create you first app
 Before you write any code, you need to create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
+### Generate parameter for your app
 Remember to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
 and write down required infomation: user id, session id, private key because they are required in config.js file soon.
 
