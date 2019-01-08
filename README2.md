@@ -115,4 +115,4 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
 When bot send token to user successfully, the jsData.amount is negative.
 When user send token to bot, the jsData.amount is positive.
 
-A full app2.js can find [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
+A full app2.js is [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
