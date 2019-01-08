@@ -93,6 +93,7 @@ now, the package.json add two packages,if you clone this repository, just excute
 
 ### Source code brief explanation
 App need to create a connection and sign a token for later communication.
+
 [Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L1)
 > app.js
 ```javascript
@@ -101,6 +102,7 @@ const config = require('./config');
 const client = new SocketClient(config);
 ```
 Then issue a listener to receive and analyze the incoming messages
+
 [Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L12)
 ```javascript
 client.on(
@@ -111,7 +113,9 @@ client.on(
   })
 );
 ```
-receive message from user and answer the question **pay**
+Analyze message from user and do something when receive a 'pay' text  **pay**
+
+[Code](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js#L29)
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
   if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
