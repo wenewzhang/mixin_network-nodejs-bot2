@@ -6,7 +6,7 @@ In this chapter, you can create a bot in Mixin Messenger to receive user message
 
 These articles will show you how to write a bot in nodejs. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
 
-### Install npm node on your OS
+### Install yarn node on your OS
 mac OS
 ```bash
 brew install node yarn

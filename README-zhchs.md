@@ -5,7 +5,7 @@
 [Mixin Network](https://mixin.one) 是一个免费的 极速的端对端加密数字货币交易系统.
 通过这一系列教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息,转币给机器人同时机器人会闪电转回给你。
 
-### 在你的电脑上安装node npm
+### 在你的电脑上安装node yarn
 mac OS
 ```bash
 brew install node yarn
@@ -22,7 +22,7 @@ apt install node yarn
 
 
 ### 创建你的第一个机器人
-在写代码之前，我们先看一下面的图文教程，创建一个机器人APP [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
+在写代码之前，我们先看一下面的图文教程，创建一个机器人APP [教程](https://mixin-network.gitbook.io/mixin-network-cn/messenger-ying-yong-kai-fa/chuang-jian-ji-qi-ren).
 
 记下下面三项，这是机器人发送接收消息所必须的: user id, session id, private key, Mixin Network使用这三项进行数字签名。
 
@@ -154,4 +154,4 @@ node app.js
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
 
-## 第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+## [第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
