@@ -32,12 +32,16 @@ mkdir nodejs-bot
 cd nodejs-bot/
 yarn init
 ```
-Run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
+Run **yarn init** command then according the prompt to create the project
+```bash
+yarn init
+```
+The command will generate a new file: package.json with following content:
 ```json
 {
   "name": "nodejs-bot",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "app.js",//Default name is main.js
   "license": "MIT"
 }
 ```
@@ -47,7 +51,7 @@ In this folder, execute **yarn add mixin-node-client** to add the packages
 ```bash
 yarn add mixin-node-client
 ```
-Now the package.json should contails the library now packages. 
+Now the package.json should contails the library packages. 
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
@@ -99,7 +103,7 @@ We will introduce other parameter later.
 
 
 ### Hello world
-Fill the following content in app.js
+Fill the following content in app.js. Create app.js if it is missing in your folder.
 ```
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
@@ -138,7 +142,6 @@ client.on(
 //     return this.indexOf(element) > -1;
 // };
 client.on('error', err => console.error(err.message));
-
 ```
 Run the code
 ```bash
@@ -294,14 +297,17 @@ Analyze message from user and do something when receive a 'pay' text  **pay**
 
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
-  if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
-
+  if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {
+    console.log("ignore receipt");return;
+  }
   if (isMessageType(message, 'text')) {
     const text = message.data.data.toLowerCase();
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
-      //todo: tell the server you got this message
+      var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
+      var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
+      client.sendRaw(RspMsg);
       if (text === 'pay') {
-      // todo: pay
+        // todo: pay
       }
       return client.sendText(text, message);
     }
