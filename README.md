@@ -103,7 +103,7 @@ We will introduce other parameter later.
 
 ### Hello world
 Fill the following content in app.js. Create app.js if it is missing in your folder.
-```
+```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
 const config = require('./config');
@@ -147,7 +147,7 @@ Run the code
 node app.js
 ```
 If something wrong, following content will be display
-```
+```bash
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
   'sendImage',
@@ -205,7 +205,7 @@ enjoy!
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
 The console will display following content
-```
+```bash
 Message Received { id: 'de4671c2-8873-419b-92b0-0d6ae8381940',
   action: 'LIST_PENDING_MESSAGES' }
 Message Received { id: 'a41816ca-2b65-4668-abdd-4526c1d29015',
