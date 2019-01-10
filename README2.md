@@ -3,16 +3,16 @@ In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/m
 # Receive and send token
 Your bot can receive token from user and then pay it back immediately after read the chapter.
 
-### fill AES key
+### Fill AES key
 Now you need to fill some missing parameters in the config.js file.
 
-The config.js file has been created in [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md#generate-parameter-for-your-app). 
+The config.js file has been created in [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md#generate-parameter-for-your-app).
 
 Now we will introduce a tool to generate aes key parameter in config.js
 
 Hope you still have the content generated in dashboard.
 
-### install command line tool(mixin-cli) and use it to generte config.js
+### install command line tool(mixin-cli) and use it to generate config.js
 open terminal and download tools by yarn
 ```bash
 cd mixin_net-nodejs-bot2
@@ -26,7 +26,7 @@ $ ./node_modules/mixin-cli/bin/mixin dapp:config
 ```
 As you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim.
 
-Now you need to copy all the [generated session](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-session-key-for-your-app) info in dashboardpaste into vim, save and quit!
+Now you need to copy all the [generated session](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-session-key-for-your-app) info in dashboard paste into vim, save and quit!
 ![generated session ](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/Generated_session_content.png)
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
