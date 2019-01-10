@@ -17,7 +17,9 @@ client.on(
       if (isMessageType(message, 'text')) {
         const text = message.data.data.toLowerCase();
         if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
-          //todo: tell the server you got this message
+      	  var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
+      	  var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
+      	  client.sendRaw(RspMsg);
           if (text === 'pay') {
           // todo: pay
           }
