@@ -67,10 +67,12 @@ REp2XzEpK6y/MfFSiCpc77fLlZ6lsOfufqwxwRn0Cvg=
 };
 ```
 你还需要补充以下数据（clientID,clientSecret)才是一个完整的config.js;
-或者，只需要copy aesKey替换你原来的config.js.
+  或者
+只需要拷出 aesKey替换你原来的config.js.
+
 - **clientId** 在dashboard可以找到
 - **clientSecret** 左dashboard 点击 "Click to generate a new secret"生成一个！
-- **aesKey  就是我们新生成的数据 将它放入到正式的config.js里
+- **aesKey**  我们新生成的数据 将它放入到正式的config.js里
 
 一个完整的config.js例子如下： [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
@@ -206,8 +208,6 @@ if (text === 'pay') {
 }
 ```
 用户点击链接，依提示在Mixin Messenger里支付,支付后机器人会马上转回给用户，如下图:
-![pay-link](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/Pay_and_refund_quickly.jpg)
-
 开发者可以支付任意的币给机器人，机器人在收到币后，立即转回给开发者!
 ![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
 
