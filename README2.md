@@ -3,6 +3,7 @@ In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/m
 # Receive and send token
 Your bot can receive token from user and then pay it back immediately after read the chapter.
 
+### fill AES key
 Now you need to fill some missing parameters in the config.js file.
 
 The config.js file has been created in [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md#generate-parameter-for-your-app). 
