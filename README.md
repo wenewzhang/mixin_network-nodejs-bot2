@@ -30,7 +30,6 @@ Open the terminal and go to the workspace, make nodejs-bot directory
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
-yarn init
 ```
 Run **yarn init** command then according the prompt to create the project
 ```bash
@@ -202,9 +201,14 @@ Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
 In [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send any text!
 enjoy!
 
+
+![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
+
 The console will display following content
 ```
-Message Received { id: 'fa36509b-51f2-465e-b8a5-09b50f4c947f',
+Message Received { id: 'de4671c2-8873-419b-92b0-0d6ae8381940',
+  action: 'LIST_PENDING_MESSAGES' }
+Message Received { id: 'a41816ca-2b65-4668-abdd-4526c1d29015',
   action: 'CREATE_MESSAGE',
   data:
    { type: 'message',
@@ -212,14 +216,17 @@ Message Received { id: 'fa36509b-51f2-465e-b8a5-09b50f4c947f',
      quote_message_id: '',
      conversation_id: 'c5458ec8-5e95-3e64-ae63-d4dfc3135c9e',
      user_id: '28ee416a-0eaa-4133-bc79-9676909b7b4e',
-     message_id: '95293d04-1d15-4817-875b-587607608b92',
+     message_id: 'a93ebfca-3d3f-44a9-9d63-3ad41ddca4b8',
      category: 'PLAIN_TEXT',
-     data: 'hello',
+     data: 'hi',
      status: 'SENT',
      source: 'CREATE_MESSAGE',
-     created_at: '2019-01-10T03:19:36.805026Z',
-     updated_at: '2019-01-10T03:19:36.805026Z' } }
-Message Received { id: '558771cc-c797-4b0b-aed2-d6cc8f0d6122',
+     created_at: '2019-01-10T03:44:12.600158Z',
+     updated_at: '2019-01-10T03:44:12.600158Z' } }
+Message Received { id: '810b93d9-56d4-413a-9837-6dc241e36ed0',
+  action: 'ACKNOWLEDGE_MESSAGE_RECEIPT' }
+ignore receipt
+Message Received { id: 'd45c5139-8201-4f8a-aa2f-86c98ba3a849',
   action: 'CREATE_MESSAGE',
   data:
    { type: 'message',
@@ -227,14 +234,14 @@ Message Received { id: '558771cc-c797-4b0b-aed2-d6cc8f0d6122',
      quote_message_id: '',
      conversation_id: '',
      user_id: 'daf8b473-39a0-4419-991a-77f30d28dd6d',
-     message_id: 'eb5062fb-d158-49e4-b3a6-622d363f2000',
+     message_id: '9054acea-1a62-4716-9fa3-1a8c70a2165a',
      category: '',
      data: '',
      status: 'SENT',
      source: 'CREATE_MESSAGE',
-     created_at: '2019-01-10T03:19:37.345009918Z',
-     updated_at: '2019-01-10T03:19:37.345009918Z' } }
-Message Received { id: '80de9234-108e-4ea0-ae2e-086b4eebf2cc',
+     created_at: '2019-01-10T03:44:22.540536153Z',
+     updated_at: '2019-01-10T03:44:22.540536153Z' } }
+Message Received { id: 'cf69c7a2-787b-4a91-be22-f51f38338179',
   action: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
   data:
    { type: 'message',
@@ -242,15 +249,15 @@ Message Received { id: '80de9234-108e-4ea0-ae2e-086b4eebf2cc',
      quote_message_id: '',
      conversation_id: '',
      user_id: '',
-     message_id: 'eb5062fb-d158-49e4-b3a6-622d363f2000',
+     message_id: '9054acea-1a62-4716-9fa3-1a8c70a2165a',
      category: '',
      data: '',
      status: 'DELIVERED',
      source: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
      created_at: '0001-01-01T00:00:00Z',
-     updated_at: '2019-01-10T03:19:37.828693Z' } }
+     updated_at: '2019-01-10T03:44:23.236843Z' } }
 ignore receipt
-Message Received { id: 'ffd1b8ae-e8db-47bf-b186-f3c6a3e53395',
+Message Received { id: 'daa66945-abb6-4b8f-bc6a-04c4ccb6a837',
   action: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
   data:
    { type: 'message',
@@ -258,17 +265,15 @@ Message Received { id: 'ffd1b8ae-e8db-47bf-b186-f3c6a3e53395',
      quote_message_id: '',
      conversation_id: '',
      user_id: '',
-     message_id: 'eb5062fb-d158-49e4-b3a6-622d363f2000',
+     message_id: '9054acea-1a62-4716-9fa3-1a8c70a2165a',
      category: '',
      data: '',
      status: 'READ',
      source: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
      created_at: '0001-01-01T00:00:00Z',
-     updated_at: '2019-01-10T03:19:38.33654Z' } }
+     updated_at: '2019-01-10T03:44:23.787562Z' } }
 ignore receipt
 ```
-
-![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
 
 ### Source code explanation
