@@ -1,18 +1,23 @@
-# Step by step: How to use nodejs to create a bot in Mixin Messenger
-In this chapter, you can create a bot in Mixin Messenger to receive user message after you following the guide. In [next chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md), your bot can receive token from user and pay token to user .
+# Mixin Messener application development tutorial in Node.js: 
+This tutorial will let you know how to write a Mixin Messenger bot in Node.js. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
+
+##Index
+Chapter I:  [Create bot and receive message from user](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md)
+Chapter II: [Receive token and pay token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+
+## Chapter I: 
+You will create a bot in Mixin Messenger to receive user message after read the chapter. 
 
 
-[Mixin Network](https://mixin.one) is a free and lightning fast peer-to-peer transactional network for digital assets.
+### Node.js enviroment setup:
+This tutorial is written in Node.js and use a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So you need to install yarn node before writing code.
 
-These articles will show you how to write a bot in nodejs. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
-
-### Install yarn node on your OS
-mac OS
+on MacOS
 ```bash
 brew install node yarn
 ```
 
-Ubuntu
+on Ubuntu
 ```bashREADME2.md
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
@@ -22,8 +27,8 @@ apt install node yarn
 ```
 
 
-### Create you first app
-Before you write any code, you need to create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
+### Create you first app in developer dash board
+Create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
 ### Generate parameter for your app
 Remember to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
