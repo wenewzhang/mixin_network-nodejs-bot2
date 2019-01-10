@@ -177,7 +177,7 @@ async function asyncRefundCall(_assetID,_amount,_opponent_id) {
 ```
 ### Generate payment URL and refund it to user
 User can pay 0.01 EOS to bot by click the button and the 0.01 EOS will be refund in 1 seconds,
-![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/pay-link.png)
+![pay-link](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/Pay_and_refund_quickly.jpg)
 Developer can send token to their bots in message panel. The bot receive the tokens and then send back immediately.
 ![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
 
