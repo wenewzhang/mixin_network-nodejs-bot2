@@ -1,4 +1,4 @@
-# Mixin Messener application development tutorial in Node.js: 
+# Mixin Messener application development tutorial in Node.js
 This tutorial will let you know how to write a Mixin Messenger bot in Node.js. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
 
 ## Index
@@ -10,7 +10,7 @@ You will create a bot in Mixin Messenger to receive user message after read the 
 
 
 ### Node.js enviroment setup:
-This tutorial is written in Node.js and use a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So you need to install yarn node before writing code.
+This tutorial is written in Node.js. So you need to install yarn node before writing code.
 
 on MacOS
 ```bash
@@ -25,6 +25,35 @@ apt update
 apt upgrade
 apt install node yarn
 ```
+### Create Yarn project folder
+Open the terminal and go to the workspace, make nodejs-bot directory
+```bash
+mkdir nodejs-bot
+cd nodejs-bot/
+yarn init
+```
+Run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
+```json
+{
+  "name": "nodejs-bot",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT"
+}
+```
+This tutorial need a library a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So we need to download the library.
+
+In this folder, execute **yarn add mixin-node-client** to add the packages
+```bash
+yarn add mixin-node-client
+```
+Now the package.json should contails the library now packages. 
+```json
+"dependencies": {
+  "mixin-node-client": "^0.6.0"
+}
+```
+If you clone this repository, just excute **yarn** to download all dependency packages.
 
 
 ### Create you first app in developer dash board
@@ -37,7 +66,7 @@ and write down required infomation: user id, session id, private key because the
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
-Create a file: config.js. Copy the following content into it. 
+In the folder, create a file: config.js. Copy the following content into it. 
 > config.js
 ```javascript
 // NOTE: please update this config file with your app parameter
@@ -68,40 +97,179 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 Replace the value with **YOUR APP** user id, sessionId, and the private key, you already generated them in dashboard.
 We will introduce other parameter later.
 
-Open the terminal and go to the workspace, make nodejs-bot directory
-```bash
-mkdir nodejs-bot
-cd nodejs-bot/
-yarn init
+
+### Hello world
+Fill the following content in app.js
 ```
-Run **yarn init** command then according the prompt to create the project, the finished package.json is like below:
-```json
-{
-  "name": "nodejs-bot",
-  "version": "1.0.0",
-  "main": "app.js",
-  "license": "MIT"
-}
-```
-This example dependents on mixin-node-client
-```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
+const { HttpClient } = require('mixin-node-client');
+const config = require('./config');
+const client = new SocketClient(config);
+const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
+
+console.log('Supported MessageSenders by SocketClient', client.getMessageSenders());
+console.log(client.getMessageSenders());
+// Listen and react to socket messages
+client.on(
+  'message',
+  client.getMessageHandler(message => {
+    console.log('Message Received', message);
+    if (ValidActions.indexOf(message.action) > -1) {
+      if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
+
+      if (isMessageType(message, 'text')) {
+        const text = message.data.data.toLowerCase();
+        if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
+          //todo: tell the server you got this message
+          if (text === 'pay') {
+          // todo: pay
+          }
+          return client.sendText(text, message);
+        }
+      }
+
+      return Promise.resolve(message);
+  } else console.log("unknow action")
+  }));
+
+// Array.prototype.contains = function(element){
+//     return this.indexOf(element) > -1;
+// };
+client.on('error', err => console.error(err.message));
 ```
-Execute **yarn add mixin-node-client** to add the packages
+Run the code
 ```bash
-yarn add mixin-node-client
+node app.js
 ```
-Now the package.json contails two packages,if you clone this repository, just excute **yarn** to download all dependency packages.
-```json
-"dependencies": {
-  "mixin-node-client": "^0.6.0"
-}
+If something wrong, following content will be display
+```
+➜  nodejsdemo node app.js
+Supported MessageSenders by SocketClient [ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+[ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+Message Received { id: '00000000-0000-0000-0000-000000000000',
+  action: 'ERROR',
+  error:
+   { status: 202,
+     code: 401,
+     description: 'Unauthorized, maybe invalid token.' } }
+```
+If everything is ok, following is content will be display
+```
+➜  nodejsdemo node app.js
+Supported MessageSenders by SocketClient [ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+[ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
+  action: 'LIST_PENDING_MESSAGES' }
+```
+In [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send any text!
+enjoy!
+
+The console will display following content
+```
+Message Received { id: 'fa36509b-51f2-465e-b8a5-09b50f4c947f',
+  action: 'CREATE_MESSAGE',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: 'c5458ec8-5e95-3e64-ae63-d4dfc3135c9e',
+     user_id: '28ee416a-0eaa-4133-bc79-9676909b7b4e',
+     message_id: '95293d04-1d15-4817-875b-587607608b92',
+     category: 'PLAIN_TEXT',
+     data: 'hello',
+     status: 'SENT',
+     source: 'CREATE_MESSAGE',
+     created_at: '2019-01-10T03:19:36.805026Z',
+     updated_at: '2019-01-10T03:19:36.805026Z' } }
+Message Received { id: '558771cc-c797-4b0b-aed2-d6cc8f0d6122',
+  action: 'CREATE_MESSAGE',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: '',
+     user_id: 'daf8b473-39a0-4419-991a-77f30d28dd6d',
+     message_id: 'eb5062fb-d158-49e4-b3a6-622d363f2000',
+     category: '',
+     data: '',
+     status: 'SENT',
+     source: 'CREATE_MESSAGE',
+     created_at: '2019-01-10T03:19:37.345009918Z',
+     updated_at: '2019-01-10T03:19:37.345009918Z' } }
+Message Received { id: '80de9234-108e-4ea0-ae2e-086b4eebf2cc',
+  action: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: '',
+     user_id: '',
+     message_id: 'eb5062fb-d158-49e4-b3a6-622d363f2000',
+     category: '',
+     data: '',
+     status: 'DELIVERED',
+     source: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+     created_at: '0001-01-01T00:00:00Z',
+     updated_at: '2019-01-10T03:19:37.828693Z' } }
+ignore receipt
+Message Received { id: 'ffd1b8ae-e8db-47bf-b186-f3c6a3e53395',
+  action: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: '',
+     user_id: '',
+     message_id: 'eb5062fb-d158-49e4-b3a6-622d363f2000',
+     category: '',
+     data: '',
+     status: 'READ',
+     source: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+     created_at: '0001-01-01T00:00:00Z',
+     updated_at: '2019-01-10T03:19:38.33654Z' } }
+ignore receipt
 ```
 
-### Source code brief explanation
-App need to create a connection and sign a token for later communication.
+![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
-[Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L1)
+
+### Source code explanation
+To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a a token which is used in later communication. 
+
+[API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
+
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
@@ -110,7 +278,6 @@ const client = new SocketClient(config);
 ```
 Then issue a listener to receive and analyze the incoming messages
 
-[Code](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/app.js#L12)
 ```javascript
 client.on(
   'message',
@@ -122,7 +289,6 @@ client.on(
 ```
 Analyze message from user and do something when receive a 'pay' text  **pay**
 
-[Code](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js#L29)
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
   if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
@@ -151,16 +317,6 @@ Send the READ message to the server let it knows this message has already been r
     // READ message end
       return client.sendText(text, message);
 ```
+You can find message details in [Here](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-### Finally, you can run **node app.js** to take the bot online.
-```bash
-node app.js
-```
-
-Install [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send command!
-enjoy!
-
-![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
-
-
-## [Chapter 2: Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+Next: [Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
