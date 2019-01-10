@@ -27,7 +27,7 @@ $ ./node_modules/mixin-cli/bin/mixin dapp:config
 As you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim.
 
 Now you need to copy all the [generated session](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-session-key-for-your-app) info in dashboardpaste into vim, save and quit!
-![generated session ](https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LQrBJ8SKUOcNnoDxnP3%2F-LSYP5xGj1TDw6bhDB4K%2F-LSYP98K09eEYy8xmh4i%2Fmixin-register-app.png?alt=media&token=fa87ca4d-5043-4fa0-a1ae-9ccccbbaf99e)
+![generated session ](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/Generated_session_content.png)
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
 One config file will be generated in the working folder. The config file on my laptop is config_mixin_1546851899846.js
