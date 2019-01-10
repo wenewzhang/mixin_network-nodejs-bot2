@@ -37,11 +37,10 @@ and write down required infomation: user id, session id, private key because the
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
-Create a file: config.js. Copy the following content into it. Then fill YOUR APP user id, sessionId, and the private key, you already generated them in dashboard.
-We will introduce other parameter later.
+Create a file: config.js. Copy the following content into it. 
 > config.js
 ```javascript
-// NOTE: please update this config file with your own
+// NOTE: please update this config file with your app parameter
 module.exports = {
   clientId: '21042518-85c7-4903-bb19-f311813d1f51',
   clientSecret: 'will-generate-later',
@@ -66,6 +65,8 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 };
 
 ```
+Replace the value with **YOUR APP** user id, sessionId, and the private key, you already generated them in dashboard.
+We will introduce other parameter later.
 
 Open the terminal and go to the workspace, make nodejs-bot directory
 ```bash
