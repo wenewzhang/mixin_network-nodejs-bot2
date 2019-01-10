@@ -5,20 +5,20 @@ This tutorial will let you know how to write a Mixin Messenger bot in Node.js. T
 1. [Create bot and receive message from user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
 2. [Receive token and pay token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
 
-## Create bot and receive message from user 
-You will create a bot in Mixin Messenger to receive user message after read the chapter. 
+## Create bot and receive message from user
+You will create a bot in Mixin Messenger to receive user message after read the chapter.
 
 
 ### Node.js enviroment setup:
 This tutorial is written in Node.js. So you need to install yarn node before writing code.
 
-on MacOS
+on macOS
 ```bash
 brew install node yarn
 ```
 
 on Ubuntu
-```bashREADME2.md
+```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 apt update
@@ -50,26 +50,26 @@ In this folder, execute **yarn add mixin-node-client** to add the package
 ```bash
 yarn add mixin-node-client
 ```
-Now the package.json should contails the library package. 
+Now the package.json should contains the library package.
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
 }
 ```
-If you clone this repository, just excute **yarn** to download all dependency packages.
+If you clone this repository, just execute **yarn** to download all dependency packages.
 
 
-### Create you first app in developer dash board
+### Create you first app in developer dashboard
 Create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
 ### Generate parameter for your app
 Remember to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
-and write down required infomation: user id, session id, private key because they are required in config.js file soon.
+and write down required information: user id, session id, private key because they are required in config.js file soon.
 
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
-In the folder, create a file: config.js. Copy the following content into it. 
+In the folder, create a file: config.js. Copy the following content into it.
 > config.js
 ```javascript
 // NOTE: please update this config file with your app parameter
@@ -136,10 +136,6 @@ client.on(
       return Promise.resolve(message);
   } else console.log("unknow action")
   }));
-
-// Array.prototype.contains = function(element){
-//     return this.indexOf(element) > -1;
-// };
 client.on('error', err => console.error(err.message));
 ```
 Run the code
@@ -199,8 +195,6 @@ Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
   action: 'LIST_PENDING_MESSAGES' }
 ```
 In [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send any text!
-enjoy!
-
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
@@ -277,7 +271,7 @@ ignore receipt
 
 
 ### Source code explanation
-To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication. 
+To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
@@ -335,6 +329,6 @@ Send the READ message to the server let it knows this message has already been r
 ```
 
 ### End
-Now your bot is running. You can try your idea now.
+Now your bot is running. You can try your idea now,enjoy!
 
 Next: [Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)

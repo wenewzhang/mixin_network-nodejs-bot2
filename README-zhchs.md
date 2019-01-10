@@ -1,12 +1,19 @@
 # 第一课 一步一步教你用nodejs创建一个Mixin Network机器人
-在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息。在[第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
-你将学到如何给机器人转帐 或者 让机器人给你转账
-
 [Mixin Network](https://mixin.one) 是一个免费的 极速的端对端加密数字货币交易系统.
-通过这一系列教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息,转币给机器人同时机器人会闪电转回给你。
+在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息, 学到如何给机器人转帐 或者 让机器人给你转账.
 
-### 在你的电脑上安装node yarn
-mac OS
+
+## 课程简介
+1. [创建一个接受消息的机器人](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md#创建你的第一个机器人)
+2. [机器人:接受加密货币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+
+## 创建一个接受消息的机器人
+通过本教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息.
+
+### Node.js的环境安装
+本教程是用node.js写的，在开始之前，我们先安装node与yarn
+
+macOS
 ```bash
 brew install node yarn
 ```
@@ -19,12 +26,39 @@ apt update
 apt upgrade
 apt install node yarn
 ```
-
+### 下面我们来创建一个项目目录
+打开终端，切换到你的工作目录，创建一个 nodejs-bot 的目录
+```bash
+mkdir nodejs-bot
+cd nodejs-bot/
+yarn init
+```
+运行 **yarn init** 指令，按提示完成项目的创建， 完成后会生成package.json文件，代码例子如下：
+```json
+{
+  "name": "nodejs-bot",
+  "version": "1.0.0",
+  "main": "app.js",//默认生成的名字是main.js
+  "license": "MIT"
+}
+```
+本教程需要依赖一个SDK, [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). 所以我们先下载这个库.
+在新生成的项目目录下，执行 **yarn add mixin-node-client** 来添加mixin-node-client
+```bash
+yarn add mixin-node-client
+```
+现在，package.json会增加下面几行:
+```json
+"dependencies": {
+  "mixin-node-client": "^0.6.0"
+}
+```
+如果你是克隆这个教程,在项目目录下执行 **yarn** 来下载安装依赖的软件包.
 
 ### 创建你的第一个机器人
 在写代码之前，我们先看一下面的图文教程，创建一个机器人APP [教程](https://mixin-network.gitbook.io/mixin-network-cn/messenger-ying-yong-kai-fa/chuang-jian-ji-qi-ren).
 
-记下下面三项，这是机器人发送接收消息所必须的: user id, session id, private key, Mixin Network使用这三项进行数字签名。
+记住下面三项，这是机器人发送接收消息所必须的: user id, session id, private key, Mixin Network使用这三项进行数字签名。
 
 | 关键字 | 描述                                  |   例子                                         |
 | --- | -------------------------------------------- |  -------------------------------------------------
@@ -34,6 +68,7 @@ apt install node yarn
 
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
+
 创建一个config.js文件, 替换clientID为你的机器人的id, sessionId 为你的机器人的session id, privateKey为你的私钥,aesKey,clientSecret, assetPin 我们后面才需要，这里可先不修改，但请保留这个数据不要删除！
 > config.js
 ```javascript
@@ -62,41 +97,180 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 };
 
 ```
-### 下面我们来创建项目与代码
-
-打开终端，切换到你的工作目录，创建一个 nodejs-bot 的目录
-```bash
-mkdir nodejs-bot
-cd nodejs-bot/
-yarn init
-```
-运行 **yarn init** 指令，按提示完成项目的创建， 完成后会生成package.json文件，代码例子如下：
-```json
-{
-  "name": "nodejs-bot",
-  "version": "1.0.0",
-  "main": "app.js",
-  "license": "MIT"
-}
-```
-本教程需要安装依赖包 mixin-node-client,
-> app.js
+### Hello world
+在项目目录下创建一个app.js, 并将下面的代码粘贴进去.
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
+const { HttpClient } = require('mixin-node-client');
+const config = require('./config');
+const client = new SocketClient(config);
+const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
+
+console.log('Supported MessageSenders by SocketClient', client.getMessageSenders());
+console.log(client.getMessageSenders());
+// Listen and react to socket messages
+client.on(
+  'message',
+  client.getMessageHandler(message => {
+    console.log('Message Received', message);
+    if (ValidActions.indexOf(message.action) > -1) {
+      if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
+
+      if (isMessageType(message, 'text')) {
+        const text = message.data.data.toLowerCase();
+        if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
+      	  var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
+      	  var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
+      	  client.sendRaw(RspMsg);
+          if (text === 'pay') {
+          // todo: pay
+          }
+          return client.sendText(text, message);
+        }
+      }
+
+      return Promise.resolve(message);
+  } else console.log("unknow action")
+  }));
+client.on('error', err => console.error(err.message));
 ```
-执行 **yarn add mixin-node-client** 添加包
+开始执行
 ```bash
-yarn add mixin-node-client
+node app.js
 ```
-安装成功后, package.json 会自动添加上面的代码，如果你克隆了本代码，只需要在项目目录执行 **yarn** 来下载安装包.
-```json
-"dependencies": {
-  "mixin-node-client": "^0.6.0"
-}
+如果你的配置文件有错，可能会出现下面的提示：
+```bash
+➜  nodejsdemo node app.js
+Supported MessageSenders by SocketClient [ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+[ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+Message Received { id: '00000000-0000-0000-0000-000000000000',
+  action: 'ERROR',
+  error:
+   { status: 202,
+     code: 401,
+     description: 'Unauthorized, maybe invalid token.' } }
+```
+如果一切顺利，机器人将连接上服务器并等待服务器的消息,提示如下:
+```
+➜  nodejsdemo node app.js
+Supported MessageSenders by SocketClient [ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+[ 'sendText',
+  'sendImage',
+  'sendVideo',
+  'sendData',
+  'sendSticker',
+  'sendContact',
+  'sendButton',
+  'sendButtons',
+  'sendApp' ]
+Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
+  action: 'LIST_PENDING_MESSAGES' }
+```
+打开[Mixin Messenger](https://mixin.one/),将你的机器人加为好友,(比如，这个机器人的ID是 7000101639) 然后就可以给它发消息了！
+比如你发一个"hi"
+
+![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
+
+终端将显示如下：
+```bash
+Message Received { id: 'de4671c2-8873-419b-92b0-0d6ae8381940',
+  action: 'LIST_PENDING_MESSAGES' }
+Message Received { id: 'a41816ca-2b65-4668-abdd-4526c1d29015',
+  action: 'CREATE_MESSAGE',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: 'c5458ec8-5e95-3e64-ae63-d4dfc3135c9e',
+     user_id: '28ee416a-0eaa-4133-bc79-9676909b7b4e',
+     message_id: 'a93ebfca-3d3f-44a9-9d63-3ad41ddca4b8',
+     category: 'PLAIN_TEXT',
+     data: 'hi',
+     status: 'SENT',
+     source: 'CREATE_MESSAGE',
+     created_at: '2019-01-10T03:44:12.600158Z',
+     updated_at: '2019-01-10T03:44:12.600158Z' } }
+Message Received { id: '810b93d9-56d4-413a-9837-6dc241e36ed0',
+  action: 'ACKNOWLEDGE_MESSAGE_RECEIPT' }
+ignore receipt
+Message Received { id: 'd45c5139-8201-4f8a-aa2f-86c98ba3a849',
+  action: 'CREATE_MESSAGE',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: '',
+     user_id: 'daf8b473-39a0-4419-991a-77f30d28dd6d',
+     message_id: '9054acea-1a62-4716-9fa3-1a8c70a2165a',
+     category: '',
+     data: '',
+     status: 'SENT',
+     source: 'CREATE_MESSAGE',
+     created_at: '2019-01-10T03:44:22.540536153Z',
+     updated_at: '2019-01-10T03:44:22.540536153Z' } }
+Message Received { id: 'cf69c7a2-787b-4a91-be22-f51f38338179',
+  action: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: '',
+     user_id: '',
+     message_id: '9054acea-1a62-4716-9fa3-1a8c70a2165a',
+     category: '',
+     data: '',
+     status: 'DELIVERED',
+     source: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+     created_at: '0001-01-01T00:00:00Z',
+     updated_at: '2019-01-10T03:44:23.236843Z' } }
+ignore receipt
+Message Received { id: 'daa66945-abb6-4b8f-bc6a-04c4ccb6a837',
+  action: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+  data:
+   { type: 'message',
+     representative_id: '',
+     quote_message_id: '',
+     conversation_id: '',
+     user_id: '',
+     message_id: '9054acea-1a62-4716-9fa3-1a8c70a2165a',
+     category: '',
+     data: '',
+     status: 'READ',
+     source: 'ACKNOWLEDGE_MESSAGE_RECEIPT',
+     created_at: '0001-01-01T00:00:00Z',
+     updated_at: '2019-01-10T03:44:23.787562Z' } }
+ignore receipt
 ```
 
 ### 下面对代码进行一个简单的解释
-初始化连接， SocketClient会连接到服务器并利用签名信息进行登陆认证。
+
+机器人接受消息前，先建立到服务器的连接，再利用签名信息进行登陆认证。
+
+[API调用](https://developers.mixin.one/api/beta-mixin-message/authentication/)
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
@@ -132,6 +306,8 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
+除了发送文本消息之外，还可以发送图片等消息，详细的消息类型请参考[这里](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+
 对于每一条接收到的消息，将消息号（message_id)做为参数，回应服务器，action为ACKNOWLEDGE_MESSAGE_RECEIPT! 如果不回应，机器人下次登入，会重新获得消息。
 ```javascript
 
@@ -148,10 +324,4 @@ if (ValidActions.indexOf(message.action) > -1) {
 ```bash
 node app.js
 ```
-
-在手机上安装 [Mixin Messenger](https://mixin.one/),将你的机器人加为好友,(比如，这个机器人的ID是 7000101639) 然后就可以给它发消息了！
-
-![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
-
-
 ## [第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
