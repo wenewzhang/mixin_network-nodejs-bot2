@@ -46,11 +46,11 @@ The command will generate a new file: package.json with following content:
 ```
 This tutorial need a library a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So we need to download the library.
 
-In this folder, execute **yarn add mixin-node-client** to add the packages
+In this folder, execute **yarn add mixin-node-client** to add the package
 ```bash
 yarn add mixin-node-client
 ```
-Now the package.json should contails the library packages. 
+Now the package.json should contails the library package. 
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
@@ -277,7 +277,7 @@ ignore receipt
 
 
 ### Source code explanation
-To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a a token which is used in later communication. 
+To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication. 
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
@@ -320,6 +320,8 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
+Not only text messages, images and other type message can be received. You can find message details in [Here](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+
 Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again!
 ```javascript
 
@@ -331,6 +333,8 @@ Send the READ message to the server let it knows this message has already been r
     // READ message end
       return client.sendText(text, message);
 ```
-You can find message details in [Here](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+
+### End
+Now your bot is running. You can try your idea now.
 
 Next: [Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
