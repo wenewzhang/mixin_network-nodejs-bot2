@@ -208,8 +208,9 @@ if (text === 'pay') {
 }
 ```
 用户点击链接，依提示在Mixin Messenger里支付,支付后机器人会马上转回给用户，如下图:
+![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/pay-link.png)
 开发者可以支付任意的币给机器人，机器人在收到币后，立即转回给开发者!
-![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
+![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpg)
 
 ## 源代码解释
 > app2.js
@@ -253,6 +254,6 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
 如果机器人收到币，jsData.amount大于零；如果机器人支付币给用户，接收到的消息是一样的，唯一不同的是 jsData.amount是一个负数.
 
 操作如下图所示：
-![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpeg)
+![transfer tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/pay-refund.jpeg)
 
 [完整的例子请点击](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
