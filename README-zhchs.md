@@ -31,9 +31,11 @@ apt install node yarn
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
-yarn init
 ```
 运行 **yarn init** 指令，按提示完成项目的创建， 完成后会生成package.json文件，代码例子如下：
+```bash
+yarn init
+```
 ```json
 {
   "name": "nodejs-bot",
