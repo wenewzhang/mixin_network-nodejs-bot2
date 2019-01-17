@@ -1,4 +1,4 @@
-# Mixin Messener application development tutorial in Node.js
+# Mixin Messenger application development tutorial in Node.js
 This tutorial will let you know how to write a Mixin Messenger bot in Node.js. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
 
 ## Index
