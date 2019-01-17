@@ -44,7 +44,7 @@ The command will generate a new file: package.json with following content:
   "license": "MIT"
 }
 ```
-This tutorial need a library a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So we need to download the library.
+This tutorial need a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So we need to download the library.
 
 In this folder, execute **yarn add mixin-node-client** to add the package
 ```bash
