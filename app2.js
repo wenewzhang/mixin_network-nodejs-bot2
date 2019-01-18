@@ -25,22 +25,64 @@ client.on(
           var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
           var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
           client.sendRaw(RspMsg);
-
           if (text === 'pay') {
+            var multiStr = ["usage: ",
+            "pay: show this message",
+            "pay1: send an APPBUTTONGROUP",
+            "pay2: send one button",
+            "pay3: send an APPCARD"].join("\n");
+            return client.sendText(multiStr,message);
+          }
+//buttons
+
+          if (text === 'pay1') {
+            let payLinkEOS = "https://mixin.one/pay?recipient=" +
+              config.clientId + "&asset=" +
+              "6cfe566e-4aad-470b-8c9a-2fd35b49c68d" +
+              "&amount=0.01" + '&trace=' + client.getUUID() +
+              "&memo=";
+            let payLinkBTC = "https://mixin.one/pay?recipient=" +
+              config.clientId + "&asset=" +
+              "c6d0c728-2624-429b-8e0d-d9d19b6592fa" +
+              "&amount=0.01" + '&trace=' + client.getUUID() +
+              "&memo=";
+            return client.sendButtons([{
+                                    label: 'pay 0.01 EOS',
+                                    color: '#FF0000',
+                                    action: payLinkEOS,
+                                  },{
+                                    label: 'pay 0.001 BTC',
+                                    color: '#00ff00',
+                                    action: payLinkBTC,
+                                  }],message
+                                  );
+          }
+//button
+          if (text === 'pay2') {
             let payLink = "https://mixin.one/pay?recipient=" +
               config.clientId + "&asset=" +
               "6cfe566e-4aad-470b-8c9a-2fd35b49c68d" +
               "&amount=0.01" + '&trace=' + client.getUUID() +
               "&memo=";
             return client.sendButton({
-                label: 'pay 0.01 EOS',
-                color: '#FF0000',
-                action: payLink,
-              },
-              message
-            );
+                                    label: 'pay 0.01 EOS',
+                                    color: '#FF0000',
+                                    action: payLink,
+                                  },message);
           }
-
+          if (text === 'pay3') {
+            let payLink = "https://mixin.one/pay?recipient=" +
+              config.clientId + "&asset=" +
+              "6cfe566e-4aad-470b-8c9a-2fd35b49c68d" +
+              "&amount=0.01" + '&trace=' + client.getUUID() +
+              "&memo=";
+            return client.sendApp({
+                                    icon_url: 'https://mixin.one/assets/98b586edb270556d1972112bd7985e9e.png',
+                                    title: 'pay 0.01 EOS',
+                                    description: '#FF0000',
+                                    action: payLink,
+                                  },message);
+          }
     // todo: catch a error when balance insufficient
     //       (node:55535) UnhandledPromiseRejectionWarning: Error: Insufficient balance.
     // at HttpClient.(anonymous function) [as createTransfer] (/Users/wenewzhang/Documents/sl/mixin_network-nodejs-bot2/node_modules/mixin-node-client/lib/http.js:99:23)
@@ -51,7 +93,8 @@ client.on(
           return client.sendText( message.data.data, message);
         }
       }
-      if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
+      if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT" &&
+                          message.action === 'CREATE_MESSAGE') {
           console.log("-----------the bot got money!---------------");
 
           var jsData = JSON.parse(Buffer.from(message.data.data, 'base64').toString('utf-8'));
