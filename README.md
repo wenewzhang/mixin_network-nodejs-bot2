@@ -1,9 +1,9 @@
 # Mixin Messenger application development tutorial in Node.js
-This tutorial will let you know how to write a Mixin Messenger bot in Node.js. The bot can receive and response to user's message. User can pay token to bot and bot can transfer token to user.
+This tutorial will let you know how to write a Mixin Messenger bot in Node.js. The bot can receive and response to user's message. User can pay Bitcoin to bot and bot can transfer Bitcoin to user.
 
 ## Index
 1. [Create bot and receive message from user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
-2. [Receive token and pay token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+2. [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
 
 ## Create bot and receive message from user
 You will create a bot in Mixin Messenger to receive user message after read the chapter.

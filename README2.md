@@ -1,7 +1,7 @@
 In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), we create our first app.
 
-# Receive and send token
-Your bot can receive token from user and then pay it back immediately after read the chapter.
+# Receive and send Bitcoin
+Your bot can receive Bitcoin from user and then pay it back immediately after read the chapter.
 
 ### Fill AES key
 Now you need to fill some missing parameters in the config.js file.

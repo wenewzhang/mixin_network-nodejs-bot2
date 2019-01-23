@@ -1,11 +1,11 @@
 # 第一课 一步一步教你用nodejs创建一个Mixin Network机器人
 [Mixin Network](https://mixin.one) 是一个免费的 极速的端对端加密数字货币交易系统.
-在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息, 学到如何给机器人转帐 或者 让机器人给你转账.
+在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息, 学到如何给机器人转**比特币** 或者 让机器人给你转**比特币**.
 
 
 ## 课程简介
 1. [创建一个接受消息的机器人](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md#创建你的第一个机器人)
-2. [机器人:接受加密货币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+2. [机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
 
 ## 创建一个接受消息的机器人
 通过本教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息.

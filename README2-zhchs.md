@@ -1,6 +1,6 @@
 在 [上一篇教程中](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md), 我们创建了自动回复消息的机器人。
 
-# 第二课: 机器人接收与处理加密货币
+# 第二课: 机器人接受比特币并立即退还用户
 按本篇教程后学习后完成后，你的机器人将会接受用户发送过来的加密货币，然后立即转回用户。
 
 在开始之前， 开发者需要准备一些config.js的必备参数。
