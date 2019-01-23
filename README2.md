@@ -74,7 +74,7 @@ You need copy missing content from config.js which is generated in last chapter 
 A full config2.js is [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
 We also create a app2.js file with following content.
-### Hello world with money
+### Hello Bitcoin!
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
@@ -176,7 +176,7 @@ async function asyncRefundCall(_assetID,_amount,_opponent_id) {
 
 ```
 ### Generate payment URL and refund it to user
-User can pay 0.01 EOS to bot by click the button and the 0.01 EOS will be refund in 1 seconds,
+User can pay 0.001 Bitcoin to bot by click the button and the 0.001 Bitcoin will be refund in 1 seconds,In fact, user can pay any coins either.
 ![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/Pay_and_refund_quickly.jpg)
 
 Developer can send token to their bots in message panel. The bot receive the tokens and then send back immediately.
