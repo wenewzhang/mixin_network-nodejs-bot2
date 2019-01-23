@@ -331,4 +331,4 @@ Send the READ message to the server let it knows this message has already been r
 ### End
 Now your bot is running. You can try your idea now,enjoy!
 
-Next: [Receive and send token](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+Next: [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)

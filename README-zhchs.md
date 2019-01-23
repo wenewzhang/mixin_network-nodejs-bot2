@@ -326,4 +326,4 @@ if (ValidActions.indexOf(message.action) > -1) {
 ```bash
 node app.js
 ```
-## [第二课 发送与接收加密货币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+## [第二课 发送与接收比特币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
