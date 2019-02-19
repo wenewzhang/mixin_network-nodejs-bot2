@@ -141,7 +141,7 @@ Run the code
 ```bash
 node app.js
 ```
-If something wrong, following content will be display
+Console will output something
 ```bash
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
