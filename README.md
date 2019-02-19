@@ -1,25 +1,23 @@
-# Mixin Messenger application development tutorial in Node.js
-This tutorial will let you know how to write a Mixin Messenger bot in Node.js. The bot can receive and response to user's message. User can pay Bitcoin to bot and bot can transfer Bitcoin to user.
+# Node.js Mixin Messenger application development tutorial
+A Mixin messenger bot will be created in this tutorial. The bot is powered by Node.js and echo message and Bitcoin from user.
 
-[Mixin network resource](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource)
+Full Mixin network resource [index](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource)
 
-## Index
-1. [Create bot and receive message from user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
-2. [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+## What you will learn from this tutorial
+1. [How to create bot in Mixin messenger and reply message to user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
+2. [How to receive Bitcoin and send Bitcoin in Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
 
-## Create bot and receive message from user
-You will create a bot in Mixin Messenger to receive user message after read the chapter.
-
+## How to create bot in Mixin messenger and reply message to user
 
 ### Node.js enviroment setup:
-This tutorial is written in Node.js. So you need to install yarn node before writing code.
+This tutorial is written in [Node.js](https://nodejs.org) and relys on [yarn](https://yarnpkg.com). You need to install yarn node.
 
-on macOS
+macOS
 ```bash
 brew install node yarn
 ```
 
-on Ubuntu
+Ubuntu
 ```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
@@ -33,7 +31,7 @@ Open the terminal and go to the workspace, make nodejs-bot directory
 mkdir nodejs-bot
 cd nodejs-bot/
 ```
-Run **yarn init** command then according the prompt to create the project
+Run **yarn init** command to create the project by following instruction.
 ```bash
 yarn init
 ```
@@ -61,12 +59,12 @@ Now the package.json should contains the library package.
 If you clone this repository, just execute **yarn** to download all dependency packages.
 
 
-### Create you first app in developer dashboard
-Create an app by following [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
+### Create you first app in Mixin Network developer dashboard
+You need to create an app in dashboard. This [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account) can help you.
 
-### Generate parameter for your app
-Remember to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
-and write down required information: user id, session id, private key because they are required in config.js file soon.
+### Generate parameter of your app in dashboard
+After app is created in dashboard, you still need to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
+and write down required content, these content will be written into config.js file.
 
 
 
@@ -99,12 +97,11 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 };
 
 ```
-Replace the value with **YOUR APP** user id, sessionId, and the private key, you already generated them in dashboard.
-We will introduce other parameter later.
+Replace the value with **content generated in dashboard**.
 
 
-### Hello world
-Fill the following content in app.js. Create app.js if it is missing in your folder.
+### Hello, world in Node.js
+Fill the following content into app.js. Create app.js if it is missing in your folder.
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
@@ -172,7 +169,7 @@ Message Received { id: '00000000-0000-0000-0000-000000000000',
      code: 401,
      description: 'Unauthorized, maybe invalid token.' } }
 ```
-If everything is ok, following is content will be display
+Console will ouput log
 ```
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
@@ -196,7 +193,7 @@ Supported MessageSenders by SocketClient [ 'sendText',
 Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
   action: 'LIST_PENDING_MESSAGES' }
 ```
-In [Mixin Messenger](https://mixin.one/),add the bot as your friend,(for example, this bot id is 7000101639) and then send any text!
+Add the bot as your friend in [Mixin Messenger](https://mixin.one/messenger) and send some word(for example, this bot id is 7000101639).
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
@@ -272,7 +269,7 @@ ignore receipt
 ```
 
 
-### Source code explanation
+### Source code summary
 To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
@@ -318,7 +315,7 @@ if (ValidActions.indexOf(message.action) > -1) {
 ```
 Not only text messages, images and other type message can be received. You can find message details in [Here](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again!
+Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again.
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
@@ -331,6 +328,6 @@ Send the READ message to the server let it knows this message has already been r
 ```
 
 ### End
-Now your bot is running. You can try your idea now,enjoy!
+Now your bot worked. You can hack on it now.
 
 Next: [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
