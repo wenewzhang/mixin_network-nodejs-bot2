@@ -270,7 +270,7 @@ ignore receipt
 
 
 ### Source code summary
-To receive message from Mixin messenger server, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication.
+The code creates a websocket. Generate a valid token and create connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
@@ -280,7 +280,7 @@ const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-Then issue a listener to receive and analyze the incoming messages
+Issue a listener to receive and analyze the incoming messages
 
 ```javascript
 client.on(
@@ -291,7 +291,7 @@ client.on(
   })
 );
 ```
-Analyze message from user and do something when received a 'pay' text  **pay**
+Analyze messages from user and do something when received a 'pay' text  **pay**
 
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
@@ -313,9 +313,9 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-Not only text messages, images and other type message can be received. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+Not only text messages, images and other type message will be pushed to bot. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again.
+Send the READ message to the server so it knows message has been read. The bot will receive the duplicated message again after the bot connected to server again if bot don't send response.
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
