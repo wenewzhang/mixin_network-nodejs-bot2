@@ -218,7 +218,7 @@ if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
     } else console.log("refund success!");
 }
 ```
-The jsData.amount is negative if bot send token to user successfully.
-jsData.amount is positive if bot receive token from user.
+* jsData.amount is negative if bot sends token to user successfully.
+* jsData.amount is positive if bot receives token from user.
 
 Full app2.js is [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
