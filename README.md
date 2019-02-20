@@ -270,7 +270,7 @@ ignore receipt
 
 
 ### Source code summary
-The code creates a websocket. Generate a valid token and create connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
+The code created a websocket. Generated a valid token and created connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
