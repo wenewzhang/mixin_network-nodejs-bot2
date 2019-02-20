@@ -59,7 +59,7 @@ Now the package.json should contains the library package.
 If you clone this repository, just execute **yarn** to download all dependency packages.
 
 
-### Create you first app in Mixin Network developer dashboard
+### Create your first app in Mixin Network developer dashboard
 You need to create an app in dashboard. This [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account) can help you.
 
 ### Generate parameter of your app in dashboard
@@ -193,7 +193,7 @@ Supported MessageSenders by SocketClient [ 'sendText',
 Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
   action: 'LIST_PENDING_MESSAGES' }
 ```
-Add the bot as your friend in [Mixin Messenger](https://mixin.one/messenger) and send some word(for example, this bot id is 7000101639).
+Add the bot as your friend in [Mixin Messenger](https://mixin.one/messenger) and send some words(for example, this bot id is 7000101639).
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
@@ -270,7 +270,7 @@ ignore receipt
 
 
 ### Source code summary
-To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication.
+To receive message from Mixin messenger server, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
@@ -291,7 +291,7 @@ client.on(
   })
 );
 ```
-Analyze message from user and do something when receive a 'pay' text  **pay**
+Analyze message from user and do something when received a 'pay' text  **pay**
 
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
