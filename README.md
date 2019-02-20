@@ -328,6 +328,6 @@ Websocket client should send the READ message to the server so it knows message 
 ```
 
 ### End
-Now your bot worked. You can hack it now.
+Now your bot worked. You can hack it.
 
 Next: [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
