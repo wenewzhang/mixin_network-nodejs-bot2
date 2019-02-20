@@ -315,7 +315,7 @@ if (ValidActions.indexOf(message.action) > -1) {
 ```
 Not only text messages, images and other type message will be pushed to bot. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-Websocket client should send the READ message to the server so it knows message has been read. The bot will receive the duplicated message again after the bot connected to server again if bot don't send response.
+Websocket client should send the READ message to the server so it knows message has been read. The bot will receive the duplicated message when the bot connected to server again if bot don't send response.
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
