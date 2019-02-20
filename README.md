@@ -313,7 +313,7 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-Not only text messages, images and other type message can be received. You can find message details in [Here](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+Not only text messages, images and other type message can be received. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
 Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again.
 ```javascript
@@ -328,6 +328,6 @@ Send the READ message to the server let it knows this message has already been r
 ```
 
 ### End
-Now your bot worked. You can hack on it now.
+Now your bot worked. You can hack it now.
 
 Next: [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
