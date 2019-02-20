@@ -270,7 +270,7 @@ ignore receipt
 
 
 ### Source code summary
-The code created a websocket. Generated a valid token and created connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
+The code creates a websocket, generates a valid token and creates connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
@@ -315,7 +315,7 @@ if (ValidActions.indexOf(message.action) > -1) {
 ```
 Not only text messages, images and other type message will be pushed to bot. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-Send the READ message to the server so it knows message has been read. The bot will receive the duplicated message again after the bot connected to server again if bot don't send response.
+Websocket client should send the READ message to the server so it knows message has been read. The bot will receive the duplicated message again after the bot connected to server again if bot don't send response.
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
