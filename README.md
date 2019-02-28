@@ -1,4 +1,4 @@
-# Node.js Bitcoin tutorial based on Mixin SDK
+# Node.js Bitcoin tutorial based on Mixin Network
 ![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/Bitcoin_node.jpg)
 A Mixin messenger bot will be created in this tutorial. The bot is powered by Node.js and echo message and Bitcoin from user.
 
