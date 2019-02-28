@@ -1,4 +1,4 @@
-# 第一课 一步一步教你用nodejs创建一个Mixin Network机器人
+# 基于Mixin Network的Node.js比特币开发教程
 [Mixin Network](https://mixin.one) 是一个免费的 极速的端对端加密数字货币交易系统.
 在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息, 学到如何给机器人转**比特币** 或者 让机器人给你转**比特币**.
 
