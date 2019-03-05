@@ -19,7 +19,7 @@ cd mixin_net-nodejs-bot2
 yarn add mixin-cli
 ```
 
-Выполните программу с аргументом `dapp:config`
+Выполните команду с аргументом `dapp:config`
 ```bash
 $ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Press <enter> to launch your preferred editor.
