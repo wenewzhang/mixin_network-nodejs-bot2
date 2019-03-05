@@ -1,17 +1,16 @@
-# Node.js Bitcoin tutorial based on Mixin Network
-![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
-A Mixin messenger bot will be created in this tutorial. The bot is powered by Node.js and echo message and Bitcoin from user.
+# Туториал по работе с Bitcoin через Node.js на базе Mixin Network
+С помощью данного туториала вы сможете создать бота для мессенджера Mixin Messenger. Это будет echo-бот на платформе Node.js, который сможет принимать Bitcoin от пользователей. 
 
-Full Mixin network resource [index](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource)
+Полный [каталог](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource) ресурсов по Mixin Network 
 
-## What you will learn from this tutorial
-1. [How to create bot in Mixin messenger and reply message to user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md)
-2. [How to receive Bitcoin and send Bitcoin in Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+## С помощью данного туториала вы научитесь 
+1. [Создавать бота для Mixin Messenger и формировать ответные сообщения пользователям](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
+2. [Получать и отправлять биткойны в Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
 
-## How to create bot in Mixin messenger and reply message to user
+## Как создать бота для Mixin Messenger и сформировать ответные сообщения пользователям
 
-### Node.js enviroment setup:
-This tutorial is written in [Node.js](https://nodejs.org) and relys on [yarn](https://yarnpkg.com). You need to install yarn node.
+### Установка среды node.js:
+Данный туториал написан для платформы [Node.js](https://nodejs.org) с  менеджером пакетов [yarn](https://yarnpkg.com). Сначала надо установить ноду yarn:
 
 macOS
 ```bash
@@ -26,17 +25,18 @@ apt update
 apt upgrade
 apt install node yarn
 ```
-### Create Yarn project folder
-Open the terminal and go to the workspace, make nodejs-bot directory
+
+### Создайте папку проекта yarn
+Откройте терминал, перейдите в рабочее пространство и создайте директорию nodejs-bot:
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
 ```
-Run **yarn init** command to create the project by following instruction.
+Чтобы создать проект, запустите команду **yarn init** и следуйте инструкциям:
 ```bash
 yarn init
 ```
-The command will generate a new file: package.json with following content:
+Команда создаст новый файл package.json с таким кодом:
 ```json
 {
   "name": "nodejs-bot",
@@ -45,35 +45,33 @@ The command will generate a new file: package.json with following content:
   "license": "MIT"
 }
 ```
-This tutorial need a library [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). So we need to download the library.
+Для данного туториала требуется библиотека [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client), поэтому нужно её скачать.
 
-In this folder, execute **yarn add mixin-node-client** to add the package
+Чтобы добавить пакет, выполните в этой папке команду **yarn add mixin-node-client**:
 ```bash
 yarn add mixin-node-client
 ```
-Now the package.json should contains the library package.
+Теперь в файле package.json в список зависимостей пропишется пакет библиотек: 
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
 }
 ```
-If you clone this repository, just execute **yarn** to download all dependency packages.
+Если вы клонируете этот репозиторий, просто выполните команду **yarn**, чтобы загрузить все зависимости пакетов.
 
+### Создайте своё первое приложение в панели инструментов для разработчиков Mixin Network 
+Вам нужно создать приложение в панели инструментов, в этом вам поможет данный [туториал](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
-### Create your first app in Mixin Network developer dashboard
-You need to create an app in dashboard. This [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account) can help you.
-
-### Generate parameter of your app in dashboard
-After app is created in dashboard, you still need to [generate parameter](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app)
-and write down required content, these content will be written into config.js file.
-
-
+### Сгенерируйте ключ вашего приложения в панели инструментов
+После того, как вы создадите приложение в панели инструментов, вам нужно ещё [сгенерировать ключ](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app),
+сохранить его в надежном месте, а затем записать необходимое содержимое в config.js.
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
-In the folder, create a file: config.js. Copy the following content into it.
+Создайте в папке файл config.js, скопируйте в него следующий код:
+
 > config.js
 ```javascript
-// NOTE: please update this config file with your app parameter
+// ВАЖНО: добавьте в этот файл ключ вашего приложения
 module.exports = {
   clientId: '21042518-85c7-4903-bb19-f311813d1f51',
   clientSecret: 'will-generate-later',
@@ -98,11 +96,11 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 };
 
 ```
-Replace the value with **content generated in dashboard**.
+Замените значение **кодом, сгенерированным в панели инструментов**..
 
 
-### Hello, world in Node.js
-Fill the following content into app.js. Create app.js if it is missing in your folder.
+### Первое приложение на платформе Node.js
+Вставьте следующий код в файл app.js. Создайте файл app.js, если его нет в папке:
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
@@ -112,7 +110,7 @@ const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PEN
 
 console.log('Supported MessageSenders by SocketClient', client.getMessageSenders());
 console.log(client.getMessageSenders());
-// Listen and react to socket messages
+// Слушаем сообщения на сокете и реагируем на них
 client.on(
   'message',
   client.getMessageHandler(message => {
@@ -138,11 +136,11 @@ client.on(
   }));
 client.on('error', err => console.error(err.message));
 ```
-Run the code
+Запускаем код:
 ```bash
 node app.js
 ```
-Console will output something
+Консоль что-то выводит:
 ```bash
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
@@ -170,7 +168,7 @@ Message Received { id: '00000000-0000-0000-0000-000000000000',
      code: 401,
      description: 'Unauthorized, maybe invalid token.' } }
 ```
-Console will ouput log
+Консоль выводит лог: 
 ```
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
@@ -194,11 +192,11 @@ Supported MessageSenders by SocketClient [ 'sendText',
 Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
   action: 'LIST_PENDING_MESSAGES' }
 ```
-Add the bot as your friend in [Mixin Messenger](https://mixin.one/messenger) and send some words(for example, this bot id is 7000101639).
+Добавьте бота в свой список контактов в [Mixin Messenger](https://mixin.one/messenger) и отправьте какой-нибудь текст (например, id этого бота 7000101639).
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
-The console will display following content
+Консоль выведет текст: 
 ```bash
 Message Received { id: 'de4671c2-8873-419b-92b0-0d6ae8381940',
   action: 'LIST_PENDING_MESSAGES' }
@@ -270,10 +268,10 @@ ignore receipt
 ```
 
 
-### Source code summary
-The code creates a websocket, generates a valid token and creates connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
+### Краткое описание исходного кода
+Чтобы получить сообщение от пользователя Mixin messenger, приложению необходимо создать соединение с сервером мессенджера. Приложению также необходимо создать API-токен, чтобы обмениваться данными. 
 
-[API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
+[API по операциям](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Руководство по операциям](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
 > app.js
 ```javascript
@@ -281,7 +279,7 @@ const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-Issue a listener to receive and analyze the incoming messages
+Затем включите прослушивание сокета, чтобы получать и анализировать входящие сообщения:
 
 ```javascript
 client.on(
@@ -292,7 +290,7 @@ client.on(
   })
 );
 ```
-Analyze messages from user and do something when received a 'pay' text  **pay**
+Проверьте сообщение от пользователя, затем запустите действие, которое должно выполняться при получении сообщения с текстом 'pay' **pay**:
 
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
@@ -314,9 +312,11 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-Not only text messages, images and other type message will be pushed to bot. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+Можно получать не только текстовые сообщения, изображения и т. п. Подробнее о форматах сообщений см. [здесь](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-Websocket client should send the READ message to the server so it knows message has been read. The bot will receive the duplicated message when the bot connected to server again if bot don't send response.
+
+Отправляйте  на сервер сообщения READ, чтобы подтверждать, что сообщение прочитано.  Если их не отправить, сообщения будут дублироваться боту при каждом подключении к серверу:
+
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
@@ -328,7 +328,7 @@ Websocket client should send the READ message to the server so it knows message 
       return client.sendText(text, message);
 ```
 
-### End
-Now your bot worked. You can hack it.
+### Конец
+Теперь ваш бот работает. Дальше дело уже за вами.
 
-Next: [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+Далее: [Получить и отправить биткойн](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
