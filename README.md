@@ -1,11 +1,12 @@
-# Node.js Mixin Messenger application development tutorial
+# Node.js Bitcoin tutorial based on Mixin Network
+![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
 A Mixin messenger bot will be created in this tutorial. The bot is powered by Node.js and echo message and Bitcoin from user.
 
 Full Mixin network resource [index](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource)
 
 ## What you will learn from this tutorial
-1. [How to create bot in Mixin messenger and reply message to user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
-2. [How to receive Bitcoin and send Bitcoin in Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+1. [How to create bot in Mixin messenger and reply message to user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md)
+2. [How to receive Bitcoin and send Bitcoin in Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
 
 ## How to create bot in Mixin messenger and reply message to user
 
@@ -59,7 +60,7 @@ Now the package.json should contains the library package.
 If you clone this repository, just execute **yarn** to download all dependency packages.
 
 
-### Create you first app in Mixin Network developer dashboard
+### Create your first app in Mixin Network developer dashboard
 You need to create an app in dashboard. This [tutorial](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account) can help you.
 
 ### Generate parameter of your app in dashboard
@@ -193,7 +194,7 @@ Supported MessageSenders by SocketClient [ 'sendText',
 Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
   action: 'LIST_PENDING_MESSAGES' }
 ```
-Add the bot as your friend in [Mixin Messenger](https://mixin.one/messenger) and send some word(for example, this bot id is 7000101639).
+Add the bot as your friend in [Mixin Messenger](https://mixin.one/messenger) and send some words(for example, this bot id is 7000101639).
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
@@ -270,7 +271,7 @@ ignore receipt
 
 
 ### Source code summary
-To receive message from Mixin messenger user, the application need to create a connection to Mixin Messenger server. The application also need to create a token which is used in later communication.
+The code creates a websocket, generates a valid token and creates connection between the websocket and Mixin Messenger server. Messages will be pushed to websocket client.
 
 [API of the operation](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Guide of the operation](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
 
@@ -280,7 +281,7 @@ const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-Then issue a listener to receive and analyze the incoming messages
+Issue a listener to receive and analyze the incoming messages
 
 ```javascript
 client.on(
@@ -291,7 +292,7 @@ client.on(
   })
 );
 ```
-Analyze message from user and do something when receive a 'pay' text  **pay**
+Analyze messages from user and do something when received a 'pay' text  **pay**
 
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
@@ -313,9 +314,9 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-Not only text messages, images and other type message can be received. You can find message details in [Here](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+Not only text messages, images and other type message will be pushed to bot. Full message format [introduction](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-Send the READ message to the server let it knows this message has already been read. If you don't send it,  the bot will receive the duplicated message again after the bot connect to server again.
+Websocket client should send the READ message to the server so it knows message has been read. The bot will receive the duplicated message when the bot connected to server again if bot don't send response.
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
@@ -328,6 +329,6 @@ Send the READ message to the server let it knows this message has already been r
 ```
 
 ### End
-Now your bot worked. You can hack on it now.
+Now your bot worked. You can hack it.
 
 Next: [Receive and send Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)

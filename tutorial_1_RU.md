@@ -1,17 +1,17 @@
-# 基于Mixin Network的Node.js比特币开发教程
-[Mixin Network](https://mixin.one) 是一个免费的 极速的端对端加密数字货币交易系统.
-在本章中，你可以按教程在Mixin Messenger中创建一个bot来接收用户消息, 学到如何给机器人转**比特币** 或者 让机器人给你转**比特币**.
+# Туториал по работе с Bitcoin через Node.js на базе Mixin Network
+![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
+С помощью данного туториала вы сможете создать бота для мессенджера Mixin Messenger. Это будет echo-бот на платформе Node.js, который сможет принимать Bitcoin от пользователей. 
 
+Полный [каталог](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource) ресурсов по Mixin Network 
 
-## 课程简介
-1. [创建一个接受消息的机器人](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md#创建你的第一个机器人)
-2. [机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+## С помощью данного туториала вы научитесь 
+1. [Создавать бота для Mixin Messenger и формировать ответные сообщения пользователям](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
+2. [Получать и отправлять биткойны в Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
 
-## 创建一个接受消息的机器人
-通过本教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息.
+## Как создать бота для Mixin Messenger и сформировать ответные сообщения пользователям
 
-### Node.js的环境安装
-本教程是用node.js写的，在开始之前，我们先安装node与yarn
+### Установка среды node.js:
+Данный туториал написан для платформы [Node.js](https://nodejs.org) с  менеджером пакетов [yarn](https://yarnpkg.com). Сначала надо установить ноду yarn:
 
 macOS
 ```bash
@@ -26,55 +26,53 @@ apt update
 apt upgrade
 apt install node yarn
 ```
-### 下面我们来创建一个项目目录
-打开终端，切换到你的工作目录，创建一个 nodejs-bot 的目录
+
+### Создайте папку проекта yarn
+Откройте терминал, перейдите в рабочее пространство и создайте директорию nodejs-bot:
 ```bash
 mkdir nodejs-bot
 cd nodejs-bot/
 ```
-运行 **yarn init** 指令，按提示完成项目的创建， 完成后会生成package.json文件，代码例子如下：
+Чтобы создать проект, запустите команду **yarn init** и следуйте инструкциям:
 ```bash
 yarn init
 ```
+Команда создаст новый файл package.json с таким кодом:
 ```json
 {
   "name": "nodejs-bot",
   "version": "1.0.0",
-  "main": "app.js",//默认生成的名字是main.js
+  "main": "app.js",//Default name is main.js
   "license": "MIT"
 }
 ```
-本教程需要依赖一个SDK, [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client). 所以我们先下载这个库.
-在新生成的项目目录下，执行 **yarn add mixin-node-client** 来添加mixin-node-client
+Для данного туториала требуется библиотека [wangshijun/mixin-node-client](https://github.com/wangshijun/mixin-node-client), поэтому нужно её скачать.
+
+Чтобы добавить пакет, выполните в этой папке команду **yarn add mixin-node-client**:
 ```bash
 yarn add mixin-node-client
 ```
-现在，package.json会增加下面几行:
+Теперь в файле package.json в список зависимостей пропишется пакет библиотек: 
 ```json
 "dependencies": {
   "mixin-node-client": "^0.6.0"
 }
 ```
-如果你是克隆这个教程,在项目目录下执行 **yarn** 来下载安装依赖的软件包.
+Если вы клонируете этот репозиторий, просто выполните команду **yarn**, чтобы загрузить все зависимости пакетов.
 
-### 创建你的第一个机器人
-在写代码之前，我们先看一下面的图文教程，创建一个机器人APP [教程](https://mixin-network.gitbook.io/mixin-network-cn/messenger-ying-yong-kai-fa/chuang-jian-ji-qi-ren).
+### Создайте своё первое приложение в панели инструментов для разработчиков Mixin Network 
+Вам нужно создать приложение в панели инструментов, в этом вам поможет данный [туториал](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account).
 
-记住下面三项，这是机器人发送接收消息所必须的: user id, session id, private key, Mixin Network使用这三项进行数字签名。
-
-| 关键字 | 描述                                  |   例子                                         |
-| --- | -------------------------------------------- |  -------------------------------------------------
-| user id | 机器人的唯一标识, uuid | 21042518-85c7-4903-bb19-f311813d1f51          |
-| session id | 会话标识, uuid | 5eb96d87-028e-4199-a6d3-6fc7da8dfe41          |
-| private key | RSA 私钥  | -----BEGIN RSA PRIVATE KEY----- -----END RSA PRIVATE KEY-----
-
+### Сгенерируйте ключ вашего приложения в панели инструментов
+После того, как вы создадите приложение в панели инструментов, вам нужно ещё [сгенерировать ключ](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app),
+сохранить его в надежном месте, а затем записать необходимое содержимое в config.js.
 
 ![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
+Создайте в папке файл config.js, скопируйте в него следующий код:
 
-创建一个config.js文件, 替换clientID为你的机器人的id, sessionId 为你的机器人的session id, privateKey为你的私钥,aesKey,clientSecret, assetPin 我们后面才需要，这里可先不修改，但请保留这个数据不要删除！
 > config.js
 ```javascript
-// NOTE: please update this config file with your own
+// ВАЖНО: добавьте в этот файл ключ вашего приложения
 module.exports = {
   clientId: '21042518-85c7-4903-bb19-f311813d1f51',
   clientSecret: 'will-generate-later',
@@ -99,8 +97,11 @@ jz6qXk9+vC6I1L69ewJAasE+oC3TMblSOC9xqeBQgm8BPhb0UwJL4UuZLOSyUETr
 };
 
 ```
-### Hello world
-在项目目录下创建一个app.js, 并将下面的代码粘贴进去.
+Замените значение **кодом, сгенерированным в панели инструментов**..
+
+
+### Первое приложение на платформе Node.js
+Вставьте следующий код в файл app.js. Создайте файл app.js, если его нет в папке:
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
@@ -110,7 +111,7 @@ const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PEN
 
 console.log('Supported MessageSenders by SocketClient', client.getMessageSenders());
 console.log(client.getMessageSenders());
-// Listen and react to socket messages
+// Слушаем сообщения на сокете и реагируем на них
 client.on(
   'message',
   client.getMessageHandler(message => {
@@ -136,11 +137,11 @@ client.on(
   }));
 client.on('error', err => console.error(err.message));
 ```
-开始执行
+Запускаем код:
 ```bash
 node app.js
 ```
-如果你的配置文件有错，可能会出现下面的提示：
+Консоль что-то выводит:
 ```bash
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
@@ -168,7 +169,7 @@ Message Received { id: '00000000-0000-0000-0000-000000000000',
      code: 401,
      description: 'Unauthorized, maybe invalid token.' } }
 ```
-如果一切顺利，机器人将连接上服务器并等待服务器的消息,提示如下:
+Консоль выводит лог: 
 ```
 ➜  nodejsdemo node app.js
 Supported MessageSenders by SocketClient [ 'sendText',
@@ -192,12 +193,11 @@ Supported MessageSenders by SocketClient [ 'sendText',
 Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
   action: 'LIST_PENDING_MESSAGES' }
 ```
-打开[Mixin Messenger](https://mixin.one/),将你的机器人加为好友,(比如，这个机器人的ID是 7000101639) 然后就可以给它发消息了！
-比如你发一个"hi"
+Добавьте бота в свой список контактов в [Mixin Messenger](https://mixin.one/messenger) и отправьте какой-нибудь текст (например, id этого бота 7000101639).
 
 ![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
 
-终端将显示如下：
+Консоль выведет текст: 
 ```bash
 Message Received { id: 'de4671c2-8873-419b-92b0-0d6ae8381940',
   action: 'LIST_PENDING_MESSAGES' }
@@ -268,18 +268,19 @@ Message Received { id: 'daa66945-abb6-4b8f-bc6a-04c4ccb6a837',
 ignore receipt
 ```
 
-### 下面对代码进行一个简单的解释
 
-机器人接受消息前，先建立到服务器的连接，再利用签名信息进行登陆认证。
+### Краткое описание исходного кода
+Чтобы получить сообщение от пользователя Mixin messenger, приложению необходимо создать соединение с сервером мессенджера. Приложению также необходимо создать API-токен, чтобы обмениваться данными. 
 
-[API调用](https://developers.mixin.one/api/beta-mixin-message/authentication/)
+[API по операциям](https://developers.mixin.one/api/beta-mixin-message/authentication/), [Руководство по операциям](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/receive-asset-change-notification)
+
 > app.js
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const config = require('./config');
 const client = new SocketClient(config);
 ```
-开启一个侦听，在这对收到的消息进行处理
+Затем включите прослушивание сокета, чтобы получать и анализировать входящие сообщения:
 
 ```javascript
 client.on(
@@ -290,17 +291,21 @@ client.on(
   })
 );
 ```
-接收消息, 进行**pay**相关的逻辑处理
+Проверьте сообщение от пользователя, затем запустите действие, которое должно выполняться при получении сообщения с текстом 'pay' **pay**:
+
 ```javascript
 if (ValidActions.indexOf(message.action) > -1) {
-  if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {console.log("ignore receipt");return;}
-
+  if (message.action === 'ACKNOWLEDGE_MESSAGE_RECEIPT') {
+    console.log("ignore receipt");return;
+  }
   if (isMessageType(message, 'text')) {
     const text = message.data.data.toLowerCase();
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
-      //todo: tell the server you got this message
+      var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
+      var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
+      client.sendRaw(RspMsg);
       if (text === 'pay') {
-        //todo: pay
+        // todo: pay
       }
       return client.sendText(text, message);
     }
@@ -308,9 +313,11 @@ if (ValidActions.indexOf(message.action) > -1) {
   return Promise.resolve(message);
 } else console.log("unknow action")
 ```
-除了发送文本消息之外，还可以发送图片等消息，详细的消息类型请参考[这里](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
+Можно получать не только текстовые сообщения, изображения и т. п. Подробнее о форматах сообщений см. [здесь](https://developers.mixin.one/api/beta-mixin-message/websocket-messages/).
 
-对于每一条接收到的消息，将消息号（message_id)做为参数，回应服务器，action为ACKNOWLEDGE_MESSAGE_RECEIPT! 如果不回应，机器人下次登入，会重新获得消息。
+
+Отправляйте  на сервер сообщения READ, чтобы подтверждать, что сообщение прочитано.  Если их не отправить, сообщения будут дублироваться боту при каждом подключении к серверу:
+
 ```javascript
 
     if ( (message.data.category === "PLAIN_TEXT") && (message.action === "CREATE_MESSAGE") ) {
@@ -322,8 +329,7 @@ if (ValidActions.indexOf(message.action) > -1) {
       return client.sendText(text, message);
 ```
 
-### 最后, 执行 **node app.js** 将机器人上线！
-```bash
-node app.js
-```
-## [第二课 发送与接收比特币](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+### Конец
+Теперь ваш бот работает. Дальше дело уже за вами.
+
+Далее: [Получить и отправить биткойн](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
