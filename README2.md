@@ -1,34 +1,36 @@
-In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), we create our first app.
+В [предыдущем разделе](https://github.com/bartov-e/mixin_network-nodejs-bot2/blob/master/README.md), мы создавали своё первое приложение. 
 
-# Receive and send Bitcoin in Mixin Messenger
-Your bot can receive Bitcoin from user and then pay it back immediately after read the chapter.
+# Как получить и отправить биткойн?
+В этом разделе мы расскажем, как ваш бот сможет получать от пользователя биткойны, и сразу возвращать их.
 
-### Prepare AES key
-Now you need to fill some missing parameters in the config.js file.
+### Подготовьте AES ключ
+Допишите в `config.js` недостающие параметры.
 
-The config.js file has been created in [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md#generate-parameter-for-your-app).
+Как создать `config.js`, смотрите в  [предыдущем разделе](https://github.com/bartov-e/mixin_network-nodejs-bot2/blob/master/README.md#%D1%81%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5-%D0%BA%D0%BB%D1%8E%D1%87-%D0%B2%D0%B0%D1%88%D0%B5%D0%B3%D0%BE-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2-%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D0%B8-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2).
 
-Now we will introduce a tool to generate the aes key.
+Теперь мы покажем каким образом можно сгенерировать AES ключ для `config.js`
 
-### install command line tool(mixin-cli) and generate a config.js file
-open terminal and download tools by yarn
+У вас должен быть код, который вы сгенерировали в панели инструментов.
+
+### Установите утилиту с поддержкой командной строки (mixin-cli) и создайте из неё config.js
+Откройте терминал и загрузите утилиту через `yarn`
 ```bash
 cd mixin_net-nodejs-bot2
 yarn add mixin-cli
 ```
 
-Execute it by argument dapp:config
+Выполните программу с аргументом `dapp:config`
 ```bash
 $ ./node_modules/mixin-cli/bin/mixin dapp:config
 ? What is the DAPP session info Press <enter> to launch your preferred editor.
 ```
-As you see,"Press <enter> to launch your preferred editor.",for example, on my computer, it will open vim.
+Если нажать `<enter>`, то, откроется текстовый редактор по умолчанию (в моём случае это VIM). 
 
-Now you need to copy all the [generated session](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-session-key-for-your-app) info in dashboard paste into vim, save and quit!
+Теперь перейдите в панель инструментов, скопируйте оттуда [код сессии](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-session-key-for-your-app), вставьте в vim, сохраните файл и выходите из редактора. 
 ![generated session ](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/Generated_session_content.png)
 ![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
 
-One config file will be generated in current folder. config_mixin_1546851899846.js is generated on my laptop.
+В рабочей папке появится новый конфигурационный файл.  На моём компьютере это  `config_mixin_1546851899846.js`
 
 ```bash
 $ ./node_modules/mixin-cli/bin/mixin dapp:config
@@ -41,7 +43,7 @@ $ ./node_modules/mixin-cli/bin/mixin dapp:config
 ```
 
 
-The content of generated config.js is
+Код сгенерированного файла `config.js`:
 ```
 // Generated with awesome https://github.com/wangshijun/mixin-cli
 module.exports = {
@@ -67,12 +69,12 @@ REp2XzEpK6y/MfFSiCpc77fLlZ6lsOfufqwxwRn0Cvg=
 -----END RSA PRIVATE KEY-----`,
 };
 ```
-You need copy missing content from config.js which is generated in last chapter into the config_mixin_1xx.js.  Now we rename the file from config_mixin_1xx.js to config2.js:
+Теперь скопируйте недостающее содержимое из файла `config.js`, который мы подготовили по инструкциям из предыдущего раздела, в файл `config_mixin_1xx.js`.  Затем переименуйте `config_mixin_1xx.js` в `config2.js`:
 
-A full config2.js [example](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
+Файл `config2.js` целиком можно посмотреть [здесь](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
-We also create a app2.js file with following content.
-### Hello Bitcoin
+Теперь надо создать файл `app2.js`, инструкции ниже.
+### Начните работу с биткойном
 ```javascript
 const { SocketClient, isMessageType } = require('mixin-node-client');
 const { HttpClient } = require('mixin-node-client');
@@ -133,13 +135,13 @@ client.on(
           var jsData = JSON.parse(Buffer.from(message.data.data, 'base64').toString('utf-8'));
           console.log(jsData);
 
-//let the server know that i have read this message
+//сообщите на сервер, что сообщение прочитано
           var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
           var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
           client.sendRaw(RspMsg);
 
           if (jsData.amount > 0) {
-            //refund immediately
+            //и сразу же верните сумму 
             asyncRefundCall(jsData.asset_id,jsData.amount,jsData.opponent_id);
           } else console.log("refund success!");
           console.log("-----------end of bot got money!---------------");
@@ -173,21 +175,21 @@ async function asyncRefundCall(_assetID,_amount,_opponent_id) {
 }
 
 ```
-### Generate payment URL and refund it to user
-User can pay 0.001 Bitcoin to bot by click the button and the 0.001 Bitcoin will be refunded in 1 seconds,In fact, user can pay any coins.
+### Сгенерируйте URL платежа и верните его пользователю
+Можно заплатить 0.001 биткойн боту, нажав на кнопку, и 0.001 биткойн будет возвращен в течение 1 секунды. Оплата может быть в любой криптовалюте. 
 ![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/Pay_and_refund_quickly.jpg)
 
-Developer can send token to their bots in message panel. The bot send token back immediately after receive it.
+Разработчик может отправить токен своим ботам в панели сообщений. Бот получает токены и сразу же возвращает их.
 ![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpg)
 
-## Source code summary
+## Пояснения к исходному коду
 > app2.js
 ```javascript
 //define acceptable actions
 const ValidActions = ["ACKNOWLEDGE_MESSAGE_RECEIPT" ,"CREATE_MESSAGE", "LIST_PENDING_MESSAGES"];
 ```
 
-create a payment link to user when user send 'pay' to bot
+Создайте ссылку на оплату после отправления боту запроса  `'pay'`
 ```javascript
 if (text === 'pay') {
   let payLink = "https://mixin.one/pay?recipient=" +
@@ -208,17 +210,17 @@ if (text === 'pay') {
 ```javascript
 if (message.data && message.data.category === "SYSTEM_ACCOUNT_SNAPSHOT") {
     var jsData = JSON.parse(Buffer.from(message.data.data, 'base64').toString('utf-8'));
-//let the server know that i have read this message
+//сообщите на сервер, что сообщение прочитано
     var parameter4IncomingMsg = {"message_id":message.data.message_id, "status":"READ"};
     var RspMsg = {"id":client.getUUID(), "action":"ACKNOWLEDGE_MESSAGE_RECEIPT", "params":parameter4IncomingMsg};
     client.sendRaw(RspMsg);
     if (jsData.amount > 0) {
-      //refund immediately
+      //и сразу же верните сумму
       asyncRefundCall(jsData.asset_id,jsData.amount,jsData.opponent_id);
     } else console.log("refund success!");
 }
 ```
-* jsData.amount is negative if bot sends token to user successfully.
-* jsData.amount is positive if bot receives token from user.
+- Если бот отправляет токен пользователю, то сумма `jsData.amount` отрицательна
+- Если пользователь отправляет токен боту, то сумма `jsData.amount` положительна.
 
-Full app2.js is [here](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/app2.js)
+`App2.js` полностью можно посмотреть [здесь](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
