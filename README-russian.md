@@ -5,8 +5,8 @@
 Полный [каталог](https://github.com/awesome-mixin-network/index_of_Mixin_Network_resource) ресурсов по Mixin Network 
 
 ## С помощью данного туториала вы научитесь 
-1. [Создавать бота для Mixin Messenger и формировать ответные сообщения пользователям](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user)
-2. [Получать и отправлять биткойны в Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md)
+1. [Создавать бота для Mixin Messenger и формировать ответные сообщения пользователям](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-russian.md)
+2. [Получать и отправлять биткойны в Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-russian.md)
 
 ## Как создать бота для Mixin Messenger и сформировать ответные сообщения пользователям
 
