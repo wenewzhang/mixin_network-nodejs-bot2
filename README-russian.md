@@ -67,7 +67,7 @@ yarn add mixin-node-client
 После того, как вы создадите приложение в панели инструментов, вам нужно ещё [сгенерировать ключ](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-secure-parameter-for-your-app),
 сохранить его в надежном месте, а затем записать необходимое содержимое в config.js.
 
-![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_network-keys.png)
+![mixin_network-keys](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/mixin_network-keys.png)
 Создайте в папке файл config.js, скопируйте в него следующий код:
 
 > config.js
@@ -195,7 +195,7 @@ Message Received { id: '30e3c929-f6b7-46c2-9e46-6634af66daab',
 ```
 Добавьте бота в свой список контактов в [Mixin Messenger](https://mixin.one/messenger) и отправьте какой-нибудь текст (например, id этого бота 7000101639).
 
-![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/mixin_messenger-sayhi.png)
+![mixin_messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/mixin_messenger-sayhi.png)
 
 Консоль выведет текст: 
 ```bash
