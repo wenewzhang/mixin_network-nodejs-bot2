@@ -28,8 +28,8 @@ $ ./node_modules/mixin-cli/bin/mixin dapp:config
 Если нажать `<enter>`, то, откроется текстовый редактор по умолчанию (в моём случае это VIM). 
 
 Теперь перейдите в панель инструментов, скопируйте оттуда [код сессии](https://mixin-network.gitbook.io/mixin-network/mixin-messenger-app/create-bot-account#generate-session-key-for-your-app), вставьте в vim, сохраните файл и выходите из редактора. 
-![generated session ](https://github.com/myrual/mixin_network-nodejs-bot2/blob/master/Generated_session_content.png)
-![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/paste-to-vim.png)
+![generated session ](https://github.com/myrual/mixin_network-nodejs-bot2/raw/master/Generated_session_content.png)
+![paste-to-vim](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/paste-to-vim.png)
 
 В рабочей папке появится новый конфигурационный файл.  На моём компьютере это  `config_mixin_1546851899846.js`
 
@@ -178,10 +178,10 @@ async function asyncRefundCall(_assetID,_amount,_opponent_id) {
 ```
 ### Сгенерируйте URL платежа и верните его пользователю
 Можно заплатить 0.001 биткойн боту, нажав на кнопку, и 0.001 биткойн будет возвращен в течение 1 секунды. Оплата может быть в любой криптовалюте. 
-![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/Pay_and_refund_quickly.jpg)
+![pay-link](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Pay_and_refund_quickly.jpg)
 
 Разработчик может отправить токен своим ботам в панели сообщений. Бот получает токены и сразу же возвращает их.
-![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/transfer-any-tokens.jpg)
+![transfer and tokens](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/transfer-any-tokens.jpg)
 
 ## Пояснения к исходному коду
 > app2.js
