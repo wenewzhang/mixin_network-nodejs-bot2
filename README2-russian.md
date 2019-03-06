@@ -1,5 +1,5 @@
 ![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
-В [предыдущем разделе](https://github.com/bartov-e/mixin_network-nodejs-bot2/blob/master/README.md), мы создавали своё первое приложение. 
+В [предыдущем разделе](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-russian.md), мы создавали своё первое приложение. 
 
 # Как получить и отправить биткойн?
 В этом разделе мы расскажем, как ваш бот сможет получать от пользователя биткойны, и сразу возвращать их.
