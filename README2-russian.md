@@ -1,5 +1,5 @@
 ![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
-В [предыдущем разделе](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-russian.md), мы создавали своё первое приложение. 
+В [предыдущем разделе](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-russian.md) мы создавали своё первое приложение. 
 
 # Как получить и отправить биткойн?
 В этом разделе мы расскажем, как ваш бот сможет получать от пользователя биткойны, и сразу возвращать их.
@@ -70,7 +70,7 @@ REp2XzEpK6y/MfFSiCpc77fLlZ6lsOfufqwxwRn0Cvg=
 -----END RSA PRIVATE KEY-----`,
 };
 ```
-Теперь скопируйте недостающее содержимое из файла `config.js`, который мы подготовили по инструкциям из предыдущего раздела, в файл `config_mixin_1xx.js`.  Затем переименуйте `config_mixin_1xx.js` в `config2.js`:
+Теперь скопируйте недостающее содержимое из файла `config.js`, который мы подготовили по инструкциям из предыдущего раздела, в файл `config_mixin_1xx.js`.  Затем переименуйте `config_mixin_1xx.js` в `config2.js`.
 
 Файл `config2.js` целиком можно посмотреть [здесь](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/config2.js)
 
