@@ -1,0 +1,11 @@
+{
+  "name": "bitcoin-wallet-nodejs",
+  "version": "1.0.0",
+  "description": "bitcoin & eos & usdt & eth wallet",
+  "main": "bitcoin-wallet-nodejs.js",
+  "author": "jimmy zhang",
+  "license": "MIT",
+  "dependencies": {
+    "mixin-node-client": "^0.7.3"
+  }
+}
