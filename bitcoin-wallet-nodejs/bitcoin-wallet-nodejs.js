@@ -70,5 +70,18 @@ const { oaepDecrypt } = require('./crypto');
   csvStream.pipe(writableStream);
   csvStream.write({a: privateKey, b: info.pin_token, c: info.session_id, d: info.user_id, e: "123456"});
   csvStream.end();
+
+  const newUserConfig = {clientId: info.user_id, aesKey: aesKey,
+                         privateKey: privateKey, sessionId: info.session_id,
+                         clientSecret: "do not need", assetPin: "123456"};
+  console.log(newUserConfig);
+  const newUserClient = new HttpClient(newUserConfig);
+  var info2 = await newUserClient.updatePin({oldPin : "",
+                                      newPin: "123456",
+                                     });
+  console.log(info2);
+
+  const verifyPin = await newUserClient.verifyPin("123456");
+  console.log({ verifyPin });
 })();
 // console.log(sign.sign(privateKey, 'base64'));
