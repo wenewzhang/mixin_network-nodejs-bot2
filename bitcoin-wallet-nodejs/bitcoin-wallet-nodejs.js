@@ -1,6 +1,10 @@
 const { HttpClient } = require('mixin-node-client');
 const config = require('./config');
 const client = new HttpClient(config);
+const pem = require('pem-file');
+
+const { oaepDecrypt } = require('./crypto');
+
 (async () => {
   const { generateKeyPairSync } = require('crypto');
   const { publicKey, privateKey } = generateKeyPairSync('rsa',
@@ -43,6 +47,17 @@ const client = new HttpClient(config);
   //                                     newPin: "123456",
   //                                    });
   // console.log(info2);
+
+  let aesKey = '';
+  const privateKeyBytes = pem.decode(Buffer.from(privateKey));
+  const aesKeyBuffer = await oaepDecrypt(
+    Buffer.from(info.pin_token, 'base64'),
+    privateKeyBytes,
+    'SHA-256',
+    Buffer.from(info.session_id)
+  );
+  aesKey = Buffer.from(aesKeyBuffer).toString('base64');
+  console.log(aesKey);
   const fs = require('fs');
   var csv = require("fast-csv");
   var csvStream = csv.createWriteStream({headers: false}),
