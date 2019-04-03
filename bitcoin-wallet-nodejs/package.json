@@ -7,7 +7,9 @@
   "license": "MIT",
   "dependencies": {
     "fast-csv": "^2.4.1",
+    "inquirer": "^6.2.2",
     "mixin-node-client": "^0.7.3",
+    "path": "^0.12.7",
     "pem-file": "^1.0.1"
   }
 }
