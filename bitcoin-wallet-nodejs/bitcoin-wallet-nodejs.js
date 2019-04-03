@@ -8,7 +8,6 @@ const pem              =    require('pem-file');
 const csv              =    require("fast-csv");
 const { oaepDecrypt }  =    require('./crypto');
 const clientBot        =    new HttpClient(config);
-var scriptName         =    path.basename(__filename);
 const PromptMsg        =    "\nMake your choose(select the uuid for open the \
 specified wallet):";
 const PromptCmd        =    "\nMake your choose";
@@ -19,6 +18,11 @@ const BTC_ASSET_ID     =    "c6d0c728-2624-429b-8e0d-d9d19b6592fa";
 const EOS_ASSET_ID     =    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d";
 const USDT_ASSET_ID    =    "815b0b1a-2764-3736-8faa-42d694fa620a";
 const BTC_WALLET_ADDR  =    "14T129GTbXXPGXXvZzVaNLRFPeHXD1C25C";
+
+//change to your mixin messenger account 's uuid
+const MASTER_UUID      =    "0b4f49dc-8fb4-4539-9a89-fb3afc613747";
+
+var scriptName         =    path.basename(__filename);
 
 'use strict';
 
@@ -178,7 +182,9 @@ if ( process.argv.length == 3 ) {
     const TYPE_EOS_INFO                  = '3: Read EOS Balance & Address';
     const TYPE_TRANS_BTC_TO_WALLET       = '4: Transfer BTC from Bot to Wallet';
     const TYPE_TRANS_EOS_TO_WALLET       = '5: Transfer EOS from Bot to Wallet';
-
+    const TYPE_TRANS_BTC_TO_MASTER       = '6: Transfer BTC from Wallet to Master';
+    const TYPE_TRANS_EOS_TO_MASTER       = '7: Transfer EOS from Wallet to Master';
+    const TYPE_VERIFY_PIN                = '8: Verify Wallet PIN ';
     const prompts = [
       {
         name: 'type',
@@ -186,7 +192,8 @@ if ( process.argv.length == 3 ) {
         default: TYPE_BITCOIN_INFO,
         message: PromptCmd,
         choices: [TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
-                  TYPE_TRANS_EOS_TO_WALLET, "Exit"],
+                  TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
+                  TYPE_VERIFY_PIN, "Exit"],
       },
     ];
     (async () => {
@@ -214,7 +221,7 @@ if ( process.argv.length == 3 ) {
              // console.log(aesKey);
              const newUserConfig = {clientId: data[3], aesKey: aesKey,
                                     privateKey: data[0], sessionId: data[2],
-                                    clientSecret: "do not need", assetPin: data[3]};
+                                    clientSecret: "do not need", assetPin: data[4]};
              // console.log(newUserConfig);
              const newUserClient = new HttpClient(newUserConfig);
              if (args.type === TYPE_BITCOIN_INFO) {
@@ -265,6 +272,41 @@ if ( process.argv.length == 3 ) {
                  console.log(Obj);
                  clientBot.transferFromBot(Obj);
                }
+             } else if (args.type === TYPE_TRANS_BTC_TO_MASTER) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
+               console.log("The Wallet 's BTC balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: BTC_ASSET_ID,
+                   recipientId: MASTER_UUID,
+                     traceId: newUserClient.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 newUserClient.transferFromBot(Obj);
+               }
+             } else if (args.type === TYPE_TRANS_EOS_TO_MASTER) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(EOS_ASSET_ID);
+               console.log("The Wallet 's EOS balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: BTC_ASSET_ID,
+                   recipientId: MASTER_UUID,
+                     traceId: newUserClient.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 newUserClient.transferFromBot(Obj);
+               }
+             } else if (args.type === TYPE_VERIFY_PIN) {
+               // console.log('You choice to 1:', args);
+               const verifyPin = await newUserClient.verifyPin(data[4]);
+               // const updatePin = await client.updatePin({ oldPin: config.assetPin, newPin: '123456' }); // CAUTION
+               console.log({ verifyPin });
              }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
