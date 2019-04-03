@@ -16,7 +16,6 @@ var scriptName         =    path.basename(__filename);
 function runScript(scriptPath, args, callback) {
 
     // keep track of whether callback has been invoked to prevent multiple invocations
-   new Promise((resolve, reject) => {
      var invoked = false;
      const spawnOptions = {
        // cwd: process.cwd(),
@@ -38,7 +37,6 @@ function runScript(scriptPath, args, callback) {
         invoked = true;
         var err = code === 0 ? null : new Error('exit code ' + code);
         callback(err);
-    });
     });
 }
 
@@ -143,6 +141,6 @@ if ( process.argv.length == 3 ) {
 
       const verifyPin = await newUserClient.verifyPin("123456");
       console.log({ verifyPin });
-    });
+    })();
   }
 }
