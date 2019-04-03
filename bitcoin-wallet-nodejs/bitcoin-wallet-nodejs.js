@@ -13,6 +13,13 @@ const PromptMsg        =    "\nMake your choose(select the uuid for open the \
 specified wallet):";
 const PromptCmd        =    "\nMake your choose";
 const WalletName       =    "./mybitcoin_wallet.csv";
+
+const EXIN_BOT         =    "61103d28-3ac2-44a2-ae34-bd956070dab1";
+const BTC_ASSET_ID     =    "c6d0c728-2624-429b-8e0d-d9d19b6592fa";
+const EOS_ASSET_ID     =    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d";
+const USDT_ASSET_ID    =    "815b0b1a-2764-3736-8faa-42d694fa620a";
+const BTC_WALLET_ADDR  =    "14T129GTbXXPGXXvZzVaNLRFPeHXD1C25C";
+
 'use strict';
 
 function runScript(scriptPath, args, callback) {
@@ -46,7 +53,7 @@ function runScript(scriptPath, args, callback) {
 if ( process.argv.length == 2 ) {
   let walletList = [];
   walletList.push("Create Wallet");
-  if ( fs.existsSync("./mybitcoin_wallet.csv") ) {
+  if ( fs.existsSync(WalletName) ) {
     var stream = fs.createReadStream(WalletName);
     let firstLine  = '';
     csv
@@ -94,7 +101,7 @@ if ( process.argv.length == 2 ) {
    }
 }
 if ( process.argv.length == 3 ) {
-  console.log(' You select the command: ' + (process.argv[2]));
+  console.log(' You select the : ' + (process.argv[2]));
   if ( process.argv[2] === "Exit") { process.exit();}
   if ( process.argv[2] === "Create Wallet") {
     console.log("create wallet ....");
@@ -176,17 +183,64 @@ if ( process.argv.length == 3 ) {
         type: 'list',
         default: TYPE_BITCOIN_INFO,
         message: PromptCmd,
-        choices: [TYPE_BITCOIN_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO],
+        choices: [TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, "Exit"],
       },
     ];
     (async () => {
       const args = await inquirer.prompt(prompts);
       console.log('You choice to :', args);
-      if (args.type === TYPE_BITCOIN_INFO) {
-        console.log('You choice to 1:', args);
-      } else if (args.type === TYPE_USDT_INFO) {
-        console.log('You choice to 2:', args);
-      }
+      console.log('You wallet is :', process.argv[2]);
+      if ( args.type === 'Exit' ) { process.exit(); }
+      var stream = fs.createReadStream(WalletName);
+      csv
+       .fromStream(stream, {headers: false})
+       .on("data", function(data){
+         (async () => {
+           if ( process.argv[2] === data[3] ) {
+             // console.log(data[0]);
+             // console.log(args);
+             let aesKey = '';
+             const privateKeyBytes = pem.decode(Buffer.from(data[0]));
+             const aesKeyBuffer = await oaepDecrypt(
+               Buffer.from(data[1], 'base64'),
+               privateKeyBytes,
+               'SHA-256',
+               Buffer.from(data[2])
+             );
+             aesKey = Buffer.from(aesKeyBuffer).toString('base64');
+             // console.log(aesKey);
+             const newUserConfig = {clientId: data[3], aesKey: aesKey,
+                                    privateKey: data[0], sessionId: data[2],
+                                    clientSecret: "do not need", assetPin: data[3]};
+             // console.log(newUserConfig);
+             const newUserClient = new HttpClient(newUserConfig);
+             if (args.type === TYPE_BITCOIN_INFO) {
+                // console.log('You choice to 1:', args);
+                const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
+                console.log("Bitcoin address is ", assetInfo.public_key);
+                console.log("Bitcoin balance is ", assetInfo.balance);
+                console.log("Bitcoin price is (USD) ", assetInfo.price_usd);
+             } else if (args.type === TYPE_USDT_INFO) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+               console.log("USDT address is ", assetInfo.public_key);
+               console.log("USDT balance is ", assetInfo.balance);
+               console.log("USDT price is (USD) ", assetInfo.price_usd);
+             } else if (args.type === TYPE_EOS_INFO) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(EOS_ASSET_ID);
+               console.log("EOS account name is ", assetInfo.account_name, " tag is ", assetInfo.account_tag);
+               console.log("EOS balance is ", assetInfo.balance);
+               console.log("EOS price is (USD) ", assetInfo.price_usd);
+             }
+             runScript(scriptName, [process.argv[2]], function (err) {
+                 if (err) throw err;
+             });
+           }
+           })();
+       })
+       .on("end", function(){
+       });
     })();
   }
 }
