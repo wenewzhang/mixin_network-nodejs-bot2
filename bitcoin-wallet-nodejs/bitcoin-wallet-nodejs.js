@@ -7,7 +7,7 @@ const config           =    require('./config');
 const pem              =    require('pem-file');
 const csv              =    require("fast-csv");
 const { oaepDecrypt }  =    require('./crypto');
-const client           =    new HttpClient(config);
+const clientBot        =    new HttpClient(config);
 var scriptName         =    path.basename(__filename);
 const PromptMsg        =    "\nMake your choose(select the uuid for open the \
 specified wallet):";
@@ -126,7 +126,7 @@ if ( process.argv.length == 3 ) {
     console.log(publicKey);
     console.log(publicKey3);
     (async () => {
-      const info = await client.createUser({full_name : "nodejs bitcoin wallet",
+      const info = await clientBot.createUser({full_name : "nodejs bitcoin wallet",
                                             session_secret: publicKey3,
                                           });
       let aesKey = '';
@@ -173,9 +173,11 @@ if ( process.argv.length == 3 ) {
     })();
   } else { //must select a wallet
     console.log("You select the wallet " + process.argv[2]);
-    const TYPE_BITCOIN_INFO              = '2: Read Bitcoin Balance & Address';
-    const TYPE_USDT_INFO                 = '3: Read USDT Balance & Address';
-    const TYPE_EOS_INFO                  = '4: Read EOS Balance & Address';
+    const TYPE_BITCOIN_INFO              = '1: Read Bitcoin Balance & Address';
+    const TYPE_USDT_INFO                 = '2: Read USDT Balance & Address';
+    const TYPE_EOS_INFO                  = '3: Read EOS Balance & Address';
+    const TYPE_TRANS_BTC_TO_WALLET       = '4: Transfer BTC from Bot to Wallet';
+    const TYPE_TRANS_EOS_TO_WALLET       = '5: Transfer EOS from Bot to Wallet';
 
     const prompts = [
       {
@@ -183,7 +185,8 @@ if ( process.argv.length == 3 ) {
         type: 'list',
         default: TYPE_BITCOIN_INFO,
         message: PromptCmd,
-        choices: [TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, "Exit"],
+        choices: [TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
+                  TYPE_TRANS_EOS_TO_WALLET, "Exit"],
       },
     ];
     (async () => {
@@ -232,6 +235,36 @@ if ( process.argv.length == 3 ) {
                console.log("EOS account name is ", assetInfo.account_name, " tag is ", assetInfo.account_tag);
                console.log("EOS balance is ", assetInfo.balance);
                console.log("EOS price is (USD) ", assetInfo.price_usd);
+             } else if (args.type === TYPE_TRANS_BTC_TO_WALLET) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await clientBot.getUserAsset(BTC_ASSET_ID);
+               console.log("The Bot 's BTC balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: BTC_ASSET_ID,
+                   recipientId: process.argv[2],
+                     traceId: clientBot.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 clientBot.transferFromBot(Obj);
+               }
+             } else if (args.type === TYPE_TRANS_EOS_TO_WALLET) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await clientBot.getUserAsset(EOS_ASSET_ID);
+               console.log("The Bot 's EOS balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: BTC_ASSET_ID,
+                   recipientId: process.argv[2],
+                     traceId: clientBot.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 clientBot.transferFromBot(Obj);
+               }
              }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
