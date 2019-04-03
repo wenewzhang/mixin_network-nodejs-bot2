@@ -12,7 +12,7 @@ var scriptName         =    path.basename(__filename);
 const PromptMsg        =    "\nMake your choose(select the uuid for open the \
 specified wallet):";
 const PromptCmd        =    "\nMake your choose";
-
+const WalletName       =    "./mybitcoin_wallet.csv";
 'use strict';
 
 function runScript(scriptPath, args, callback) {
@@ -44,39 +44,57 @@ function runScript(scriptPath, args, callback) {
 
 // Now we can run a script and invoke a callback when complete, e.g.
 if ( process.argv.length == 2 ) {
-
-  var stream = fs.createReadStream("mybitcoin_wallet.csv");
   let walletList = [];
   walletList.push("Create Wallet");
-  let firstLine  = '';
-  csv
-   .fromStream(stream, {headers: false})
-   .on("data", function(data){
-       walletList.push(data[3]);
-       if (firstLine === '') { firstLine = data[3];}
-   })
-   .on("end", function(){
+  if ( fs.existsSync("./mybitcoin_wallet.csv") ) {
+    var stream = fs.createReadStream(WalletName);
+    let firstLine  = '';
+    csv
+     .fromStream(stream, {headers: false})
+     .on("data", function(data){
+         walletList.push(data[3]);
+         if (firstLine === '') { firstLine = data[3];}
+     })
+     .on("end", function(){
 
-       const prompts = [
-         {
-           name: 'type',
-           type: 'list',
-           default: firstLine,
-           message: PromptMsg,
-           choices: walletList,
-         },
-       ];
-       (async () => {
-         walletList.push("Exit");
-         const args = await inquirer.prompt(prompts);
-         runScript(scriptName, [args.type], function (err) {
-             if (err) throw err;
-         });
-       })();
-   });
+         const prompts = [
+           {
+             name: 'type',
+             type: 'list',
+             default: firstLine,
+             message: PromptMsg,
+             choices: walletList,
+           },
+         ];
+         (async () => {
+           walletList.push("Exit");
+           const args = await inquirer.prompt(prompts);
+           runScript(scriptName, [args.type], function (err) {
+               if (err) throw err;
+           });
+         })();
+     });
+   } else {
+     const prompts = [
+       {
+         name: 'type',
+         type: 'list',
+         default: "Create Wallet",
+         message: PromptMsg,
+         choices: walletList,
+       },
+     ];
+     (async () => {
+       walletList.push("Exit");
+       const args = await inquirer.prompt(prompts);
+       runScript(scriptName, [args.type], function (err) {
+           if (err) throw err;
+       });
+     })();
+   }
 }
 if ( process.argv.length == 3 ) {
-  console.log(' args: ' + (process.argv[2]));
+  console.log(' You select the command: ' + (process.argv[2]));
   if ( process.argv[2] === "Exit") { process.exit();}
   if ( process.argv[2] === "Create Wallet") {
     console.log("create wallet ....");
@@ -116,7 +134,7 @@ if ( process.argv.length == 3 ) {
       console.log(aesKey);
 
       var csvStream = csv.createWriteStream({headers: false, ignoreEmpty: true}),
-          writableStream = fs.createWriteStream("./mybitcoin_wallet.csv", {flags: 'a'});
+          writableStream = fs.createWriteStream(WalletName, {flags: 'a'});
 
       writableStream.on("finish", function(){
         console.log("Bitcoin wallet DONE!");
@@ -127,7 +145,7 @@ if ( process.argv.length == 3 ) {
                        e: "123456"}
                      );
       csvStream.end();
-      fs.appendFile("./mybitcoin_wallet.csv", require("os").EOL, function(){});
+      fs.appendFile(WalletName, require("os").EOL, function(){});
 
       const newUserConfig = {clientId: info.user_id, aesKey: aesKey,
                              privateKey: privateKey, sessionId: info.session_id,
@@ -141,6 +159,10 @@ if ( process.argv.length == 3 ) {
 
       const verifyPin = await newUserClient.verifyPin("123456");
       console.log({ verifyPin });
+      //run again
+      runScript(scriptName, [], function (err) {
+          if (err) throw err;
+      });
     })();
   } else { //must select a wallet
     console.log("You select the wallet " + process.argv[2]);
