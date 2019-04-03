@@ -17,8 +17,11 @@ const EXIN_BOT         =    "61103d28-3ac2-44a2-ae34-bd956070dab1";
 const BTC_ASSET_ID     =    "c6d0c728-2624-429b-8e0d-d9d19b6592fa";
 const EOS_ASSET_ID     =    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d";
 const USDT_ASSET_ID    =    "815b0b1a-2764-3736-8faa-42d694fa620a";
-const BTC_WALLET_ADDR  =    "14T129GTbXXPGXXvZzVaNLRFPeHXD1C25C";
 
+//change to your third exchange/cold  btc wallet address
+const BTC_WALLET_ADDR  =    "14T129GTbXXPGXXvZzVaNLRFPeHXD1C25C";
+const EOS_WALLET_NAME  =    "huobideposit";
+const EOS_WALLET_TAG   =    "1872050";
 //change to your mixin messenger account 's uuid
 const MASTER_UUID      =    "0b4f49dc-8fb4-4539-9a89-fb3afc613747";
 
@@ -90,6 +93,7 @@ if ( process.argv.length == 2 ) {
        {
          name: 'type',
          type: 'list',
+         pageSize: 15,
          default: "Create Wallet",
          message: PromptMsg,
          choices: walletList,
@@ -185,15 +189,21 @@ if ( process.argv.length == 3 ) {
     const TYPE_TRANS_BTC_TO_MASTER       = '6: Transfer BTC from Wallet to Master';
     const TYPE_TRANS_EOS_TO_MASTER       = '7: Transfer EOS from Wallet to Master';
     const TYPE_VERIFY_PIN                = '8: Verify Wallet PIN ';
+    const TYPE_BTC_WITHDRAW              = '9: BTC withdraw';
+    const TYPE_EOS_WITHDRAW              = '10: EOS withdraw';
+    const TYPE_BTC_WITHDRAW_READ         = '11: Fetch BTC withdrawal info';
+    const TYPE_EOS_WITHDRAW_READ         = '12: Fetch EOS withdrawal info';
     const prompts = [
       {
         name: 'type',
         type: 'list',
+        pageSize: 15,
         default: TYPE_BITCOIN_INFO,
         message: PromptCmd,
         choices: [TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
                   TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
-                  TYPE_VERIFY_PIN, "Exit"],
+                  TYPE_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
+                  TYPE_EOS_WITHDRAW_READ, "Exit"],
       },
     ];
     (async () => {
@@ -307,6 +317,62 @@ if ( process.argv.length == 3 ) {
                const verifyPin = await newUserClient.verifyPin(data[4]);
                // const updatePin = await client.updatePin({ oldPin: config.assetPin, newPin: '123456' }); // CAUTION
                console.log({ verifyPin });
+             } else if (args.type === TYPE_BTC_WITHDRAW) {
+               const withdrawAddress = await newUserClient.createWithdrawAddress({
+                 assetId: BTC_ASSET_ID,
+                 label: 'BTC withdraw',
+                 publicKey: BTC_WALLET_ADDR,
+               });
+               console.log(withdrawAddress);
+               const prompts = [
+                 {
+                   name: 'amount',
+                   type: 'input',
+                   message: "Input you BTC amount: ",
+                 },
+               ];
+              const answers = await inquirer.prompt(prompts);
+              console.log(answers);
+              const withdrawResult = await newUserClient.withdraw({
+                 addressId: withdrawAddress.address_id,
+                 assetId: BTC_ASSET_ID,
+                 amount: answers.amount,
+                 memo: 'withdraw by nodejs',
+              });
+              console.log(withdrawResult);
+            } else if (args.type === TYPE_EOS_WITHDRAW) {
+              const withdrawAddress = await newUserClient.createWithdrawAddress({
+                assetId: EOS_ASSET_ID,
+                label: 'EOS withdraw',
+                publicKey: "do not need",
+                accountName: EOS_WALLET_NAME,
+                accountTag: EOS_WALLET_TAG,
+              });
+              console.log(withdrawAddress);
+              // const addressList = await newUserClient.getWithdrawAddress(EOS_ASSET_ID);
+              // console.log(addressList);
+              const prompts = [
+                {
+                  name: 'amount',
+                  type: 'input',
+                  message: "Input you BTC amount: ",
+                },
+              ];
+             const answers = await inquirer.prompt(prompts);
+             console.log(answers);
+             const withdrawResult = await newUserClient.withdraw({
+                addressId: withdrawAddress.address_id,
+                assetId: EOS_ASSET_ID,
+                amount: answers.amount,
+                memo: 'withdraw by nodejs',
+             });
+             console.log(withdrawResult);
+           } else if (args.type === TYPE_EOS_WITHDRAW_READ) {
+              const addressList = await newUserClient.getWithdrawAddress(EOS_ASSET_ID);
+              console.log(addressList);
+            } else if (args.type === TYPE_BTC_WITHDRAW_READ) {
+               const addressList = await newUserClient.getWithdrawAddress(BTC_ASSET_ID);
+               console.log(addressList);
              }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
