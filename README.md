@@ -7,7 +7,7 @@ Full Mixin network resource [index](https://github.com/awesome-mixin-network/ind
 ## What you will learn from this tutorial
 1. [How to create bot in Mixin messenger and reply message to user](https://github.com/wenewzhang/mixin_network-nodejs-bot2#create-bot-and-receive-message-from-user) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md)
 2. [How to receive Bitcoin and send Bitcoin in Mixin Messenger](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
-3. [How to create a Bitcoin wallet based on Mixin Network API](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README3-zhchs.md)
+3. [How to create a Bitcoin wallet based on Mixin Network API](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README3.md) | [Chinese](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README3-zhchs.md)
 
 ## How to create bot in Mixin messenger and reply message to user
 
