@@ -273,7 +273,7 @@ if ( process.argv.length == 3 ) {
                console.log("The Bot 's EOS balance is ", assetInfo.balance);
                if ( assetInfo.balance > 0 ) {
                  const Obj = {
-                   assetId: BTC_ASSET_ID,
+                   assetId: EOS_ASSET_ID,
                    recipientId: process.argv[2],
                      traceId: clientBot.getUUID(),
                      amount: assetInfo.balance,
