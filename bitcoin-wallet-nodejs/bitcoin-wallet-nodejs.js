@@ -8,6 +8,7 @@ const pem              =    require('pem-file');
 const csv              =    require("fast-csv");
 const { oaepDecrypt }  =    require('./crypto');
 const msgpack          =    require('msgpack5')();
+const axios            =    require('axios');
 const clientBot        =    new HttpClient(config);
 const PromptMsg        =    "\nMake your choose(select the uuid for open the \
 specified wallet):";
@@ -439,7 +440,28 @@ if ( process.argv.length == 3 ) {
                } else {
                  console.log("Not enough USDT!");
                }
-             }
+             } else if (  args.type === TYPE_FETCH_USDT_MARKETINFO ) {
+               // Make a request
+               var instance = axios.create({
+               baseURL: 'https://exinone.com/exincore/markets',
+               timeout: 3000,
+               headers: {'X-Custom-Header': 'foobar'}
+               });
+               instance.get('?base_asset=' + USDT_ASSET_ID)
+               .then(function(response) {
+                 console.log(response.data.data);
+               });
+             } else if (  args.type === TYPE_FETCH_BTC_MARKETINFO ) {
+              var instance = axios.create({
+              baseURL: 'https://exinone.com/exincore/markets',
+              timeout: 3000,
+              headers: {'X-Custom-Header': 'foobar'}
+              });
+              instance.get('?base_asset=' + BTC_ASSET_ID)
+              .then(function(response) {
+                console.log(response.data.data);
+              });
+            }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
              });
