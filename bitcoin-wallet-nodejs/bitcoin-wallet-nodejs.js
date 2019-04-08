@@ -183,7 +183,7 @@ if ( process.argv.length == 3 ) {
     })();
   } else { //must select a wallet
     console.log("You select the wallet " + process.argv[2]);
-    const TYPE_ASSETS_INFO              = '0: Read All Asssets Balance';
+    const TYPE_ASSETS_INFO               = '0: Read All Asssets Balance';
     const TYPE_BITCOIN_INFO              = '1: Read Bitcoin Balance & Address';
     const TYPE_USDT_INFO                 = '2: Read USDT Balance & Address';
     const TYPE_EOS_INFO                  = '3: Read EOS Balance & Address';
@@ -200,6 +200,7 @@ if ( process.argv.length == 3 ) {
     const TYPE_FETCH_BTC_MARKETINFO      = '14: Fetch BTC Market info';
     const TYPE_EXCHANGE_BTC_USDT         = '14: Transfer 0.0001 BTC buy USDT';
     const TYPE_EXCHANGE_USDT_BTC         = '15: Transfer USDT $1 buy BTC';
+    const TYPE_READ_SNAPSHOTS            = '16: Read snapshots';
     const prompts = [
       {
         name: 'type',
@@ -211,7 +212,7 @@ if ( process.argv.length == 3 ) {
                   TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
                   TYPE_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
                   TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
-                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, "Exit"],
+                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, "Exit"],
       },
     ];
     (async () => {
@@ -276,7 +277,8 @@ if ( process.argv.length == 3 ) {
                      memo: '',
                  };
                  console.log(Obj);
-                 clientBot.transferFromBot(Obj);
+                 transInfo = clientBot.transferFromBot(Obj);
+                 console.log(transInfo);
                }
              } else if (args.type === TYPE_TRANS_EOS_TO_WALLET) {
                // console.log('You choice to 1:', args);
@@ -314,7 +316,7 @@ if ( process.argv.length == 3 ) {
                console.log("The Wallet 's EOS balance is ", assetInfo.balance);
                if ( assetInfo.balance > 0 ) {
                  const Obj = {
-                   assetId: BTC_ASSET_ID,
+                   assetId: EOS_ASSET_ID,
                    recipientId: MASTER_UUID,
                      traceId: newUserClient.getUUID(),
                      amount: assetInfo.balance,
@@ -366,7 +368,7 @@ if ( process.argv.length == 3 ) {
                 {
                   name: 'amount',
                   type: 'input',
-                  message: "Input you BTC amount: ",
+                  message: "Input withdrawal BTC amount: ",
                 },
               ];
              const answers = await inquirer.prompt(prompts);
@@ -461,6 +463,21 @@ if ( process.argv.length == 3 ) {
               .then(function(response) {
                 console.log(response.data.data);
               });
+            } else if ( args.type === TYPE_READ_SNAPSHOTS ) {
+              const dt = new Date().toString();
+              console.log(dt);
+              // const snapshot = await client.getSnapshot(snapshots[0].snapshot_id);
+              const prompts = [
+                {
+                  name: 'datetime',
+                  type: 'input',
+                  message: "Input iso8601 datetime: ",
+                },
+              ];
+             const answers = await inquirer.prompt(prompts);
+             console.log(answers);
+             const snapshots = await newUserClient.getSnapshots({ limit: 10, asset: USDT_ASSET_ID, offset: answers.datetime, order: "ASC"});
+             console.log(snapshots);
             }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
