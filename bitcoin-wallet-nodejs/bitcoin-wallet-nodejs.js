@@ -7,6 +7,7 @@ const config           =    require('./config');
 const pem              =    require('pem-file');
 const csv              =    require("fast-csv");
 const { oaepDecrypt }  =    require('./crypto');
+const msgpack          =    require('msgpack5')();
 const clientBot        =    new HttpClient(config);
 const PromptMsg        =    "\nMake your choose(select the uuid for open the \
 specified wallet):";
@@ -181,6 +182,7 @@ if ( process.argv.length == 3 ) {
     })();
   } else { //must select a wallet
     console.log("You select the wallet " + process.argv[2]);
+    const TYPE_ASSETS_INFO              = '0: Read All Asssets Balance';
     const TYPE_BITCOIN_INFO              = '1: Read Bitcoin Balance & Address';
     const TYPE_USDT_INFO                 = '2: Read USDT Balance & Address';
     const TYPE_EOS_INFO                  = '3: Read EOS Balance & Address';
@@ -193,17 +195,22 @@ if ( process.argv.length == 3 ) {
     const TYPE_EOS_WITHDRAW              = '10: EOS withdraw';
     const TYPE_BTC_WITHDRAW_READ         = '11: Fetch BTC withdrawal info';
     const TYPE_EOS_WITHDRAW_READ         = '12: Fetch EOS withdrawal info';
+    const TYPE_FETCH_USDT_MARKETINFO     = '13: Fetch USDT Market info';
+    const TYPE_FETCH_BTC_MARKETINFO      = '14: Fetch BTC Market info';
+    const TYPE_EXCHANGE_BTC_USDT         = '14: Transfer 0.0001 BTC buy USDT';
+    const TYPE_EXCHANGE_USDT_BTC         = '15: Transfer USDT $1 buy BTC';
     const prompts = [
       {
         name: 'type',
         type: 'list',
-        pageSize: 15,
+        pageSize: 25,
         default: TYPE_BITCOIN_INFO,
         message: PromptCmd,
-        choices: [TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
+        choices: [TYPE_ASSETS_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
                   TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
                   TYPE_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
-                  TYPE_EOS_WITHDRAW_READ, "Exit"],
+                  TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
+                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, "Exit"],
       },
     ];
     (async () => {
@@ -234,7 +241,10 @@ if ( process.argv.length == 3 ) {
                                     clientSecret: "do not need", assetPin: data[4]};
              // console.log(newUserConfig);
              const newUserClient = new HttpClient(newUserConfig);
-             if (args.type === TYPE_BITCOIN_INFO) {
+             if ( args.type === TYPE_ASSETS_INFO ) {
+               const assetsInfo = await newUserClient.getUserAssets();
+               console.log(assetsInfo);
+             } else if (args.type === TYPE_BITCOIN_INFO) {
                 // console.log('You choice to 1:', args);
                 const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
                 console.log("Bitcoin address is ", assetInfo.public_key);
@@ -373,6 +383,62 @@ if ( process.argv.length == 3 ) {
             } else if (args.type === TYPE_BTC_WITHDRAW_READ) {
                const addressList = await newUserClient.getWithdrawAddress(BTC_ASSET_ID);
                console.log(addressList);
+             } else if ( args.type === TYPE_EXCHANGE_BTC_USDT ) {
+               // Pack memo
+               const bytes = Buffer.from(
+                 USDT_ASSET_ID.replace(/-/g, ''),
+                 'hex'
+               );
+               const memo = msgpack
+                 .encode({
+                   A: bytes,
+                 })
+                 .toString('base64');
+
+               console.log(memo); // gaFBxBDG0McoJiRCm44N2dGbZZL6
+               const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
+               console.log("The Wallet 's BTC balance is ", assetInfo.balance);
+               if ( assetInfo.balance >= 0.0001 ) {
+                 const Obj = {
+                   assetId: BTC_ASSET_ID,
+                   recipientId: EXIN_BOT,
+                     traceId: newUserClient.getUUID(),
+                     amount: "0.0001",
+                     memo: memo,
+                   }
+                   console.log(Obj);
+                   newUserClient.transferFromBot(Obj);
+               } else {
+                 console.log("Not enough BTC!");
+               }
+             } else if ( args.type === TYPE_EXCHANGE_USDT_BTC ) {
+               // Pack memo
+               const bytes = Buffer.from(
+                 BTC_ASSET_ID.replace(/-/g, ''),
+                 'hex'
+               );
+               const memo = msgpack
+                 .encode({
+                   A: bytes,
+                 })
+                 .toString('base64');
+
+               console.log(memo); // gaFBxBDG0McoJiRCm44N2dGbZZL6
+               const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+               console.log("The Wallet 's BTC balance is ", assetInfo.balance);
+               if ( assetInfo.balance >= 1 ) {
+                 const Obj = {
+                   assetId: USDT_ASSET_ID,
+                   recipientId: EXIN_BOT,
+                     traceId: newUserClient.getUUID(),
+                     amount: "1",
+                     memo: memo,
+                   }
+                   console.log(Obj);
+                   newUserClient.transferFromBot(Obj);
+               } else {
+                 console.log("Not enough USDT!");
+               }
              }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
