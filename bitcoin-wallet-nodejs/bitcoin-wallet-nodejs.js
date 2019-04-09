@@ -464,8 +464,8 @@ if ( process.argv.length == 3 ) {
                 console.log(response.data.data);
               });
             } else if ( args.type === TYPE_READ_SNAPSHOTS ) {
-              const dt = new Date().toString();
-              console.log(dt);
+              // const dt = new Date().toString();
+              // console.log(dt);
               // const snapshot = await client.getSnapshot(snapshots[0].snapshot_id);
               const prompts = [
                 {
@@ -476,8 +476,17 @@ if ( process.argv.length == 3 ) {
               ];
              const answers = await inquirer.prompt(prompts);
              console.log(answers);
+             console.log(encodeURIComponent(answers.datetime));
              const snapshots = await newUserClient.getSnapshots({ limit: 10, asset: USDT_ASSET_ID, offset: answers.datetime, order: "ASC"});
-             console.log(snapshots);
+             // console.log(snapshots);
+             snapshots.forEach(function(element) {
+               if ( element.amount > 0) {
+                 if ( element.data != null ) {
+                   console.log(element.amount);
+                   console.log(element.data);
+                 }
+               }
+             });
             }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
