@@ -485,10 +485,11 @@ if ( process.argv.length == 3 ) {
                     console.log(element.amount);
                     console.log(element.data);
                     const buf = Buffer.from(element.data, 'base64');
-                    // const codeStr = Buffer.from(msgpack.decode(buf).C).toInteger();
-                    // if ( codeStr === 1000 ) {
-                    //   console.log("Successful Exchange");
-                    // } else { console.log("Go to there get more info https://github.com/exinone/exincore#code error code: " + codeStr);}
+                    console.log(msgpack.decode(buf));
+                    const codeInt = msgpack.decode(buf).C;
+                    if ( codeInt === 1000 ) {
+                      console.log("Successful Exchange");
+                    } else { console.log("Go to there get more info https://github.com/exinone/exincore#code error code: " + codeStr);}
 
                     const hexStr = Buffer.from(msgpack.decode(buf).FA).toString('hex');
                     const uuid = `${hexStr.slice(0,8)}-${hexStr.slice(8,12)}-${hexStr.slice(12,16)}-${hexStr.slice(16,20)}-${hexStr.slice(20)}`;
