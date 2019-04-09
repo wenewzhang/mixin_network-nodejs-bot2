@@ -426,7 +426,7 @@ if ( process.argv.length == 3 ) {
                  })
                  .toString('base64');
 
-               console.log(memo); // gaFBxBDG0McoJiRCm44N2dGbZZL6
+               console.log(memo);
                const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
                console.log("The Wallet 's BTC balance is ", assetInfo.balance);
                if ( assetInfo.balance >= 1 ) {
@@ -464,9 +464,6 @@ if ( process.argv.length == 3 ) {
                 console.log(response.data.data);
               });
             } else if ( args.type === TYPE_READ_SNAPSHOTS ) {
-              // const dt = new Date().toString();
-              // console.log(dt);
-              // const snapshot = await client.getSnapshot(snapshots[0].snapshot_id);
               const prompts = [
                 {
                   name: 'datetime',
