@@ -9,10 +9,10 @@ You pay USDT to ExinCore, ExinCore transfer Bitcoin to you on the fly with very 
 ExinCore don't know who you are because ExinCore only know your client's uuid.
 
 ### Pre-request:
-You should  have created a bot based on Mixin Network. Create one by reading [Nodejs Bitcoin tutorial](https://github.com/wenewzhang/mixin_network-nodejs-bot2/README.md).
+You should  have created a bot based on Mixin Network. Create one by reading [Nodejs Bitcoin tutorial](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md).
 
 #### Install required packages
-As you know, we introduce you the **mixin-node-client** in [chapter 1](https://github.com/wenewzhang/mixin_network-nodejs-bot2/README.md), assume it has installed before, let's install others here.
+As you know, we introduce you the **mixin-node-client** in [chapter 1](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), assume it has installed before, let's install others here.
 
 ```bash
   yarn add fast-csv inquirer msgpack5 path pem-file

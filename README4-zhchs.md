@@ -9,7 +9,7 @@
 ExinCore 也不知道你是谁，它只知道你的UUID.
 
 ### 预备知识:
-你先需要创建一个机器人, 方法在 [教程一](https://github.com/wenewzhang/mixin_network-nodejs-bot2/README.md).
+你先需要创建一个机器人, 方法在 [教程一](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md).
 
 #### 安装依赖包
 正如教程一里我们介绍过的， 我们需要依赖 **mixin-node-client**, 你应该先安装过它了， 这儿我们再安装其它的软件包.
