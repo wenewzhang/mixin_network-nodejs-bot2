@@ -494,11 +494,12 @@ if ( process.argv.length == 3 ) {
                     const hexStr = Buffer.from(msgpack.decode(buf).FA).toString('hex');
                     const uuid = `${hexStr.slice(0,8)}-${hexStr.slice(8,12)}-${hexStr.slice(12,16)}-${hexStr.slice(16,20)}-${hexStr.slice(20)}`;
                     console.log("Asset uuid is :" + uuid);
-                    const priceStr = Buffer.from(msgpack.decode(buf).P).toString();
+                    const priceStr = msgpack.decode(buf).P;
                     console.log("Price is :" + priceStr);
-                    const feeStr = Buffer.from(msgpack.decode(buf).F).toString();
+                    const feeStr = msgpack.decode(buf).F;
                     console.log("Fee is :" + feeStr);
-                    const tStr = Buffer.from(msgpack.decode(buf).T).toString();
+                    console.log("percent of Fee is :" + (feeStr/element.amount)* 100 + " %");
+                    const tStr = msgpack.decode(buf).T;
                     console.log("T is :" + tStr);
                  }
                }
