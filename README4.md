@@ -9,15 +9,17 @@ You pay USDT to ExinCore, ExinCore transfer Bitcoin to you on the fly with very 
 ExinCore don't know who you are because ExinCore only know your client's uuid.
 
 ### Pre-request:
-You should  have created a bot based on Mixin Network. Create one by reading [Nodejs Bitcoin tutorial](https://github.com/wenewzhang/mixin_network-nodejs-bot2).
+You should  have created a bot based on Mixin Network. Create one by reading [Nodejs Bitcoin tutorial](https://github.com/wenewzhang/mixin_network-nodejs-bot2/README.md).
 
 #### Install required packages
-As you know, we introduce you the **mixin-csharp-sdk** in [chapter 1](https://github.com/wenewzhang/mixin_labs-csharp-bot/blob/master/README.md), assume it has installed before, let's install others here.
+As you know, we introduce you the **mixin-node-client** in [chapter 1](https://github.com/wenewzhang/mixin_network-nodejs-bot2/README.md), assume it has installed before, let's install others here.
+
 ```bash
   yarn add fast-csv inquirer msgpack5 path pem-file
 or
   npm i fast-csv inquirer msgpack5 path pem-file
 ```
+
 #### Deposit USDT or Bitcoin into your Mixin Network account and read balance
 The ExinCore can exchange between Bitcoin, USDT, EOS, ETH etc. Here show you how to exchange between USDT and Bitcoin,
 Check the wallet's balance & address before you make order.
@@ -85,7 +87,7 @@ How to check the coin's price? You need understand what is the base coin. If you
 ```
 
 #### Create a memo to prepare order
-The chapter two: [Echo Bitcoin](https://github.com/wenewzhang/mixin_labs-csharp-bot/blob/master/README2.md) introduce transfer coins. But you need to let ExinCore know which coin you want to buy. Just write your target asset into memo.
+The chapter two: [Echo Bitcoin](https://github.com/wenewzhang/mixin_networks-nodejs-bots/blob/master/README2.md) introduce transfer coins. But you need to let ExinCore know which coin you want to buy. Just write your target asset into memo.
 ```js
 const bytes = Buffer.from(
   BTC_ASSET_ID.replace(/-/g, ''),

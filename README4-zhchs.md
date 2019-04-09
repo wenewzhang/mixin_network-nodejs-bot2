@@ -9,14 +9,17 @@
 ExinCore 也不知道你是谁，它只知道你的UUID.
 
 ### 预备知识:
-你先需要创建一个机器人, 方法在 [教程一](https://github.com/wenewzhang/mixin_labs-csharp-bot/blob/master/README-zhchs.md).
+你先需要创建一个机器人, 方法在 [教程一](https://github.com/wenewzhang/mixin_network-nodejs-bot2/README.md).
 
 #### 安装依赖包
 正如教程一里我们介绍过的， 我们需要依赖 **mixin-node-client**, 你应该先安装过它了， 这儿我们再安装其它的软件包.
+
 ```bash
-  dotnet add package MixinCSharpSdk
-  dotnet add package MsgPack.Cli --version 1.0.1
+  yarn add fast-csv inquirer msgpack5 path pem-file
+or
+  npm i fast-csv inquirer msgpack5 path pem-file
 ```
+
 #### 充币到 Mixin Network, 并读出它的余额.
 通过ExinCore API, 可以进行BTC, USDT, EOS, ETH 等等交易， 此处演示用 USDT购买BTC 或者 用BTC购买USDT。交易前，先检查一下钱包地址。
 完整的步骤如下:
@@ -83,7 +86,7 @@ ExinCore 也不知道你是谁，它只知道你的UUID.
 ```
 
 #### 交易前，创建一个Memo!
-在第二章里,[基于Mixin Network的 C# 比特币开发教程: 机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_labs-csharp-bot/blob/master/README2-zhchs.md), 我们学习过退还用户比特币，在这里，我们除了给ExinCore支付币外，还要告诉他我们想购买的币是什么，即将想购买的币存到memo里。
+在第二章里,[基于Mixin Network的 Nodejs 比特币开发教程: 机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_networks-nodejs-bots/blob/master/README2-zhchs.md), 我们学习过退还用户比特币，在这里，我们除了给ExinCore支付币外，还要告诉他我们想购买的币是什么，即将想购买的币存到memo里。
 ```js
 const bytes = Buffer.from(
   BTC_ASSET_ID.replace(/-/g, ''),
