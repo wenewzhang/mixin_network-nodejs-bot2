@@ -87,7 +87,7 @@ How to check the coin's price? You need understand what is the base coin. If you
 ```
 
 #### Create a memo to prepare order
-The chapter two: [Echo Bitcoin](https://github.com/wenewzhang/mixin_networks-nodejs-bots/blob/master/README2.md) introduce transfer coins. But you need to let ExinCore know which coin you want to buy. Just write your target asset into memo.
+The chapter two: [Echo Bitcoin](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2.md) introduce transfer coins. But you need to let ExinCore know which coin you want to buy. Just write your target asset into memo.
 ```js
 const bytes = Buffer.from(
   BTC_ASSET_ID.replace(/-/g, ''),

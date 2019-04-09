@@ -86,7 +86,7 @@ or
 ```
 
 #### 交易前，创建一个Memo!
-在第二章里,[基于Mixin Network的 Nodejs 比特币开发教程: 机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_networks-nodejs-bots/blob/master/README2-zhchs.md), 我们学习过退还用户比特币，在这里，我们除了给ExinCore支付币外，还要告诉他我们想购买的币是什么，即将想购买的币存到memo里。
+在第二章里,[基于Mixin Network的 Nodejs 比特币开发教程: 机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md), 我们学习过退还用户比特币，在这里，我们除了给ExinCore支付币外，还要告诉他我们想购买的币是什么，即将想购买的币存到memo里。
 ```js
 const bytes = Buffer.from(
   BTC_ASSET_ID.replace(/-/g, ''),
