@@ -16,7 +16,9 @@ ExinCore 也不知道你是谁，它只知道你的UUID.
 
 ```bash
   yarn add fast-csv inquirer msgpack5 path pem-file
+```
 or
+```bash
   npm i fast-csv inquirer msgpack5 path pem-file
 ```
 
