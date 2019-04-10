@@ -16,7 +16,9 @@ As you know, we introduce you the **mixin-node-client** in [chapter 1](https://g
 
 ```bash
   yarn add fast-csv inquirer msgpack5 path pem-file
+```
 or
+```bash
   npm i fast-csv inquirer msgpack5 path pem-file
 ```
 
