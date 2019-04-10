@@ -464,19 +464,25 @@ if ( process.argv.length == 3 ) {
                 console.log(response.data.data);
               });
             } else if ( args.type === TYPE_READ_SNAPSHOTS ) {
-              const prompts = [
-                {
-                  name: 'datetime',
-                  type: 'input',
-                  message: "Input iso8601 datetime: ",
-                },
-              ];
-             const answers = await inquirer.prompt(prompts);
-             console.log(answers);
-             console.log(encodeURIComponent(answers.datetime));
-             const snapshots = await newUserClient.getSnapshots({ limit: 10, asset: USDT_ASSET_ID, offset: answers.datetime, order: "ASC"});
-             // console.log(snapshots);
-             snapshots.forEach(function(element) {
+              let answers;
+              if ( process.argv[2] === '0b10471b-1aed-3944-9eda-5ab947562761' )
+              {
+                answers = { datetime: '2019-04-08T05:16:33.615253Z'};
+              } else {
+                const prompts = [
+                  {
+                    name: 'datetime',
+                    type: 'input',
+                    message: "Input iso8601 datetime: ",
+                  },
+                ];
+                answers = await inquirer.prompt(prompts);
+                console.log(answers);
+              }
+              console.log(encodeURIComponent(answers.datetime));
+              const snapshots = await newUserClient.getSnapshots({ limit: 10, asset: USDT_ASSET_ID, offset: answers.datetime, order: "ASC"});
+              // console.log(snapshots);
+              snapshots.forEach(function(element) {
                if ( element.amount > 0) {
                  if ( element.data != null ) {
                     console.log(element.amount);
