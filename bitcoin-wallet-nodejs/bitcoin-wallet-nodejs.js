@@ -19,7 +19,9 @@ const EXIN_BOT         =    "61103d28-3ac2-44a2-ae34-bd956070dab1";
 const BTC_ASSET_ID     =    "c6d0c728-2624-429b-8e0d-d9d19b6592fa";
 const EOS_ASSET_ID     =    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d";
 const USDT_ASSET_ID    =    "815b0b1a-2764-3736-8faa-42d694fa620a";
-
+const XIN_ASSET_ID     =    "c94ac88f-4671-3976-b60a-09064f1811e8";
+const CNB_ASSET_ID     =    "965e5c6e-434c-3fa9-b780-c50f43cd955c";
+const ERC20_BENZ       =    "2b9c216c-ef60-398d-a42a-eba1b298581d";
 //change to your third exchange/cold  btc wallet address
 const BTC_WALLET_ADDR  =    "14T129GTbXXPGXXvZzVaNLRFPeHXD1C25C";
 const EOS_WALLET_NAME  =    "huobideposit";
@@ -496,8 +498,13 @@ if ( process.argv.length == 3 ) {
                }
              });
            } else if ( args.type === TYPE_OO_FETCH_BTC_USDT ) {
-
-           }
+             FetchOceanOneMarketInfos(BTC_ASSET_ID, USDT_ASSET_ID);
+          }
+           else if ( args.type === TYPE_OO_FETCH_XIN_USDT ) {
+            FetchOceanOneMarketInfos(XIN_ASSET_ID, USDT_ASSET_ID);
+          } else if ( args.type === TYPE_OO_FETCH_ERC_USDT ) {
+            FetchOceanOneMarketInfos(ERC20_BENZ, USDT_ASSET_ID);
+            }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
              });
@@ -510,21 +517,46 @@ if ( process.argv.length == 3 ) {
   }
 }
 function FetchExinCoreMarketInfos(_assetID) {
-var instance = axios.create({
-baseURL: 'https://exinone.com/exincore/markets',
-timeout: 3000,
-headers: {'X-Custom-Header': 'foobar'}
-});
-instance.get('?base_asset=' + _assetID)
-.then(function(response) {
-  console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
-  response.data.data.forEach(function(element) {
-     console.log(element.exchange_asset_symbol + "     " +
-                 element.price + "     " +
-                 element.minimum_amount + "     " +
-                 element.maximum_amount + "     " +
-                 element.exchanges);
-   });
-  // console.log(response.data.data);
-});
+  var instance = axios.create({
+  baseURL: 'https://exinone.com/exincore/markets',
+  timeout: 3000,
+  headers: {'X-Custom-Header': 'foobar'}
+  });
+  instance.get('?base_asset=' + _assetID)
+  .then(function(response) {
+    console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
+    response.data.data.forEach(function(element) {
+       console.log(element.exchange_asset_symbol + "     " +
+                   element.price + "     " +
+                   element.minimum_amount + "     " +
+                   element.maximum_amount + "     " +
+                   element.exchanges);
+     });
+    // console.log(response.data.data);
+  });
+}
+
+function FetchOceanOneMarketInfos(asset_id, base_asset) {
+  var instance = axios.create({
+  baseURL: "https://events.ocean.one/markets/" + asset_id + "-" + base_asset + "/book",
+  timeout: 3000,
+  headers: {'X-Custom-Header': 'foobar'}
+  });
+  instance.get()
+  .then(function(response) {
+    console.log("--Price--Amount--Funds--Side")
+    response.data.data.data.asks.forEach(function(element) {
+       console.log(element.price + "     " +
+                   element.amount + "     " +
+                   element.funds + "     " +
+                   element.side);
+     });
+     response.data.data.data.bids.forEach(function(element) {
+        console.log(element.price + "     " +
+                    element.amount + "     " +
+                    element.funds + "     " +
+                    element.side);
+      });
+    // console.log(response.data.data.data.asks);
+  });
 }
