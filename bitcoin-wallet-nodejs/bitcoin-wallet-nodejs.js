@@ -197,8 +197,8 @@ if ( process.argv.length == 3 ) {
     const TYPE_EOS_WITHDRAW              = '11: EOS withdraw';
     const TYPE_BTC_WITHDRAW_READ         = '12: Fetch BTC withdrawal info';
     const TYPE_EOS_WITHDRAW_READ         = '13: Fetch EOS withdrawal info';
-    const TYPE_FETCH_USDT_MARKETINFO     = '14: Fetch USDT Market info(ExinCore)';
-    const TYPE_FETCH_BTC_MARKETINFO      = '15: Fetch BTC Market info(ExinCore)';
+    const TYPE_FETCH_USDT_MARKETINFO     = '14: Fetch ExinCore Market info by USDT';
+    const TYPE_FETCH_BTC_MARKETINFO      = '15: Fetch ExinCore Market info by BTC';
     const TYPE_EXCHANGE_BTC_USDT         = '16: Transfer 0.0001 BTC buy USDT';
     const TYPE_EXCHANGE_USDT_BTC         = '17: Transfer USDT $1 buy BTC';
     const TYPE_READ_SNAPSHOTS            = '18: Read snapshots';
@@ -448,41 +448,9 @@ if ( process.argv.length == 3 ) {
                  console.log("Not enough USDT!");
                }
              } else if (  args.type === TYPE_FETCH_USDT_MARKETINFO ) {
-               // Make a request
-               var instance = axios.create({
-               baseURL: 'https://exinone.com/exincore/markets',
-               timeout: 3000,
-               headers: {'X-Custom-Header': 'foobar'}
-               });
-               instance.get('?base_asset=' + USDT_ASSET_ID)
-               .then(function(response) {
-                 console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
-                 response.data.data.forEach(function(element) {
-                    console.log(element.exchange_asset_symbol + "     " +
-                                element.price + "     " +
-                                element.minimum_amount + "     " +
-                                element.maximum_amount + "     " +
-                                element.exchanges);
-                  });
-                 // console.log(response.data.data);
-               });
+               FetchExinCoreMarketInfos(USDT_ASSET_ID);
              } else if (  args.type === TYPE_FETCH_BTC_MARKETINFO ) {
-              var instance = axios.create({
-              baseURL: 'https://exinone.com/exincore/markets',
-              timeout: 3000,
-              headers: {'X-Custom-Header': 'foobar'}
-              });
-              instance.get('?base_asset=' + BTC_ASSET_ID)
-              .then(function(response) {
-                console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
-                response.data.data.forEach(function(element) {
-                   console.log(element.exchange_asset_symbol + "     " +
-                               element.price + "     " +
-                               element.minimum_amount + "     " +
-                               element.maximum_amount + "     " +
-                               element.exchanges);
-                 });
-              });
+               FetchExinCoreMarketInfos(BTC_ASSET_ID);
             } else if ( args.type === TYPE_READ_SNAPSHOTS ) {
               let answers;
               if ( process.argv[2] === '0b10471b-1aed-3944-9eda-5ab947562761' )
@@ -540,4 +508,23 @@ if ( process.argv.length == 3 ) {
        });
     })();
   }
+}
+function FetchExinCoreMarketInfos(_assetID) {
+var instance = axios.create({
+baseURL: 'https://exinone.com/exincore/markets',
+timeout: 3000,
+headers: {'X-Custom-Header': 'foobar'}
+});
+instance.get('?base_asset=' + _assetID)
+.then(function(response) {
+  console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
+  response.data.data.forEach(function(element) {
+     console.log(element.exchange_asset_symbol + "     " +
+                 element.price + "     " +
+                 element.minimum_amount + "     " +
+                 element.maximum_amount + "     " +
+                 element.exchanges);
+   });
+  // console.log(response.data.data);
+});
 }
