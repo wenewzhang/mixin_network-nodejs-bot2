@@ -192,15 +192,19 @@ if ( process.argv.length == 3 ) {
     const TYPE_TRANS_BTC_TO_MASTER       = '6: Transfer BTC from Wallet to Master';
     const TYPE_TRANS_EOS_TO_MASTER       = '7: Transfer EOS from Wallet to Master';
     const TYPE_VERIFY_PIN                = '8: Verify Wallet PIN ';
-    const TYPE_BTC_WITHDRAW              = '9: BTC withdraw';
-    const TYPE_EOS_WITHDRAW              = '10: EOS withdraw';
-    const TYPE_BTC_WITHDRAW_READ         = '11: Fetch BTC withdrawal info';
-    const TYPE_EOS_WITHDRAW_READ         = '12: Fetch EOS withdrawal info';
-    const TYPE_FETCH_USDT_MARKETINFO     = '13: Fetch USDT Market info';
-    const TYPE_FETCH_BTC_MARKETINFO      = '14: Fetch BTC Market info';
-    const TYPE_EXCHANGE_BTC_USDT         = '14: Transfer 0.0001 BTC buy USDT';
-    const TYPE_EXCHANGE_USDT_BTC         = '15: Transfer USDT $1 buy BTC';
-    const TYPE_READ_SNAPSHOTS            = '16: Read snapshots';
+    const TYPE_BOT_VERIFY_PIN            = '9: Verify Bot PIN ';
+    const TYPE_BTC_WITHDRAW              = '10: BTC withdraw';
+    const TYPE_EOS_WITHDRAW              = '11: EOS withdraw';
+    const TYPE_BTC_WITHDRAW_READ         = '12: Fetch BTC withdrawal info';
+    const TYPE_EOS_WITHDRAW_READ         = '13: Fetch EOS withdrawal info';
+    const TYPE_FETCH_USDT_MARKETINFO     = '14: Fetch USDT Market info(ExinCore)';
+    const TYPE_FETCH_BTC_MARKETINFO      = '15: Fetch BTC Market info(ExinCore)';
+    const TYPE_EXCHANGE_BTC_USDT         = '16: Transfer 0.0001 BTC buy USDT';
+    const TYPE_EXCHANGE_USDT_BTC         = '17: Transfer USDT $1 buy BTC';
+    const TYPE_READ_SNAPSHOTS            = '18: Read snapshots';
+    const TYPE_OO_FETCH_BTC_USDT         = '19: Fetch BTC/USDT order book(Ocean.One)';
+    const TYPE_OO_FETCH_XIN_USDT         = '20: Fetch XIN/USDT order book(Ocean.One)';
+    const TYPE_OO_FETCH_ERC_USDT         = '21: Fetch ERC20/USDT order book(Ocean.One)';
     const prompts = [
       {
         name: 'type',
@@ -210,9 +214,10 @@ if ( process.argv.length == 3 ) {
         message: PromptCmd,
         choices: [TYPE_ASSETS_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
                   TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
-                  TYPE_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
+                  TYPE_VERIFY_PIN, TYPE_BOT_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
                   TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
-                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, "Exit"],
+                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, TYPE_OO_FETCH_BTC_USDT,
+                  TYPE_OO_FETCH_XIN_USDT, TYPE_OO_FETCH_ERC_USDT, "Exit"],
       },
     ];
     (async () => {
@@ -451,7 +456,15 @@ if ( process.argv.length == 3 ) {
                });
                instance.get('?base_asset=' + USDT_ASSET_ID)
                .then(function(response) {
-                 console.log(response.data.data);
+                 console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
+                 response.data.data.forEach(function(element) {
+                    console.log(element.exchange_asset_symbol + "     " +
+                                element.price + "     " +
+                                element.minimum_amount + "     " +
+                                element.maximum_amount + "     " +
+                                element.exchanges);
+                  });
+                 // console.log(response.data.data);
                });
              } else if (  args.type === TYPE_FETCH_BTC_MARKETINFO ) {
               var instance = axios.create({
@@ -461,7 +474,14 @@ if ( process.argv.length == 3 ) {
               });
               instance.get('?base_asset=' + BTC_ASSET_ID)
               .then(function(response) {
-                console.log(response.data.data);
+                console.log("-Asset--Price--MinAmount--MaxAmount--Exchange")
+                response.data.data.forEach(function(element) {
+                   console.log(element.exchange_asset_symbol + "     " +
+                               element.price + "     " +
+                               element.minimum_amount + "     " +
+                               element.maximum_amount + "     " +
+                               element.exchanges);
+                 });
               });
             } else if ( args.type === TYPE_READ_SNAPSHOTS ) {
               let answers;
@@ -507,7 +527,9 @@ if ( process.argv.length == 3 ) {
                  }
                }
              });
-            }
+           } else if ( args.type === TYPE_OO_FETCH_BTC_USDT ) {
+
+           }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
              });
