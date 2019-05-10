@@ -643,6 +643,78 @@ if ( process.argv.length == 3 ) {
             } else {
               console.log("Not enough BTC!");
             }
+          }  else if ( args.type === TYPE_OO_SELL_XIN_USDT ) {
+            var prompts = [
+              {
+                name: 'price',
+                type: 'input',
+                message: "Input the price of XIN/USDT: ",
+              },
+            ];
+            price = await inquirer.prompt(prompts);
+            var prompts = [
+              {
+                name: 'amount',
+                type: 'input',
+                message: "Input the amount of XIN: ",
+              },
+            ];
+            amount = await inquirer.prompt(prompts);
+            console.log(price);
+            console.log(amount);
+            const memo = GenerateOceanMemo(XIN_ASSET_ID,"A",price.price);
+            const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= amount.amount ) {
+              const Obj = {
+                assetId: XIN_ASSET_ID,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: amount.amount,
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+                console.log("The Order id is " + transInfo.trace_id + " It is needed to cancel the order!");
+            } else {
+              console.log("Not enough XIN!");
+            }
+          }  else if ( args.type === TYPE_OO_SELL_ERC_USDT ) {
+            var prompts = [
+              {
+                name: 'price',
+                type: 'input',
+                message: "Input the price of ERC(Benz)/USDT: ",
+              },
+            ];
+            price = await inquirer.prompt(prompts);
+            var prompts = [
+              {
+                name: 'amount',
+                type: 'input',
+                message: "Input the amount of ERC20(Benz): ",
+              },
+            ];
+            amount = await inquirer.prompt(prompts);
+            console.log(price);
+            console.log(amount);
+            const memo = GenerateOceanMemo(USDT_ASSET_ID,"A",price.price);
+            const assetInfo = await newUserClient.getUserAsset(ERC20_BENZ);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= amount.amount ) {
+              const Obj = {
+                assetId: ERC20_BENZ,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: amount.amount,
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+                console.log("The Order id is " + transInfo.trace_id + " It is needed to cancel the order!");
+            } else {
+              console.log("Not enough ERC20_BENZ!");
+            }
           }  else if ( args.type === TYPE_OO_BUY_BTC_USDT ) {
             var prompts = [
               {
