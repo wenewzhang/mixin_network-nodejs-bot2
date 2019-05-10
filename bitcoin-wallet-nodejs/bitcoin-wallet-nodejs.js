@@ -16,6 +16,7 @@ const PromptCmd        =    "\nMake your choose";
 const WalletName       =    "./mybitcoin_wallet.csv";
 
 const EXIN_BOT         =    "61103d28-3ac2-44a2-ae34-bd956070dab1";
+const OCEANONE_BOT     =    "aaff5bef-42fb-4c9f-90e0-29f69176b7d4";
 const BTC_ASSET_ID     =    "c6d0c728-2624-429b-8e0d-d9d19b6592fa";
 const EOS_ASSET_ID     =    "6cfe566e-4aad-470b-8c9a-2fd35b49c68d";
 const USDT_ASSET_ID    =    "815b0b1a-2764-3736-8faa-42d694fa620a";
@@ -196,6 +197,8 @@ if ( process.argv.length == 3 ) {
     const TYPE_TRANS_EOS_TO_MASTER       = '7: Transfer EOS from Wallet to Master';
     const TYPE_TRANS_USDT_TO_WALLET      = 'tub: Transfer USDT from Bot to Wallet';
     const TYPE_TRANS_USDT_TO_MASTER      = 'tum: Transfer USDT from Wallet to Master';
+    const TYPE_TRANS_CNB_TO_WALLET       = 'tcb: Transfer CNB from Bot to Wallet';
+    const TYPE_TRANS_CNB_TO_MASTER       = 'tcm: Transfer CNB from Wallet to Master';
     const TYPE_VERIFY_PIN                = '8: Verify Wallet PIN ';
     const TYPE_BOT_VERIFY_PIN            = '9: Verify Bot PIN ';
     const TYPE_BTC_WITHDRAW              = '10: BTC withdraw';
@@ -217,22 +220,24 @@ if ( process.argv.length == 3 ) {
     const TYPE_OO_BUY_BTC_USDT           = '25: Buy BTC/USDT ';
     const TYPE_OO_BUY_XIN_USDT           = '26: Buy XIN/USDT ';
     const TYPE_OO_BUY_ERC_USDT           = '27: Buy ERC20/USDT ';
+    const TYPE_OO_CANCEL_ORDER           = '28: Cancel the order';
     const prompts = [
       {
         name: 'type',
         type: 'list',
-        pageSize: 35,
+        pageSize: 45,
         default: TYPE_WALLET_ASSETS_INFO,
         message: PromptCmd,
         choices: [TYPE_WALLET_ASSETS_INFO, TYPE_BOT_ASSETS_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO,
                   TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER,
                   TYPE_TRANS_EOS_TO_MASTER,TYPE_TRANS_USDT_TO_WALLET,TYPE_TRANS_USDT_TO_MASTER,
+                  TYPE_TRANS_CNB_TO_WALLET,TYPE_TRANS_CNB_TO_MASTER,
                   TYPE_VERIFY_PIN, TYPE_BOT_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
                   TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
                   TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, TYPE_SEPRATE_LINE,
                   TYPE_OO_FETCH_BTC_USDT,TYPE_OO_FETCH_XIN_USDT, TYPE_OO_FETCH_ERC_USDT,
                   TYPE_OO_SELL_BTC_USDT, TYPE_OO_SELL_XIN_USDT, TYPE_OO_SELL_ERC_USDT,
-                  TYPE_OO_BUY_BTC_USDT, TYPE_OO_BUY_XIN_USDT, TYPE_OO_BUY_ERC_USDT,
+                  TYPE_OO_BUY_BTC_USDT, TYPE_OO_BUY_XIN_USDT, TYPE_OO_BUY_ERC_USDT,TYPE_OO_CANCEL_ORDER,
                   "Exit"],
       },
     ];
@@ -355,6 +360,21 @@ if ( process.argv.length == 3 ) {
                  console.log(Obj);
                  clientBot.transferFromBot(Obj);
                }
+             }  else if (args.type === TYPE_TRANS_CNB_TO_WALLET) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await clientBot.getUserAsset(CNB_ASSET_ID);
+               console.log("The Bot 's CNB balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: CNB_ASSET_ID,
+                   recipientId: process.argv[2],
+                     traceId: clientBot.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 clientBot.transferFromBot(Obj);
+               }
              } else if (args.type === TYPE_TRANS_BTC_TO_MASTER) {
                // console.log('You choice to 1:', args);
                const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
@@ -392,6 +412,21 @@ if ( process.argv.length == 3 ) {
                if ( assetInfo.balance > 0 ) {
                  const Obj = {
                    assetId: USDT_ASSET_ID,
+                   recipientId: MASTER_UUID,
+                     traceId: newUserClient.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 newUserClient.transferFromBot(Obj);
+               }
+             } else if (args.type === TYPE_TRANS_CNB_TO_MASTER) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(CNB_ASSET_ID);
+               console.log("The Wallet 's CNB balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: CNB_ASSET_ID,
                    recipientId: MASTER_UUID,
                      traceId: newUserClient.getUUID(),
                      amount: assetInfo.balance,
@@ -572,7 +607,176 @@ if ( process.argv.length == 3 ) {
             FetchOceanOneMarketInfos(XIN_ASSET_ID, USDT_ASSET_ID);
           } else if ( args.type === TYPE_OO_FETCH_ERC_USDT ) {
             FetchOceanOneMarketInfos(ERC20_BENZ, USDT_ASSET_ID);
+          } else if ( args.type === TYPE_OO_SELL_BTC_USDT ) {
+            var prompts = [
+              {
+                name: 'price',
+                type: 'input',
+                message: "Input the price of BTC/USDT: ",
+              },
+            ];
+            price = await inquirer.prompt(prompts);
+            var prompts = [
+              {
+                name: 'amount',
+                type: 'input',
+                message: "Input the amount of BTC: ",
+              },
+            ];
+            amount = await inquirer.prompt(prompts);
+            console.log(price);
+            console.log(amount);
+            const memo = GenerateOceanMemo(USDT_ASSET_ID,"A",price.price);
+            const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= amount.amount ) {
+              const Obj = {
+                assetId: BTC_ASSET_ID,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: amount.amount,
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+                console.log("The Order id is " + transInfo.trace_id + " It is needed to cancel the order!");
+            } else {
+              console.log("Not enough BTC!");
             }
+          }  else if ( args.type === TYPE_OO_BUY_BTC_USDT ) {
+            var prompts = [
+              {
+                name: 'price',
+                type: 'input',
+                message: "Input the price of BTC/USDT: ",
+              },
+            ];
+            price = await inquirer.prompt(prompts);
+            var prompts = [
+              {
+                name: 'amount',
+                type: 'input',
+                message: "Input the amount of USDT: ",
+              },
+            ];
+            amount = await inquirer.prompt(prompts);
+            console.log(price);
+            console.log(amount);
+            const memo = GenerateOceanMemo(BTC_ASSET_ID,"B",price.price);
+            const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= amount.amount && assetInfo.balance >= 1 ) {
+              const Obj = {
+                assetId: USDT_ASSET_ID,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: amount.amount,
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+                console.log("The Order id is " + transInfo.trace_id + " It is needed to cancel the order!");
+            } else {
+              console.log("Not enough USDT!");
+            }
+          }   else if ( args.type === TYPE_OO_BUY_XIN_USDT ) {
+            var prompts = [
+              {
+                name: 'price',
+                type: 'input',
+                message: "Input the price of XIN/USDT: ",
+              },
+            ];
+            price = await inquirer.prompt(prompts);
+            var prompts = [
+              {
+                name: 'amount',
+                type: 'input',
+                message: "Input the amount of USDT: ",
+              },
+            ];
+            amount = await inquirer.prompt(prompts);
+            console.log(price);
+            console.log(amount);
+            const memo = GenerateOceanMemo(XIN_ASSET_ID,"B",price.price);
+            const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= amount.amount && assetInfo.balance >= 1 ) {
+              const Obj = {
+                assetId: USDT_ASSET_ID,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: amount.amount,
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+                console.log("The Order id is " + transInfo.trace_id + " It is needed to cancel the order!");
+            } else {
+              console.log("Not enough USDT!");
+            }
+          }  else if ( args.type === TYPE_OO_BUY_ERC_USDT ) {
+            var prompts = [
+              {
+                name: 'price',
+                type: 'input',
+                message: "Input the price of ERC20(Benz)/USDT: ",
+              },
+            ];
+            price = await inquirer.prompt(prompts);
+            var prompts = [
+              {
+                name: 'amount',
+                type: 'input',
+                message: "Input the amount of USDT: ",
+              },
+            ];
+            amount = await inquirer.prompt(prompts);
+            console.log(price);
+            console.log(amount);
+            const memo = GenerateOceanMemo(ERC20_BENZ,"B",price.price);
+            const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= amount.amount && assetInfo.balance >= 1 ) {
+              const Obj = {
+                assetId: USDT_ASSET_ID,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: amount.amount,
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+                console.log("The Order id is " + transInfo.trace_id + " It is needed to cancel the order!");
+            } else {
+              console.log("Not enough USDT!");
+            }
+          }  else if ( args.type === TYPE_OO_CANCEL_ORDER ) {
+            const prompts = [
+              {
+                name: 'order_id',
+                type: 'input',
+                message: "Input iso8601 datetime: ",
+              },
+            ];
+            answers = await inquirer.prompt(prompts);
+            const memo = GenerateOceanCancelMemo(answers.order_id);
+            const assetInfo = await newUserClient.getUserAsset(CNB_ASSET_ID);
+            console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+            if ( assetInfo.balance >= 0.00000001 ) {
+              const Obj = {
+                assetId: CNB_ASSET_ID,
+                recipientId: OCEANONE_BOT,
+                  traceId: newUserClient.getUUID(),
+                  amount: "0.00000001",
+                  memo: memo,
+                }
+                const transInfo = await newUserClient.transferFromBot(Obj);
+                console.log(transInfo);
+            } else {
+              console.log("Not enough CNB!");
+            }
+          }
              runScript(scriptName, [process.argv[2]], function (err) {
                  if (err) throw err;
              });
@@ -583,6 +787,36 @@ if ( process.argv.length == 3 ) {
        });
     })();
   }
+}
+function GenerateOceanCancelMemo(targetAsset) {
+  const bytes = Buffer.from(
+    targetAsset.replace(/-/g, ''),
+    'hex'
+  );
+  const memo = msgpack
+    .encode({
+      O: bytes,
+    })
+    .toString('base64');
+  console.log(memo);
+  return memo;
+}
+
+function GenerateOceanMemo(targetAsset,side,price) {
+  const bytes = Buffer.from(
+    targetAsset.replace(/-/g, ''),
+    'hex'
+  );
+  const memo = msgpack
+    .encode({
+      S: side,
+      A: bytes,
+      P: price,
+      T: "L",
+    })
+    .toString('base64');
+  console.log(memo);
+  return memo;
 }
 function FetchExinCoreMarketInfos(_assetID) {
   var instance = axios.create({
