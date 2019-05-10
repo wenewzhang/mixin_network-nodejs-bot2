@@ -264,8 +264,31 @@ if ( process.argv.length == 3 ) {
              const newUserClient = new HttpClient(newUserConfig);
              if ( args.type === TYPE_WALLET_ASSETS_INFO ) {
                const assetsInfo = await newUserClient.getUserAssets();
-               console.log(assetsInfo);
-             } else if (args.type === TYPE_BITCOIN_INFO) {
+               console.log("-AssetID--Asset--Balance--public_key--");
+               assetsInfo.forEach(function(element) {
+                  console.log(element.asset_id + "  " +
+                              element.symbol + "  " +
+                              element.balance + "  " +
+                              element.public_key + " " +
+                              element.account_name + "  " +
+                              element.account_tag
+                            );
+                });
+               // console.log(assetsInfo);
+             } else if ( args.type === TYPE_BOT_ASSETS_INFO ) {
+                  const assetsInfo = await clientBot.getUserAssets();
+                  console.log("-AssetID--Asset--Balance--public_key--");
+                  assetsInfo.forEach(function(element) {
+                     console.log(element.asset_id + "  " +
+                                 element.symbol + "  " +
+                                 element.balance + "  " +
+                                 element.public_key + " " +
+                                 element.account_name + "  " +
+                                 element.account_tag
+                               );
+                   });
+                  // console.log(assetsInfo);
+                } else if (args.type === TYPE_BITCOIN_INFO) {
                 // console.log('You choice to 1:', args);
                 const assetInfo = await newUserClient.getUserAsset(BTC_ASSET_ID);
                 console.log("Bitcoin address is ", assetInfo.public_key);
