@@ -185,7 +185,8 @@ if ( process.argv.length == 3 ) {
     })();
   } else { //must select a wallet
     console.log("You select the wallet " + process.argv[2]);
-    const TYPE_ASSETS_INFO               = '0: Read All Asssets Balance';
+    const TYPE_WALLET_ASSETS_INFO        = 'aw: Read Wallet All Asssets Information';
+    const TYPE_BOT_ASSETS_INFO           = 'ab: Read Bot All Asssets Information';
     const TYPE_BITCOIN_INFO              = '1: Read Bitcoin Balance & Address';
     const TYPE_USDT_INFO                 = '2: Read USDT Balance & Address';
     const TYPE_EOS_INFO                  = '3: Read EOS Balance & Address';
@@ -204,22 +205,33 @@ if ( process.argv.length == 3 ) {
     const TYPE_EXCHANGE_BTC_USDT         = '16: Transfer 0.0001 BTC buy USDT';
     const TYPE_EXCHANGE_USDT_BTC         = '17: Transfer USDT $1 buy BTC';
     const TYPE_READ_SNAPSHOTS            = '18: Read snapshots';
-    const TYPE_OO_FETCH_BTC_USDT         = '19: Fetch BTC/USDT order book(Ocean.One)';
-    const TYPE_OO_FETCH_XIN_USDT         = '20: Fetch XIN/USDT order book(Ocean.One)';
-    const TYPE_OO_FETCH_ERC_USDT         = '21: Fetch ERC20/USDT order book(Ocean.One)';
+    const TYPE_SEPRATE_LINE              = '--------------OCean.One-------------------------';
+    const TYPE_OO_FETCH_BTC_USDT         = '19: Fetch BTC/USDT order book';
+    const TYPE_OO_FETCH_XIN_USDT         = '20: Fetch XIN/USDT order book';
+    const TYPE_OO_FETCH_ERC_USDT         = '21: Fetch ERC20/USDT order book';
+    const TYPE_OO_SELL_BTC_USDT          = '22: Sell BTC/USDT ';
+    const TYPE_OO_SELL_XIN_USDT          = '23: Sell XIN/USDT ';
+    const TYPE_OO_SELL_ERC_USDT          = '24: Sell ERC20/USDT ';
+    const TYPE_OO_BUY_BTC_USDT           = '25: Buy BTC/USDT ';
+    const TYPE_OO_BUY_XIN_USDT           = '26: Buy XIN/USDT ';
+    const TYPE_OO_BUY_ERC_USDT           = '27: Buy ERC20/USDT ';
     const prompts = [
       {
         name: 'type',
         type: 'list',
-        pageSize: 25,
-        default: TYPE_BITCOIN_INFO,
+        pageSize: 35,
+        default: TYPE_WALLET_ASSETS_INFO,
         message: PromptCmd,
-        choices: [TYPE_ASSETS_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO, TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
+        choices: [TYPE_WALLET_ASSETS_INFO, TYPE_BOT_ASSETS_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO,
+                  TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
                   TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
                   TYPE_VERIFY_PIN, TYPE_BOT_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
                   TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
-                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, TYPE_OO_FETCH_BTC_USDT,
-                  TYPE_OO_FETCH_XIN_USDT, TYPE_OO_FETCH_ERC_USDT, "Exit"],
+                  TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, TYPE_SEPRATE_LINE,
+                  TYPE_OO_FETCH_BTC_USDT,TYPE_OO_FETCH_XIN_USDT, TYPE_OO_FETCH_ERC_USDT,
+                  TYPE_OO_SELL_BTC_USDT, TYPE_OO_SELL_XIN_USDT, TYPE_OO_SELL_ERC_USDT,
+                  TYPE_OO_BUY_BTC_USDT, TYPE_OO_BUY_XIN_USDT, TYPE_OO_BUY_ERC_USDT,
+                  "Exit"],
       },
     ];
     (async () => {
@@ -250,7 +262,7 @@ if ( process.argv.length == 3 ) {
                                     clientSecret: "do not need", assetPin: data[4]};
              // console.log(newUserConfig);
              const newUserClient = new HttpClient(newUserConfig);
-             if ( args.type === TYPE_ASSETS_INFO ) {
+             if ( args.type === TYPE_WALLET_ASSETS_INFO ) {
                const assetsInfo = await newUserClient.getUserAssets();
                console.log(assetsInfo);
              } else if (args.type === TYPE_BITCOIN_INFO) {
