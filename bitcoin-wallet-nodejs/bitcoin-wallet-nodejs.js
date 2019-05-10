@@ -194,6 +194,8 @@ if ( process.argv.length == 3 ) {
     const TYPE_TRANS_EOS_TO_WALLET       = '5: Transfer EOS from Bot to Wallet';
     const TYPE_TRANS_BTC_TO_MASTER       = '6: Transfer BTC from Wallet to Master';
     const TYPE_TRANS_EOS_TO_MASTER       = '7: Transfer EOS from Wallet to Master';
+    const TYPE_TRANS_USDT_TO_WALLET      = 'tub: Transfer USDT from Bot to Wallet';
+    const TYPE_TRANS_USDT_TO_MASTER      = 'tum: Transfer USDT from Wallet to Master';
     const TYPE_VERIFY_PIN                = '8: Verify Wallet PIN ';
     const TYPE_BOT_VERIFY_PIN            = '9: Verify Bot PIN ';
     const TYPE_BTC_WITHDRAW              = '10: BTC withdraw';
@@ -223,8 +225,8 @@ if ( process.argv.length == 3 ) {
         default: TYPE_WALLET_ASSETS_INFO,
         message: PromptCmd,
         choices: [TYPE_WALLET_ASSETS_INFO, TYPE_BOT_ASSETS_INFO, TYPE_BITCOIN_INFO, TYPE_USDT_INFO,
-                  TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,
-                  TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER, TYPE_TRANS_EOS_TO_MASTER,
+                  TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER,
+                  TYPE_TRANS_EOS_TO_MASTER,TYPE_TRANS_USDT_TO_WALLET,TYPE_TRANS_USDT_TO_MASTER,
                   TYPE_VERIFY_PIN, TYPE_BOT_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
                   TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
                   TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, TYPE_SEPRATE_LINE,
@@ -322,7 +324,23 @@ if ( process.argv.length == 3 ) {
                  transInfo = clientBot.transferFromBot(Obj);
                  console.log(transInfo);
                }
-             } else if (args.type === TYPE_TRANS_EOS_TO_WALLET) {
+             } else if (args.type === TYPE_TRANS_USDT_TO_WALLET) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await clientBot.getUserAsset(USDT_ASSET_ID);
+               console.log("The Bot 's USDT balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: USDT_ASSET_ID,
+                   recipientId: process.argv[2],
+                     traceId: clientBot.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 transInfo = clientBot.transferFromBot(Obj);
+                 console.log(transInfo);
+               }
+             }  else if (args.type === TYPE_TRANS_EOS_TO_WALLET) {
                // console.log('You choice to 1:', args);
                const assetInfo = await clientBot.getUserAsset(EOS_ASSET_ID);
                console.log("The Bot 's EOS balance is ", assetInfo.balance);
@@ -359,6 +377,21 @@ if ( process.argv.length == 3 ) {
                if ( assetInfo.balance > 0 ) {
                  const Obj = {
                    assetId: EOS_ASSET_ID,
+                   recipientId: MASTER_UUID,
+                     traceId: newUserClient.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 newUserClient.transferFromBot(Obj);
+               }
+             } else if (args.type === TYPE_TRANS_USDT_TO_MASTER) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+               console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: USDT_ASSET_ID,
                    recipientId: MASTER_UUID,
                      traceId: newUserClient.getUUID(),
                      amount: assetInfo.balance,
