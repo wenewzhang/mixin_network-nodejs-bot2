@@ -199,6 +199,8 @@ if ( process.argv.length == 3 ) {
     const TYPE_TRANS_USDT_TO_MASTER      = 'tum: Transfer USDT from Wallet to Master';
     const TYPE_TRANS_CNB_TO_WALLET       = 'tcb: Transfer CNB from Bot to Wallet';
     const TYPE_TRANS_CNB_TO_MASTER       = 'tcm: Transfer CNB from Wallet to Master';
+    const TYPE_TRANS_ERC_TO_WALLET       = 'trb: Transfer ERC20 from Bot to Wallet';
+    const TYPE_TRANS_ERC_TO_MASTER       = 'trm: Transfer ERC20 from Wallet to Master';
     const TYPE_VERIFY_PIN                = '8: Verify Wallet PIN ';
     const TYPE_BOT_VERIFY_PIN            = '9: Verify Bot PIN ';
     const TYPE_BTC_WITHDRAW              = '10: BTC withdraw';
@@ -232,6 +234,7 @@ if ( process.argv.length == 3 ) {
                   TYPE_EOS_INFO, TYPE_TRANS_BTC_TO_WALLET,TYPE_TRANS_EOS_TO_WALLET, TYPE_TRANS_BTC_TO_MASTER,
                   TYPE_TRANS_EOS_TO_MASTER,TYPE_TRANS_USDT_TO_WALLET,TYPE_TRANS_USDT_TO_MASTER,
                   TYPE_TRANS_CNB_TO_WALLET,TYPE_TRANS_CNB_TO_MASTER,
+                  TYPE_TRANS_ERC_TO_WALLET,TYPE_TRANS_ERC_TO_MASTER,
                   TYPE_VERIFY_PIN, TYPE_BOT_VERIFY_PIN, TYPE_BTC_WITHDRAW, TYPE_EOS_WITHDRAW, TYPE_BTC_WITHDRAW_READ,
                   TYPE_EOS_WITHDRAW_READ, TYPE_FETCH_USDT_MARKETINFO, TYPE_FETCH_BTC_MARKETINFO,
                   TYPE_EXCHANGE_BTC_USDT, TYPE_EXCHANGE_USDT_BTC, TYPE_READ_SNAPSHOTS, TYPE_SEPRATE_LINE,
@@ -326,7 +329,7 @@ if ( process.argv.length == 3 ) {
                      memo: '',
                  };
                  console.log(Obj);
-                 transInfo = clientBot.transferFromBot(Obj);
+                 transInfo = await clientBot.transferFromBot(Obj);
                  console.log(transInfo);
                }
              } else if (args.type === TYPE_TRANS_USDT_TO_WALLET) {
@@ -342,10 +345,26 @@ if ( process.argv.length == 3 ) {
                      memo: '',
                  };
                  console.log(Obj);
-                 transInfo = clientBot.transferFromBot(Obj);
+                 transInfo = await clientBot.transferFromBot(Obj);
                  console.log(transInfo);
                }
-             }  else if (args.type === TYPE_TRANS_EOS_TO_WALLET) {
+             } else if (args.type === TYPE_TRANS_ERC_TO_WALLET) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await clientBot.getUserAsset(ERC20_BENZ);
+               console.log("The Bot 's USDT balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: ERC20_BENZ,
+                   recipientId: process.argv[2],
+                     traceId: clientBot.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 transInfo = await clientBot.transferFromBot(Obj);
+                 console.log(transInfo);
+               }
+             } else if (args.type === TYPE_TRANS_EOS_TO_WALLET) {
                // console.log('You choice to 1:', args);
                const assetInfo = await clientBot.getUserAsset(EOS_ASSET_ID);
                console.log("The Bot 's EOS balance is ", assetInfo.balance);
@@ -435,7 +454,22 @@ if ( process.argv.length == 3 ) {
                  console.log(Obj);
                  newUserClient.transferFromBot(Obj);
                }
-             } else if (args.type === TYPE_VERIFY_PIN) {
+             }  else if (args.type === TYPE_TRANS_ERC_TO_MASTER) {
+               // console.log('You choice to 1:', args);
+               const assetInfo = await newUserClient.getUserAsset(USDT_ASSET_ID);
+               console.log("The Wallet 's USDT balance is ", assetInfo.balance);
+               if ( assetInfo.balance > 0 ) {
+                 const Obj = {
+                   assetId: USDT_ASSET_ID,
+                   recipientId: MASTER_UUID,
+                     traceId: newUserClient.getUUID(),
+                     amount: assetInfo.balance,
+                     memo: '',
+                 };
+                 console.log(Obj);
+                 newUserClient.transferFromBot(Obj);
+               }
+             }  else if (args.type === TYPE_VERIFY_PIN) {
                // console.log('You choice to 1:', args);
                const verifyPin = await newUserClient.verifyPin(data[4]);
                // const updatePin = await client.updatePin({ oldPin: config.assetPin, newPin: '123456' }); // CAUTION
