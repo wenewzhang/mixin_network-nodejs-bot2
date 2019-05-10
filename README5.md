@@ -259,7 +259,7 @@ assetsInfo.forEach(function(element) {
 
 ## Source code usage
 
-- [x] **node bitcoin-wallet-nodejs.js** Build it and then run it.
+- [x] **node bitcoin-wallet-nodejs.js** run it.
 
 Commands list of this source code:
 
@@ -270,7 +270,7 @@ You select the wallet 0b10471b-1aed-3944-9eda-5ab947562761
 Make your choose (Use arrow keys)
 - ❯ aw: Read Wallet All Asssets Information
 -  ab: Read Bot All Asssets Information
-  --------------OCean.One-------------------------
+-  --------------OCean.One-------------------------
 - 19: Fetch BTC/USDT order book
 - 20: Fetch XIN/USDT order book
 - 21: Fetch ERC20/USDT order book

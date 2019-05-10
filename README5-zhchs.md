@@ -263,45 +263,28 @@ assetsInfo.forEach(function(element) {
 ## 源代码执行
 编译执行，即可开始交易了.
 
-- [x] **node bitcoin-wallet-nodejs.js**  编译项目.
+- [x] **node bitcoin-wallet-nodejs.js**  运行.
 
 本代码执行时的命令列表:
 
-Commands list of this source code:
-
-- 1: Create Bitcoin Wallet and update PIN
-- 2: Read Bitcoin balance & address
-- 3: Read USDT balance & address
-- 4: Read EOS balance & address
-- tub: Transfer USDT from Bot to Wallet
-- tum: Transfer USDT from Wallet to Master
-- tcb: Transfer CNB from Bot to Wallet
-- tcm: Transfer CNB from Wallet to Master
-- txb: Transfer XIN from Bot to Wallet
-- txm: Transfer XIN from Wallet to Master
-- 5: pay 0.0001 BTC buy USDT
-- 6: pay $1 USDT buy BTC
-- 7: Read Snapshots
-- 8: Fetch market price(USDT)
-- 9: Fetch market price(BTC)
-- v: Verify Wallet Pin
-- ab: Read Bot Assets
-- aw: Read Wallet Assets
-- o:  OceanOne Trading
-- q: Exit
-Make your choose:
-
-Make your choose(eg: q for Exit!):
-
-Make your choose:
-o
-- 1:  Fetch XIN/USDT orders
-- s1: Sell XIN/USDT
-- b1: Buy XIN/USDT
-- 2:  Fetch ERC20(Benz)/USDT orders
-- s2: Sell Benz/USDT
-- b2: Buy Benz/USDT
-- c: Cancel Order
-- q:  Exit
+Make your choose(select the uuid for open the specified wallet): 0b10471b-1aed-3944-9eda-5ab947562761
+ You select the : 0b10471b-1aed-3944-9eda-5ab947562761
+You select the wallet 0b10471b-1aed-3944-9eda-5ab947562761
+?
+Make your choose (Use arrow keys)
+- ❯ aw: Read Wallet All Asssets Information
+-  ab: Read Bot All Asssets Information
+-  --------------OCean.One-------------------------
+- 19: Fetch BTC/USDT order book
+- 20: Fetch XIN/USDT order book
+- 21: Fetch ERC20/USDT order book
+- 22: Sell BTC/USDT
+- 23: Sell XIN/USDT
+- 24: Sell ERC20/USDT
+- 25: Buy BTC/USDT
+- 26: Buy XIN/USDT
+- 27: Buy ERC20/USDT
+- 28: Cancel the order
+- Exit
 
 [完整代码](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/bitcoin-wallet-nodejs/bitcoin-wallet-nodejs.js)
