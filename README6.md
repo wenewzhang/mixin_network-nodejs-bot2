@@ -1,5 +1,5 @@
 # Node.js: listing any ERC20 token on decentralized exchange OceanOne
-![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
+![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/node-eth.jpg)
 
 OceanOne is introduced in [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README5.md), you can trade Bitcoin. All kinds of crypto asset on Mixin Network can be listed on OceanOne.All ERC20 token and EOS token can be listed. Following example will show you how to list a ERC20 token.
 
