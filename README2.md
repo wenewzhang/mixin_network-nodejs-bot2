@@ -1,3 +1,4 @@
+![cover](https://github.com/wenewzhang/mixin_network-nodejs-bot2/raw/master/Bitcoin_node.jpg)
 In [last chapter](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README.md), we create our first app.
 
 # Receive and send Bitcoin in Mixin Messenger
