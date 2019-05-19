@@ -4,10 +4,12 @@
 
 
 ## 课程简介
-1. [创建一个接受消息的机器人](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md#创建你的第一个机器人)
-2. [机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
-3. [创建比特币钱包](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README3-zhchs.md)
-4. [如何用Nodejs交易比特币](https://github.com/wenewzhang/mixin_networks-nodejs-bot2/blob/master/README4-zhchs.md)
+1. [Node.js 创建一个机器人](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README-zhchs.md)
+2. [Node.js 机器人接受比特币并立即退还用户](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README2-zhchs.md)
+3. [Node.js 创建比特币钱包](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README3-zhchs.md)
+4. [Node.js 买卖Bitcoin：ExinCore API 实时兑换](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README4-zhchs.md)
+5. [Node.js 买卖Bitcoin：在自由市场Ocean.One挂单买卖](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README5-zhchs.md)
+6. [Node.js 买卖任意ERC20 token：在自由市场Ocean.One挂单买卖](https://github.com/wenewzhang/mixin_network-nodejs-bot2/blob/master/README6-zhchs.md)
 ## 创建一个接受消息的机器人
 通过本教程，你将学会如何用nodejs创建一个机器人APP,让它能接受消息.
 
